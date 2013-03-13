@@ -1,0 +1,139 @@
+f_wipe.o: f_wipe.c z_zone.h /usr/include/stdio.h /usr/include/features.h \
+ /usr/include/arm-linux-gnueabihf/bits/predefs.h \
+ /usr/include/arm-linux-gnueabihf/sys/cdefs.h \
+ /usr/include/arm-linux-gnueabihf/bits/wordsize.h \
+ /usr/include/arm-linux-gnueabihf/gnu/stubs.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h \
+ /usr/include/arm-linux-gnueabihf/bits/types.h \
+ /usr/include/arm-linux-gnueabihf/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdarg.h \
+ /usr/include/arm-linux-gnueabihf/bits/stdio_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/sys_errlist.h \
+ /usr/include/arm-linux-gnueabihf/bits/stdio.h i_video.h doomtype.h \
+ /usr/include/inttypes.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdint.h \
+ /usr/include/stdint.h /usr/include/arm-linux-gnueabihf/bits/wchar.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/limits.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/syslimits.h \
+ /usr/include/limits.h /usr/include/arm-linux-gnueabihf/bits/posix1_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/local_lim.h \
+ /usr/include/linux/limits.h \
+ /usr/include/arm-linux-gnueabihf/bits/posix2_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/xopen_lim.h v_video.h doomdef.h \
+ /usr/include/string.h /usr/include/xlocale.h \
+ /usr/include/arm-linux-gnueabihf/bits/string.h \
+ /usr/include/arm-linux-gnueabihf/bits/string2.h /usr/include/stdlib.h \
+ /usr/include/strings.h doomkeys.h r_data.h r_defs.h m_fixed.h d_think.h \
+ p_mobj.h tables.h doomdata.h info.h r_state.h d_player.h d_items.h \
+ p_pspr.h d_ticcmd.h m_random.h f_wipe.h
+
+z_zone.h:
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/arm-linux-gnueabihf/bits/predefs.h:
+
+/usr/include/arm-linux-gnueabihf/sys/cdefs.h:
+
+/usr/include/arm-linux-gnueabihf/bits/wordsize.h:
+
+/usr/include/arm-linux-gnueabihf/gnu/stubs.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h:
+
+/usr/include/arm-linux-gnueabihf/bits/types.h:
+
+/usr/include/arm-linux-gnueabihf/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdarg.h:
+
+/usr/include/arm-linux-gnueabihf/bits/stdio_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sys_errlist.h:
+
+/usr/include/arm-linux-gnueabihf/bits/stdio.h:
+
+i_video.h:
+
+doomtype.h:
+
+/usr/include/inttypes.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/arm-linux-gnueabihf/bits/wchar.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/limits.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include-fixed/syslimits.h:
+
+/usr/include/limits.h:
+
+/usr/include/arm-linux-gnueabihf/bits/posix1_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/local_lim.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/arm-linux-gnueabihf/bits/posix2_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/xopen_lim.h:
+
+v_video.h:
+
+doomdef.h:
+
+/usr/include/string.h:
+
+/usr/include/xlocale.h:
+
+/usr/include/arm-linux-gnueabihf/bits/string.h:
+
+/usr/include/arm-linux-gnueabihf/bits/string2.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/strings.h:
+
+doomkeys.h:
+
+r_data.h:
+
+r_defs.h:
+
+m_fixed.h:
+
+d_think.h:
+
+p_mobj.h:
+
+tables.h:
+
+doomdata.h:
+
+info.h:
+
+r_state.h:
+
+d_player.h:
+
+d_items.h:
+
+p_pspr.h:
+
+d_ticcmd.h:
+
+m_random.h:
+
+f_wipe.h:

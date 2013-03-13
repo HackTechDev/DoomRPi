@@ -1,0 +1,12 @@
+
+[Desktop Entry]
+Name=Chocolate Doom
+Comment=Conservative Doom source port
+TryExec=chocolate-doom
+Exec=chocolate-doom
+StartupNotify=false
+Terminal=false
+Type=Application
+OnlyShowIn=GNOME;
+Categories=Screensaver;
+

@@ -1,0 +1,5 @@
+.BI ./ game .ygd
+.BI ~/.yadex/1.7.0/ game .ygd
+.BI ~/.yadex/ game .ygd
+.BI /usr/local/share/games/yadex/1.7.0/ game .ygd
+.BI /usr/local/share/games/yadex/ game .ygd

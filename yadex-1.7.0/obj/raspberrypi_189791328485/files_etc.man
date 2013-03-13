@@ -1,0 +1,5 @@
+.B ./yadex.cfg
+.B ~/.yadex/1.7.0/yadex.cfg
+.B ~/.yadex/yadex.cfg
+.B /etc/yadex/1.7.0/yadex.cfg
+.B /etc/yadex/yadex.cfg

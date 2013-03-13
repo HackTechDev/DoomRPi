@@ -1,0 +1,22 @@
+1 ICON "../data/doom.ico"
+
+1 VERSIONINFO
+PRODUCTVERSION 1, 7, 0, 0
+FILEVERSION 1, 7, 0, 0
+FILETYPE 1
+{
+ BLOCK "StringFileInfo"
+ {
+  BLOCK "040904E4"
+  {
+   VALUE "FileVersion", "1.7.0"
+   VALUE "FileDescription", "Chocolate Doom 1.7.0"
+   VALUE "InternalName", "chocolate-doom"
+   VALUE "CompanyName", "fraggle@gmail.com"
+   VALUE "LegalCopyright", "Copyright (C) 1993-2012.  Licensed under GNU General Public License, version 2"
+   VALUE "ProductName", "Chocolate Doom"
+   VALUE "ProductVersion", "1.7.0"
+  }
+ }
+}
+
