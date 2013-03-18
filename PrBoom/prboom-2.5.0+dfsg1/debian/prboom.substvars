@@ -1,0 +1,2 @@
+shlibs:Depends=libc6 (>= 2.4), libc6 (>= 2.13-28), libgcc1 (>= 1:4.4.0), libgl1-mesa-glx | libgl1, libglu1-mesa | libglu1, libpng12-0 (>= 1.2.13-4), libsdl-mixer1.2, libsdl-net1.2, libsdl1.2debian (>= 1.2.11)
+misc:Depends=

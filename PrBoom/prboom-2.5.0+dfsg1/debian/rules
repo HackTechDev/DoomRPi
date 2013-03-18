@@ -1,0 +1,83 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# GNU copyright 1997 to 1999 by Joey Hess.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+#cflags="-Wall -O2"
+#
+#ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
+#  cflags +=" -g"
+#endif
+
+configure: configure-stamp
+configure-stamp:
+	dh_testdir
+	./configure --prefix=/usr --mandir=\$${prefix}/share/man --disable-cpu-opt --disable-dogs \
+		LDFLAGS="-Wl,--as-needed -Wl,-z,defs" --disable-i386-asm
+	# see https://bugs.launchpad.net/ubuntu/+source/prboom/+bug/375498 for an
+	# explanation for --disable-i386-asm
+
+	touch configure-stamp
+
+build: configure-stamp build-stamp
+build-stamp: configure-stamp
+	dh_testdir
+
+	# Add here commands to compile the package.
+	$(MAKE)
+
+	touch build-stamp
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp configure-stamp
+
+	# Add here commands to clean up after the build process.
+	[ ! -f Makefile ] || $(MAKE) distclean
+
+	dh_clean
+	rm -f config.log
+
+dest=$(CURDIR)/debian/tmp
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+
+	$(MAKE) install DESTDIR=$(dest)
+
+	# boom.cfg would conflict with lxdoom
+	mv $(dest)/usr/share/man/man5/boom.cfg.5 $(dest)/usr/share/man/man5/prboom.cfg.5
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+# We have nothing to do by default.
+
+# Build architecture-dependent files here.
+binary-arch: build install
+	dh_testdir
+	dh_testroot
+	dh_movefiles
+	dh_install
+	dh_installdocs
+	dh_installman
+	dh_installmenu
+	dh_installchangelogs NEWS
+	dh_link
+	dh_strip
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_shlibdeps
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install configure

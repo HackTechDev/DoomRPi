@@ -1,0 +1,31 @@
+Format: 1.8
+Date: Fri, 03 Sep 2010 15:49:59 +0100
+Source: prboom
+Binary: prboom
+Architecture: armhf
+Version: 2:2.5.0+dfsg1-6
+Distribution: unstable
+Urgency: low
+Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
+Changed-By: Jon Dowland <jmtd@debian.org>
+Description: 
+ prboom     - clone of the legendary first person shooter Doom
+Changes: 
+ prboom (2:2.5.0+dfsg1-6) unstable; urgency=low
+ .
+   * drop windowed_mode patch: I've decided not to deviate
+     from upstream on this anymore.
+   * install slave alternatives for boom(6) and doom(6)
+   * update Vcs: lines in control to point at new git repository
+   * remove Moritz Muehlenhoff from uploaders, by request.
+     Thanks Moritz for your work!
+   * bump standards version to 3.9.1.
+   * stop using quilt for patch management (use the VCS)
+   * disable the use of i386 assembler, which causes prboom
+     to crash for unknown reasons.
+Checksums-Sha1: 
+ 7d61e206a589bca672252f1f977e0348c3782ec7 480048 prboom_2.5.0+dfsg1-6_armhf.deb
+Checksums-Sha256: 
+ 1cc73d711915f4bf2e3eaad762d19275c685151645a52eaca84b16b5a70b138c 480048 prboom_2.5.0+dfsg1-6_armhf.deb
+Files: 
+ dad269309c461fb1885cd30aced31df4 480048 games optional prboom_2.5.0+dfsg1-6_armhf.deb

@@ -1,0 +1,31 @@
+Package: prboom
+Version: 2:2.5.0+dfsg1-6
+Architecture: armhf
+Maintainer: Debian Games Team <pkg-games-devel@lists.alioth.debian.org>
+Installed-Size: 1072
+Depends: libc6 (>= 2.13-28), libgcc1 (>= 1:4.4.0), libgl1-mesa-glx | libgl1, libglu1-mesa | libglu1, libpng12-0 (>= 1.2.13-4), libsdl-mixer1.2, libsdl-net1.2, libsdl1.2debian (>= 1.2.11)
+Recommends: boom-wad | doom-wad, timidity
+Suggests: game-data-packager
+Conflicts: lxdoom (<< 2:2.4.7)
+Replaces: lxdoom
+Provides: boom-engine, doom-engine, lxdoom
+Section: games
+Priority: optional
+Homepage: http://prboom.sourceforge.net/
+Description: clone of the legendary first person shooter Doom
+ Doom is a 3d shoot'em'up game, written by id Software, first
+ released in 1993.
+ .
+ PrBoom is a version of Doom using the Simple Direct Media
+ layer (SDL) library, which enables it to use XFree86, OpenGL,
+ Linux framebuffer console, GGI, SVGALib or even color or
+ monochrome text consoles as display. There is an additional
+ OpenGL renderer as well.
+ .
+ PrBoom is based on MBF and LxDoom, which in turn are based on
+ Boom, a freely available port of Doom for DOS, written by
+ TeamTNT (http://www.teamtnt.com/).
+ .
+ PrBoom requires an IWAD to play. A free IWAD is available
+ in the freedoom package. You can install your commercial
+ Doom IWADs using game-data-packager.

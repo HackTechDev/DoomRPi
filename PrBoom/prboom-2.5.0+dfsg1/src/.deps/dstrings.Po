@@ -1,0 +1,8 @@
+dstrings.o: dstrings.c dstrings.h d_englsh.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h
+
+dstrings.h:
+
+d_englsh.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h:

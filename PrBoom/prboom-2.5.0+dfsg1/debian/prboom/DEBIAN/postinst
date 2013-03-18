@@ -1,0 +1,33 @@
+#! /bin/sh
+# postinst script for prboom
+
+set -e
+
+case "$1" in
+    configure|abort-upgrade)
+    update-alternatives --install /usr/games/doom doom /usr/games/prboom 50 \
+                        --slave /usr/share/man/man6/doom.6.gz \
+                            doom.6.gz /usr/share/man/man6/prboom.6.gz
+    update-alternatives --install /usr/games/boom boom /usr/games/prboom 50 \
+                        --slave /usr/share/man/man6/boom.6.gz \
+                            boom.6.gz /usr/share/man/man6/prboom.6.gz
+    ;;
+
+    abort-remove|abort-deconfigure)
+
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+# Automatically added by dh_installmenu
+if [ "$1" = "configure" ] && [ -x "`which update-menus 2>/dev/null`" ]; then
+	update-menus
+fi
+# End automatically added section
+
+
+exit 0
