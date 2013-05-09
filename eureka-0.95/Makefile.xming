@@ -1,0 +1,194 @@
+#
+#  --- Eureka Editor ---
+#
+#  Makefile for WIN32, using a CROSS-COMPILER on Linux
+#
+
+PROGRAM=Eureka.exe
+INSTALLER=Eureka_setup.exe
+
+MINGW=i586-mingw32msvc-
+
+CXX=$(MINGW)g++
+
+LIB_LOC=lib_win32
+OBJ_DIR=obj_win32
+
+FLTK_DIR=$(LIB_LOC)/fltk-1.3.0
+ZLIB_DIR=$(LIB_LOC)/zlib-1.2.3
+
+OPTIMISE=-O2 -fno-strict-aliasing
+
+# operating system choices: UNIX WIN32
+OS=WIN32
+
+
+#--- Internal stuff from here -----------------------------------
+
+FLTK_FLAGS=-I$(FLTK_DIR)
+FLTK_LIBS=$(FLTK_DIR)/mingw/lib/libfltk_images.a \
+          $(FLTK_DIR)/mingw/lib/libfltk.a
+
+ZLIB_FLAGS=-I$(ZLIB_DIR)
+ZLIB_LIBS=$(ZLIB_DIR)/libz.a
+
+CXXFLAGS=$(OPTIMISE) -Wall -D$(OS) \
+         -Iglbsp_src $(FLTK_FLAGS) $(ZLIB_FLAGS)
+
+LDFLAGS=
+
+LIBS=-lm $(FLTK_LIBS) $(ZLIB_LIBS) \
+     -mwindows -lcomdlg32 -lole32 -luuid -lgdi32 \
+     -lcomctl32 -lwsock32 -lsupc++
+
+
+#----- Object files ----------------------------------------------
+
+OBJS = \
+	$(OBJ_DIR)/editloop.o  \
+	$(OBJ_DIR)/e_basis.o   \
+	$(OBJ_DIR)/e_checks.o   \
+	$(OBJ_DIR)/e_cutpaste.o  \
+	$(OBJ_DIR)/e_linedef.o  \
+	$(OBJ_DIR)/e_loadsave.o  \
+	$(OBJ_DIR)/e_nodes.o  \
+	$(OBJ_DIR)/e_path.o  \
+	$(OBJ_DIR)/e_sector.o  \
+	$(OBJ_DIR)/e_things.o  \
+	$(OBJ_DIR)/e_vertex.o  \
+	$(OBJ_DIR)/im_arrows.o  \
+	$(OBJ_DIR)/im_color.o  \
+	$(OBJ_DIR)/im_img.o   \
+	$(OBJ_DIR)/levels.o  \
+	$(OBJ_DIR)/lib_adler.o  \
+	$(OBJ_DIR)/lib_file.o  \
+	$(OBJ_DIR)/lib_util.o  \
+	$(OBJ_DIR)/main.o  \
+	$(OBJ_DIR)/m_bitvec.o  \
+	$(OBJ_DIR)/m_config.o  \
+	$(OBJ_DIR)/m_dialog.o  \
+	$(OBJ_DIR)/m_files.o  \
+	$(OBJ_DIR)/m_game.o  \
+	$(OBJ_DIR)/m_keys.o  \
+	$(OBJ_DIR)/m_select.o  \
+	$(OBJ_DIR)/m_strings.o  \
+	$(OBJ_DIR)/objects.o  \
+	$(OBJ_DIR)/r_grid.o  \
+	$(OBJ_DIR)/r_render.o  \
+	$(OBJ_DIR)/selectn.o  \
+	$(OBJ_DIR)/sys_debug.o \
+	$(OBJ_DIR)/ui_about.o  \
+	$(OBJ_DIR)/ui_browser.o  \
+	$(OBJ_DIR)/ui_canvas.o  \
+	$(OBJ_DIR)/ui_dialog.o  \
+	$(OBJ_DIR)/ui_file.o  \
+	$(OBJ_DIR)/ui_hyper.o  \
+	$(OBJ_DIR)/ui_infobar.o  \
+	$(OBJ_DIR)/ui_linedef.o  \
+	$(OBJ_DIR)/ui_menu.o  \
+	$(OBJ_DIR)/ui_misc.o  \
+	$(OBJ_DIR)/ui_nombre.o  \
+	$(OBJ_DIR)/ui_nodes.o  \
+	$(OBJ_DIR)/ui_pic.o  \
+	$(OBJ_DIR)/ui_prefs.o  \
+	$(OBJ_DIR)/ui_radius.o  \
+	$(OBJ_DIR)/ui_sector.o  \
+	$(OBJ_DIR)/ui_scroll.o  \
+	$(OBJ_DIR)/ui_sidedef.o  \
+	$(OBJ_DIR)/ui_thing.o  \
+	$(OBJ_DIR)/ui_tile.o   \
+	$(OBJ_DIR)/ui_vertex.o  \
+	$(OBJ_DIR)/ui_window.o  \
+	$(OBJ_DIR)/w_loadpic.o  \
+	$(OBJ_DIR)/w_flats.o  \
+	$(OBJ_DIR)/w_sprite.o  \
+	$(OBJ_DIR)/w_texture.o  \
+	$(OBJ_DIR)/w_wad.o   \
+	$(OBJ_DIR)/x_hover.o  \
+	$(OBJ_DIR)/x_loop.o  \
+	$(OBJ_DIR)/x_mirror.o
+
+$(OBJ_DIR)/%.o: src/%.cc
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+
+#----- glBSP Objects ------------------------------------------------
+
+GLBSP_OBJS= \
+	$(OBJ_DIR)/glbsp/analyze.o  \
+	$(OBJ_DIR)/glbsp/blockmap.o \
+	$(OBJ_DIR)/glbsp/glbsp.o    \
+	$(OBJ_DIR)/glbsp/level.o    \
+	$(OBJ_DIR)/glbsp/node.o     \
+	$(OBJ_DIR)/glbsp/reject.o   \
+	$(OBJ_DIR)/glbsp/seg.o      \
+	$(OBJ_DIR)/glbsp/system.o   \
+	$(OBJ_DIR)/glbsp/util.o     \
+	$(OBJ_DIR)/glbsp/wad.o
+
+GLBSP_CXXFLAGS=$(OPTIMISE) -Wall -DINLINE_G=inline $(ZLIB_FLAGS)
+
+$(OBJ_DIR)/glbsp/%.o: glbsp_src/%.cc
+	$(CXX) $(GLBSP_CXXFLAGS) -o $@ -c $< 
+
+
+#----- Targets -----------------------------------------------
+
+all: stripped
+
+clean:
+	rm -f $(PROGRAM) $(OBJ_DIR)/*.*
+	rm -f $(OBJ_DIR)/glbsp/*.*
+	rm -f ERRS LOG.txt update.log
+
+$(PROGRAM): $(OBJS) $(GLBSP_OBJS)
+	$(CXX) $^ -o $@ $(LDFLAGS) $(LIBS)
+
+stripped: $(PROGRAM)
+	$(MINGW)strip --strip-unneeded $(PROGRAM)
+
+$(OBJ_DIR)/eureka_res.o: misc/eureka.rc
+	$(MINGW)windres $^ -o $@
+
+# we need to recreate the final directory structure
+# (since NSIS cannot convert unix text files to msdos format)
+NSIS_BUILD=obj_win32/nsis
+
+nsis_build: nsis_clean stripped
+	# folders
+	mkdir $(NSIS_BUILD)
+	mkdir $(NSIS_BUILD)/games
+	mkdir $(NSIS_BUILD)/common
+	mkdir $(NSIS_BUILD)/ports
+	mkdir $(NSIS_BUILD)/mods
+	#
+	# executable
+	cp Eureka.exe $(NSIS_BUILD)
+	#
+	# config file
+	cp misc/bindings.cfg $(NSIS_BUILD)/bindings.cfg
+	todos $(NSIS_BUILD)/*.cfg
+	#
+	# definition files
+	cp games/*.ugh  $(NSIS_BUILD)/games
+	cp common/*.ugh $(NSIS_BUILD)/common
+	cp ports/*.ugh  $(NSIS_BUILD)/ports
+	todos $(NSIS_BUILD)/*/*.ugh
+	#
+	# text documents
+	cp README.txt TODO.txt AUTHORS.txt GPL.txt $(NSIS_BUILD)
+	todos $(NSIS_BUILD)/*.txt
+	#
+	# run the MAKENSIS program
+	cp misc/eureka.nsi $(NSIS_BUILD)/eureka.nsi
+	makensis $(NSIS_BUILD)/eureka.nsi
+	#
+	mv $(NSIS_BUILD)/Eureka*.exe .
+
+nsis_clean:
+	rm -Rf $(NSIS_BUILD)
+
+.PHONY: all clean bin 
+
+#--- editor settings ------------
+# vi:ts=8:sw=8:noexpandtab

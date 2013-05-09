@@ -1,0 +1,587 @@
+
+Eureka TODO / WISHLIST
+======================
+
+
+______________________________________________________________________
+
+  HIGH PRIORITY
+______________________________________________________________________
+
+
+General
+-------
+
++  CHECK screen  (see misc/Checks.txt for more info)
+
++  Hexen support
+
++  decent dialogs: printf-style parameter, make message fit,
+   provide words for the buttons (like "Quit Without Saving").
+   use fl_choice() code to bootstrap it.
+
++  if multiple files are specified (by drag'n'drop or command line),
+   then remember them and have a choice widget in the Open Map dialog
+   which lets you select them.
+
+   Also have OpenNext / OpenPrev binding commands.
+
+   IDEA: include the recent files in there too
+
++  Preferences:
+   -  ability to change what mouse buttons do
+   -  ability to change mouse move/turn speed in 3D view
+
+
+
+Documentation
+-------------
+
++  a tutorial for the basics
+
++  information on each binding command, parameters etc..
+
+
+
+Editing
+-------
+
++  added lines inside a void island, when connect then lose the void
+   (a sector is added which is not wanted).
+
++  grid drawing too slow when small step and zoomed out
+   (since we render a huge number of dots)
+
+   --> create an in-memory image (e.g. 64x64) of the dotty grid 
+       and blast it repeatedly to the window
+
++  texture alignment feature
+
+   - 'x' and 'y' keys align the lower / middle (both sides)
+   - 'X' and 'Y' keys align the upper (both sides)
+
+   - unpeg flags are NOT set, but affect vertical alignment
+
+   - always need to pick an adjoining sidedef to align with:
+     -  main factor is matching texture on chosen part
+     -  prefer same one-sideness or two-sideness
+     -  perhaps prefer a sidedef in the selection ??
+     -  perhaps a cost for sharp angles?
+     -  prefer the "left" side (tie breaker)
+
+   - when adjoining sidedef is in selection, need to process that
+     one first.  But detect loops!
+
+   - handle each side of linedef individually (i.e. do not process
+     one linedef at a time, process a SIDE at a time).
+
+
+
+3D View
+-------
+
++  problem with mid-masked textures (secret in E1M1, cage in E1M9)
+
+
+Browser
+-------
+
+
+______________________________________________________________________
+
+  LOWER PRIORITY
+______________________________________________________________________
+
+
+General
+-------
+
++  ENTER key pops up an "operation" menu, which provides all the
+   commands that can be done via the keyboard (e.g. flip linedefs)
+
++  configurable grid colors, 
+
+   IDEA: grid has separate color for 64x64 flat alignment
+
++  File / Test Map
+   +  make filenames absolute
+   +  configurable stuff:
+      -  directory to 'cd' into
+      -  program to invoke
+      -  arguments to use (-iwad, -file, -merge, -warp)
+   -  support resource wads
+   -  make sure the user built the nodes
+      (ideally invoke it automatically)
+
++  ability to hide the right-side panel
+
++  Preferences window:
+   +  add backup_max_files / backup_max_space
+   -  implement the scrolling sizes
+   -  add more stuff (see USER CONFIG NEEDED, below)
+
++  un-hard-code menu shortcuts? (how ??)
+
++  a dialog to view / load / prune backups.
+
+?  Scripting language
+
+
+-  File / Delete Map
+
+-  binding functions for all menu stuff (NewMap, OpenMap, etc....)
+   (perhaps prefix with MENU_xxx)
+
+-  improve Key binding preferences:
+   +  "Grab" button in UI_EditKey
+   -  "Find" or "Match" button for function in UI_EditKey
+   -  reverse ordering of KCTX_XXX values
+
+-  config var for default starting mode
+
+?  config system: OPT_KEY values
+
+-  support DOOMWADPATH for finding iwads (see Chocolate Doom)
+
+-  make sure Load/Export wad filename not already in master_dir
+
+-  PRINT key to make a screenshot of map or 3D view
+
+-  in EUREKA lump, if a path is under $HOME store it as "~/blah..."
+   and expand that syntax on load.
+
+-  a check/fix pass for LoadLevel()
+
+-  ability to use an external node builder
+
+-  LineDef panel: show "lower" etc in unset pics (low contrast)
+
+?  an auto-save feature (e.g. save every N minutes unless no
+   changes occurred in the last N minutes).
+   really needs the backup view/load/prune dialog too.
+
+?  SHIFT + move mouse = keep current highlight
+
+?  a way to slow down fake mouse wheels?
+
+?  nicer way to select map, render a small 2D version of each map
+   and present them in a scrolling list.
+
+?  MacOSX:
+   (c) handle the -psnXXX argument (see SDL_main.m)
+       NOTE: probably needs integrating some of SDL's logic
+
+IDEA: if a given pwad (from command line) does not exist, ask to create it
+
+IDEA: a dialog to specify directories to find wads.
+      Initially populate it with the currently hard-coded places
+      and $DOOMWADDIR and $DOOMWADPATH.  Perhaps add places where
+      the user opened a wad automatically (or ask?).
+
+IDEA: when no pwad given, load RECENT thing  [config item, default off]
+
+IDEA: allow ".ugh" files as resources
+      (and perhaps even DDF files)
+
+IDEA: after inserting a new object, allow moving another object
+      (i.e. set edit.did_a_move = true).  Perhaps config item.
+
+
+
+Documentation
+-------------
+
+-  make a simple manpage for the debian package
+
+-  document texture browser (RIGHT click etc)
+
+-  built-in cheat sheet for mouse buttons and common keys
+
+??  command line arguments page
+
+   --log : specify a log file to store messages
+
+   -d --debug : enable debugging messages
+                they go to log file if used, otherwise stderr
+
+   -q --quiet : don't send messages to stdout
+
+??  config file page
+   (a) ~/.eureka/config.cfg
+   (b) general syntax
+   (c) list of supported vars
+
+
+
+Coding
+------
+
+IDEA: BA_MarkDelete() : remember an object for deletion, but only
+      delete them when BA_End() is called.
+
+      probably need BA_IsDeleted() for testing if marked
+
+      possibly make this the ONLY way to delete stuff
+
+
+
+Editing
+-------
+
+-  move 'k' split linedef to SPACE/INSERT, put vertex where mouse is
+
++  a menu for inserting shapes, especially N-sided polygon
+
++  when dragging a shape next to existing geometry, highlight
+   vertices and linedefs which would get merged, and implement
+   that merging.
+
+!!  handle self-referencing linedefs in auto create/split sector
+
++  for the "Edit -> Paste" menu, turn the cursor into crosshairs
+   and wait until the user selects a spot to paste to.
+
++  scrollbars for the canvas
+
++  View / Find
+   (use GoToObject for first match, FindNext starts at selected + 1)
+
+   -  VERTEX mode : useful ??
+   -  THING mode : match on type (possibly on flags, TID for hexen)
+   -  SECTOR mode: match on type / desc / tag / flat
+   -  LINEDEF mode: match on type / desc / tag / texture
+
+
+-  assume texture names beginning with '#' are special
+
+-  View / Toggle skill mode
+
+-  show missing (HOM-producing) textures in linedef panel with
+   a special picture, e.g. exclamation mark on a red background
+
+?  when highlighting a sector, draw the things in the same color as
+   the sector is highlighted, but not as bright.  Because many sector
+   functions will affect things too -- make it obvious to the user.
+
+-  disallow insert of new linedef if it would overlap or cross
+   an existing linedef (or touch an existing vertex).
+   [overridden when SHIFT is pressed, but no auto sectoring then]
+
+   THIS --> if new linedef would cross an existing one, then just
+            create a new vertex at the intersection point.
+
+            AND: similarly if a new linedef passes through an
+                 existing vertex -- create two instead.
+
+   __IDEA__ the 'c' key in linedef mode to fix crossing / overlaps
+
+-  quantization function: prevent linedefs from overlapping / crossing
+
+-  Multi-select : if CTRL is pressed, don't clear selection after drag
+
+-  exchange object numbers
+
+-  some port-specific line/thing flags
+
+?  disconnect sectors : include islands (perhaps with 'D')
+
+?  when moving a sector and the camera is inside it, move camera too
+
+?  fix PointOutsideOfMap() code to handle places where the point
+   cannot "see" the surrounding void space.
+   
+   TraceLineLoop on the linedef to the right, if faces_outward
+   then test upto 32 lines (OppositeLineDef) to see if any can
+   see the void.
+
+   if geometry is broken : special result.
+
+??  when one vertex of a linedef is moved (and not the other)
+    update the X offset on the appropriate side (right side for start,
+    left side for end vertex).
+
+?  SHIFT + SPACE = no auto create/split sectors
+
+IDEA: for quantizing a group of objects, try about 9 delta
+      positions (x+0, x+step/4, x-step/4 etc...) and choose the
+      "best" quantization.
+
+IDEA: merge vertex and linedef modes
+
+IDEA: a config item to make the "simple" grid occur when grid-snapping
+      and the "normal" grid occur in FREE mode.
+
+
+
+3D View
+-------
+
+-  Render3D_Wheel: add 'dx' parameter, use it
+
++  smooth movement via keyboard
+   -  call a function in Main_Loop
+   -  if did a move, Fl::wait(0) instead of 0.2
+   -  handle key up/down events in UI_Canvas::handle()
+
+-  handle very tall/thin window : letter box with black
+
+-  closed sectors have a see-through gap (gets bigger further away)
+
++  being able to select stuff to modify:
+   - things
+   - floors
+   - ceilings
+   - sidedef uppers and lowers
+
+-  moving up/down with RMB should not disable gravity when change
+   is small
+
+-  able to drag things around
+   - raise floors?
+   - move vertices?
+   + shift textures?
+
+-  View/Place Camera command, cursor turns into +
+
+-  rotated sprites
+
+?  make it into a proper widget (occupy same space as Canvas)
+
+?  an info bar:  X  Y  Z  ANG
+
+?  ability to drag the camera (on 2D viewport)
+
+?  slopes
+
+IDEA: a key (or mouse button) to toggle "grab mouse" mode
+
+IDEA: animation mode, render continuously and show any lighting
+      effects and animated / scrolling textures and sprites
+
+
+
+Browser
+-------
+
++  a "Recently used" category (sorted by time)
+   -  remember values in .dat cache
+
+-  a "Used in map" category (sorted by usage)
+
++  when opened by a click, jump to the texture/thing/etc clicked on
+
+-  persist current width (in .dat cache file)
+
+-  can change the [max] size of the texture/flat previews
+
+-  scroll speed (i.e. linesize) is configurable
+
+-  no-pic mode for textures and flats
+
+-  search box: ',' for AND, '/' for OR
+
+
+
+Game / Port Definitions
+-----------------------
+
+-  game-def setting: view_height
+
++  ability to "remove line 271" (etc)
+
++  finish HacX support -- categorize the textures
+
++  support Harmony
+
+-  support Chex Quest 1 and 2
+
+-  FreeDOOM: categorize the new textures
+
+-  a new category for BOOM's "property transfer" linetypes
+
+
+______________________________________________________________________
+
+  MISCELLANEOUS / IDEAS
+______________________________________________________________________
+
+
+CONSOLE IDEA
+------------
+   toggle on/off with the F4 key
+   exists where map/render is (maybe half, above it)
+      (maybe translucent background)
+   turns off browser (and vice versa)
+   have cvars for config items, changeable in console
+   quake-like binding, e.g. "bind w swap-flats"
+   arguments beginning with '+' get executed as console commands
+
+
+WAD SEMANTICS
+=============
+
+(a) there is always an IWAD (given by -iwad or found somewhere).
+    maps are never saved into an IWAD (special command line option to do it)
+
+    ---> global: 'base_wad'
+
+(b) there is _usually_ a PWAD (given by -file).
+    it must be modifiable (e.g. not in /usr), CTRL-S saves into it.
+
+    when absent, user cannot File/Save, the File/Export function
+    is done instead.
+
+    ---> global: 'edit_wad'
+
+(c) when File/Export is successful, that becomes the new PWAD.
+    the existing PWAD goes away (or becomes a resource wad).
+
+(c) user can File/Load another map, but if it's in an uneditable
+    wad (especially the IWAD) then the previous PWAD goes away
+    (or becomes a resource wad).
+
+(d) File/New Map needs to ask for a map name.
+    If there is current PWAD and map already exists, warn user
+
+(e) WISH: File/Manage Wads...
+
+    - shows the IWAD, PWAD, resource wads (full path)
+    - can close current PWAD
+    - can create a new WAD
+
+(f) BIG WISH: File/Change IWAD
+    BIG WISH: File/Change Port
+
+
+GAME SEMANTICS
+==============
+
+Remove the path and extension from the IWAD, and make the result
+lowercase, and that is the name of the "game".  There must be a
+config file called 'games/xxx.ugh' which defines everything for
+that game.
+
+
+SECTOR INSERT FUNCTIONS
+=======================
+
+(a) in an area without any sector, add a NEW sector there
+    (ideally copying values from a nearby sector)
+    ---> SPACE
+
+    [there cannot be a highlight]
+    [if a single sector is selected, copy values from it]
+    [if multiple selected sector -- ignore? beep? copy first?]
+
+    AFTER: this sector becomes selected
+
+(b) in an area with sectoring (broken or not), add a NEW sector
+    --->  CTRL + SPACE   [the CTRL forces a NEW sector to be made]
+
+    [if a single sector is selected, copy values from it -- overrides highlight]
+    [else if a sector is highlighted, copy that]
+    [else use logic from (a)]
+
+    AFTER: this sector becomes selected
+
+(c) in an area with broken sectoring, fix the sectoring using the
+    currently highlighted one.
+    ---> SPACE
+
+    The presence of a highlighted sector is what differentiates
+    case (c) from case (a).
+
+    [if sectors are selected -- ignore? beep?]
+
+    this sector DOES NOT get selected  [because it is NOT NEW]
+
+(d) copy properties from an existing sector (selected) to
+    the highlighted one.  Beep if invalid selection.
+    --> 'c' copy command
+
+    Hmmm, does it make more sense to select the TARGETs and
+    copy from the Highlight ??? ---- CONFIG ITEM!
+
+(e) in any area, change sector to an existing one [selected]
+    (i.e. grow that existing sector)
+    ---> 'm' merge command
+
+
+
+PointCanSeeVoid Algorithm
+-------------------------
+
+  Basically use an angular occlusion buffer.  Process each linedef
+  in the level and update the angle range in the buffer.  When
+  finished, any gaps in the buffer means that the point can "see"
+  to infinity.
+
+
+Quantization Function
+---------------------
+
+The selection contains the vertices to move (require vertex mode).
+
+Process each vertex in turn, if quantization works then unselect that
+vertex, otherwise keep it selected.  After all processed, BEEP if any
+vertices remain selected.
+
+Have a selection_c variable for ones already processed, and ones
+which moved successfully.
+
+A vertex that is already on the grid trivially succeeds.
+Otherwise try the FOUR nearby corners (TWO when the vertex is
+sitting on a grid line), checking nearest first.
+
+THE NEW POSITION MUST BE VACANT for the move to succeed.
+
+Also must prevent linedefs from crossing or overlapping.
+
+There may be a need for additional logic to keep the original
+orientation of linedefs (horizontal lines stay horizontal,
+vertical lines stay vertical, diagonal lines stay diagonal).
+
+However this is difficult to do in practice : perhaps do it by
+checking all lines in an initial pass, and mark vertices which
+are not allowed to "round up" to a nearby grid spot (vertices on a
+horizontal line are not allowed to round up vertically, and vice
+versa).
+
+
+
+USER CONFIG NEEDED
+-------------------
+
+gamma
+
+floor_bump_small   (2)
+floor_bump_medium  (16)
+floor_bump_large   (64)
+
+render_forward_speed  (16)
+render_turn_speed     (16)
+render_updown_speed   (16)
+
+map_mousescroll_speed  (16)
+
+paste_reselects  (true)
+
+render_textures  (true)
+render_sprites   (true)
+render_lighting  (false)
+
+map_highlight_color
+map_selection_color
+map_high_sel_color
+
+midmask_back_color
+
+
+GAME CONFIG NEEDED
+------------------
+
+untex_wall_colors   <low>  <high>
+untex_floor_colors  <low>  <high>
+
+error_color  <pixel>
+

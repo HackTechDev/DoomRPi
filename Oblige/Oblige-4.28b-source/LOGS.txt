@@ -1,0 +1,105 @@
+====== START OF OBLIGE LOGS ======
+
+********************************************************
+** OBLIGE Level Maker 4.28 (C) 2006-2012 Andrew Apted **
+********************************************************
+
+Library versions: Lua 5.1.5 / FLTK 1.3.0 / glBSP 2.27
+
+working_path: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source]
+install_path: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source]
+
+Loading Config (PRELOAD)...
+DONE.
+
+script_path: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source/scripts/?.lua]
+data_path:   [./modules/data;./data]
+
+Loading main script: oblige.lua
+DONE.
+
+Loading scripts from: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source/games]
+Loading 1/18 : absol_tc.lua
+Loading 2/18 : amulets.lua
+Loading 3/18 : chex.lua
+Loading 4/18 : doom.lua
+Loading 5/18 : freedoom.lua
+Loading 6/18 : hacx.lua
+Loading 7/18 : halflife.lua
+Loading 8/18 : harmony.lua
+Loading 9/18 : heretic.lua
+Loading 10/18 : hexen.lua
+Loading 11/18 : hexen2.lua
+Loading 12/18 : nukem.lua
+Loading 13/18 : plutonia.lua
+Loading 14/18 : quake.lua
+Loading 15/18 : quake2.lua
+Loading 16/18 : strife.lua
+Loading 17/18 : tnt.lua
+Loading 18/18 : udoom.lua
+DONE.
+
+Loading scripts from: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source/engines]
+Loading 1/11 : boom.lua
+Loading 2/11 : darkplaces.lua
+Loading 3/11 : doomsday.lua
+Loading 4/11 : edge.lua
+Loading 5/11 : eternity.lua
+Loading 6/11 : fitz.lua
+Loading 7/11 : legacy.lua
+Loading 8/11 : odamex.lua
+Loading 9/11 : skulltag.lua
+Loading 10/11 : vavoom.lua
+Loading 11/11 : zdoom.lua
+DONE.
+
+Loading scripts from: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source/modules]
+Loading 1/13 : ctl_doom.lua
+Loading 2/13 : ctl_heretic.lua
+Loading 3/13 : ctl_quake.lua
+Loading 4/13 : ctl_quake2.lua
+Loading 5/13 : export_map.lua
+Loading 6/13 : imm_conduct.lua
+Loading 7/13 : level_control.lua
+Loading 8/13 : no_prebuilt.lua
+Loading 9/13 : outdoor_shadows.lua
+Loading 10/13 : sktag_mons.lua
+Loading 11/13 : sky_gen.lua
+Loading 12/13 : stealth_mons.lua
+Loading 13/13 : zdoom_marines.lua
+DONE.
+
+Loading scripts from: [/home/pi/JEUX/QUAKE2/Oblige/Oblige-4.28b-source/prefabs]
+Loading 1/15 : bridges.lua
+Loading 2/15 : cages.lua
+Loading 3/15 : ceilings.lua
+Loading 4/15 : corners.lua
+Loading 5/15 : doors.lua
+Loading 6/15 : exits.lua
+Loading 7/15 : hallways.lua
+Loading 8/15 : junctions.lua
+Loading 9/15 : misc.lua
+Loading 10/15 : pedestals.lua
+Loading 11/15 : stairs.lua
+Loading 12/15 : starters.lua
+Loading 13/15 : switches.lua
+Loading 14/15 : walls.lua
+Loading 15/15 : windows.lua
+DONE.
+
+~~ Oblige Lua initialization begun ~~
+
+~~ Completed Lua initialization ~~
+
+Loading Config (FULL)...
+DONE.
+
+Saving Config...
+DONE.
+
+Saving Config...
+DONE.
+
+
+====== END OF OBLIGE LOGS ======
+

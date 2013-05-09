@@ -1,0 +1,87 @@
+
+COMPILING Eureka
+================
+
+Dependencies:
+
+1. C++ compiler (GNU's G++) and associated tools
+   packages: g++ binutils
+
+2. GNU make
+   package: make
+
+3. FLTK 1.3 
+   website: http://www.fltk.org/
+   package: libfltk1.3-dev
+
+   You may also need: libxft-dev
+                      libxinerama-dev
+                      libjpeg-dev
+
+4. zlib
+   website: http://www.zlib.net/
+   package: zlib1g-dev
+
+5. XDG Utils
+   (only needed for Linux, to install the desktop and icon files)
+   package: xdg-utils
+
+
+Assuming all those dependencies are met, then the following shell
+command will build the Eureka binary. (The '>' is just the prompt)
+
+   > make
+
+
+Some systems may need additional CFLAGS and/or LDFLAGS in order
+to find the required libraries (especially FLTK).  For example,
+the following is reported to work for Gentoo Linux:
+
+   CFLAGS  += -I/usr/include/fltk-1
+   LDFLAGS += -L/usr/lib64/fltk-1/
+
+
+
+INSTALLING Eureka
+=================
+
+First make sure the Eureka binary was compiled successfully.
+
+Then become root (via the 'sudo' or 'su' command) and enter the
+following shell command:
+
+   > make install
+
+That will install the eureka binary, definition files for various
+games and source ports, and the desktop and icon files.
+
+
+
+SETTING UP Eureka
+=================
+
+Eureka requires an IWAD file from one of the supported games, for
+example "doom2.wad".  Eureka will look for IWADs when it starts up,
+but if it cannot find any then the 'Manage Wads' dialog will open
+and you can browse for an IWAD file there, which will be remembered
+for next time.
+
+Places where Eureka looks for IWADs:
+
+  1. The "iwads" directory in Eureka's home directory.  In Linux
+     this will be "~/.eureka/iwads".  It is created automatically
+     the first time Eureka is run (though there is no harm in
+     creating it yourself).
+
+  2. (a) In Linux: /usr/share/games/doom
+     (b) In Windows: C:\DOOM and C:\DOOM2
+
+  3. If you run Eureka from the command line and have the DOOMWADDIR
+     environment variable set, then Eureka should find it in that
+     directory.
+
+  4. If running from the command line, Eureka will look in the current
+     directory for the IWAD.
+
+  5. You can specify the IWAD file directly with the --iwad option.
+
