@@ -1,0 +1,31 @@
+.TH "input-mouse" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-mouse\fR : Read mouse protocol data from file
+.SH SYNOPSIS
+.nb
+.nf
+input-mouse: <fd>:<proto>
+.fi
+
+.SH DESCRIPTION
+\fBinput-mouse\fR reads mouse protocol data from the specified file
+descriptor. This input is mainly designed to be opened automatically
+by \fBinput-linux-mouse(7)\fR, but can also be used stand alone.
+.SH OPTIONS
+.TP
+\fIfd\fR
+Specifies the file descriptor to read from.
+
+.TP
+\fIproto\fR
+Specifies the mouse protocol to use.  This argument takes the same
+values as \fImousetypes\fR in \fBinput-linux-mouse(7)\fR, except
+auto-detection is not supported.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+Generates evPtr* events.
+.PP
+.SH SEE ALSO
+\f(CWinput-linux-mouse(7)\fR

@@ -1,0 +1,69 @@
+converts LibGII events to mouse protocol or mhub data
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 1 mhub
+
+
+Synopsis
+--------
+
+::
+
+  mhub [options]
+
+
+Description
+-----------
+
+mhub reads pointer events from the LibGII default device and outputs mouse
+protocol data and/or mhub data to the specified files.
+The default device is specified with the `GII_INPUT` environment variable,
+see the `libgii(7)` manual for more info.
+
+
+Options
+-------
+
+`-h`
+    displays this help and exit
+
+`-v`
+    output version information and exit
+
+`-d`
+    print contents of received events to standard error
+
+`-s`
+    terminate program when a SIGPIPE signal is received.
+    The default is to ignore SIGPIPE.
+
+`-e BUTNR`
+    only generate mhub events for buttons >= `BUTNR`.  The default is 4.
+
+`-b FILE`
+    output mhub events to `FILE`
+
+`-2 FILE`
+    output PS/2 format data to `FILE`
+
+`-i FILE`
+    output (serial) IntelliMouse format data to `FILE`
+
+`-m FILE`
+    output MouseSystems format data to `FILE`
+
+`-r FROM TO`
+    remap button `FROM` to button `TO`
+
+`-w BUTNR`
+    transform wheel up motion to a `BUTNR` mhub event
+
+`-W BUTNR`
+    transform wheel down motion to a `BUTNR` mhub event
+
+
+A maximum of 20 mhub event outputs and 20 mouse data outputs are supported.
+The number of remaps are unlimited and all remaps occur before any other
+processing.
+
+Mouse data outputs may all use different protocols.

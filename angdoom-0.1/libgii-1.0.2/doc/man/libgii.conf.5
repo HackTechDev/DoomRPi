@@ -1,0 +1,60 @@
+.TH "libgii.conf" 5 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBlibgii.conf\fR : LibGII configuration file format
+.SH DESCRIPTION
+\f(CW/etc/ggi/libgii.conf\fR is the configuration file that defines what
+input module are available and where libgii is supposed to find them.
+It consists of lines defining target locations (mapping a target name
+a function name) and target aliases (fake targets that actually calls
+other target with a specific set of parameters).
+
+The format is common to all GGI libraries. It is defined by libgg.
+See \f(CWggLoadConfig(3)\fR for additional information on file
+inclusions and other generic options.
+.SH EXAMPLES
+These examples show how to use the generic configuration mechanism
+proposed by \f(CWLibGG\fR with \f(CWLibGII\fR.
+
+The first example defines three input modules (or targets) for which
+initialization function is found in three different dynamic libraries
+(.so files), under the default LibGII input symbol: \f(CWGIIdlinit\fR:
+
+.nb
+.nf
+input-stdin                   input/stdin.so
+input-x                       input/x.so
+input-xwin                    input/xwin.so
+.fi
+
+In the second example, the two inputs are implemented in a single
+dynamic library, but they each have their own initialization functions
+in this library. Their name is separated from the path by a \f(CW:\fR.
+.RS
+input-x                       input/x.so:GIIdl_x
+input-xwin                    input/x.so:GIIdl_xwin
+.RE
+The third example defines only one real target \f(CWinput-x\fR, located in
+shared object \f(CWinput/x.so\fR under the symbol \f(CWGIIdl_x\fR.
+\f(CWinput-xwin\fR is an alias that will resolve to target \f(CWinput-x\fR
+with the option string \f(CW-be-xwin\fR to be passed to the target
+function (\f(CWGIIdl_x\fR in \f(CWinput/x.so\fR).
+.RS
+input-x                       input/x.so:GIIdl_x
+alias         input-xwin      input-x:-be-xwin
+.RE
+The last examples defines two inputs, with two possible location for
+their implementation.  The first two lines are the same as in example
+2. The other two states that these two inputs can also be found (if
+the previous fail) as a built-in modules. The \f(CW/gii-builtins\fR path
+points to the \f(CWLibGII\fR built-in symbol namespace.  In this case both
+input would be found in this namespace under the default symbol
+\f(CWGIIdlinit\fR.  The initialization function will be given the
+requested target name to know which implementation to use.
+
+input-x                         input/x.so:GIIdl_x
+input-xwin                      input/x.so:GIIdl_xwin
+
+input-x                         /gii-builtins
+input-xwin                      /gii-builtins
+.SH SEE ALSO
+\f(CWggLoadConfig(3)\fR

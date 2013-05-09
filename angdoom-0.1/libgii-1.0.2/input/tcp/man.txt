@@ -1,0 +1,38 @@
+TCP event filter input
+~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-tcp
+
+Synopsis
+--------
+
+::
+
+  input-tcp: <host>:<port>
+
+ 
+Description
+-----------
+
+Reads events from a TCP-socket who's peer end is the filter-tcp
+filter, also included in LibGII. The filter-tcp filter takes the same
+arguments as the tcp inputlib, and anyone of the sublibs can be the
+listening end.
+
+Options
+-------
+
+
+:p:`host` 
+    The hostname to connect to. If this is set to ``listen`` the
+    sublib will enter listening mode and wait for the corresponding
+    sublib to connect.
+
+:p:`port`
+    Specifies the port to connect to/listen on.
+
+
+See Also
+--------
+
+:man:`filter-tcp(7)`

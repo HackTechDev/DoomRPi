@@ -1,0 +1,39 @@
+.TH "display-tele" 7 "2005-03-11" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-tele\fR : Forwards the display over a network
+.SH SYNOPSIS
+.nb
+.nf
+display-tele: [inet]:<host>[:port]
+display-tele: unix:<file>
+.fi
+
+.SH DESCRIPTION
+The tele target forwards the display over a network via TCP to a
+remote host.
+
+A \fBggiteleserver(1)\fR must be running on the remote host where the final
+display resides. A normal GGI applications will then use the tele
+target to forward all graphic operations to the machine running the
+teleserver.
+.SH OPTIONS
+The argument to \fBdisplay-tele\fR is the display to connect to, it
+has the format <type>:<specifier>. The available types are inet
+and unix. The specifier for type inet has the format hostname:port,
+and for type unix, it is a file. Some examples:
+
+.nb
+.nf
+- GGI_DISPLAY=tele:inet:localhost:27780
+- GGI_DISPLAY=tele::192.168.1.2:27780 (inet is the default)
+- GGI_DISPLAY=tele:unix:/tmp/.tele0
+.fi
+
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer never supported.
+.IP \(bu 4
+Accelerated if the remote display is.
+.PP
+.SH SEE ALSO
+\f(CWggiteleserver(1)\fR

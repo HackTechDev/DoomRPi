@@ -1,0 +1,41 @@
+.TH "ggidev-invert_3" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggidev-invert_3\fR, \fBggidev-lshift_3\fR, \fBggidev-rshift_3\fR : Bitwise triple-int operations
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/internal/triple-int.h>
+
+unsigned *invert_3(unsigned x[3]);
+
+unsigned *lshift_3(unsigned l[3], unsigned r);
+unsigned *rshift_3(unsigned l[3], unsigned r);
+.fi
+
+.SH DESCRIPTION
+\fBinvert_3\fR inverts all bits of \fBx\fR. Equivalent to x=~x.
+
+\fBlshift_3\fR shifts \fBl\fR to the left by \fBr\fR bits. Equivalent to l<<=r.
+
+\fBrshift_3\fR shifts \fBl\fR to the right by \fBr\fR bits. This shift is
+arithmetic, so the sign of \fBl\fR is kept as is. Equivalent to l>>=r.
+.SH RETURN VALUE
+\fBinvert_3\fR returns a pointer to \fBx\fR which has been updated in place.
+
+Both \fBlshift_3\fR and \fBrshift_3\fR return a pointer to \fBl\fR which has
+been updated in place.
+.SH EXAMPLES
+Some bitwise operations on \fBtriple-ints\fR:
+
+.nb
+.nf
+unsigned x[3];
+
+assign_int_3(x, -4);
+invert_3(x);     /* x is now 3 */
+lshift_3(x, 42); /* x is now 3*2^42, if that fits in a triple-int */
+rshift_3(x, 17); /* x is now 3*2^25 */
+.fi
+
+.SH SEE ALSO
+\f(CWggidev-triple-int(7)\fR, \f(CWggidev-assign_int_3(3)\fR

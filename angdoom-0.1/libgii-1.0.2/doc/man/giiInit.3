@@ -1,0 +1,63 @@
+.TH "giiInit" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiInit\fR, \fBgiiExit\fR : Initialize and uninitialize LibGII
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+int giiInit(void);
+
+int giiExit(void);
+.fi
+
+.SH DESCRIPTION
+\fBgiiInit\fR initializes the library. This function must be called before
+using other LibGII functions; otherwise the results will be undefined.
+
+\fBgiiExit\fR uninitializes the library (after being initialized by
+\fBgiiInit\fR) and automatically cleanup if necessary.  This should be
+called after an application is finished with the library.  If any GGI
+functions are called after the library has been uninitialized, the
+results will be undefined.
+
+\fBgiiInit\fR allows multiple invocations.  A reference count is
+maintained, and to completely uninitialize the library, \fBgiiExit\fR must
+be called as many times as \fBgiiInit\fR has been called beforehand.
+.SH RETURN VALUE
+\fBgiiInit\fR returns \fB0\fR for OK, otherwise an \f(CWgii-error(3)\fR code.
+
+\fBgiiExit\fR returns:
+.TP
+0
+after successfully cleaning up,
+
+.TP
+>0
+the number of 'open' \fBgiiInit\fR calls, if there has been more
+than one call to \fBgiiInit\fR.  As \fBgiiInit\fR and \fBgiiExit\fR must
+be used in properly nested pairs, e.g. the first \fBgiiExit\fR
+after two \fBgiiInit\fR will return 1.
+
+.TP
+<0
+\f(CWgii-error(3)\fR, especially if more \fBgiiExit\fR calls have been done than
+\fBgiiInit\fR calls.
+
+.PP
+.SH EXAMPLES
+Initialize and uninitialize LibGII:
+
+.nb
+.nf
+if (!giiInit()) {
+  exit(EXIT_FAILURE);  /* can't start! */
+}
+
+/* Do some libgii stuff */    
+
+giiExit();
+.fi
+
+.SH SEE ALSO
+\f(CWgiiMTInit(3)\fR, \f(CWgiiOpen(3)\fR

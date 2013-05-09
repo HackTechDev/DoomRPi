@@ -1,0 +1,39 @@
+Event saver
+~~~~~~~~~~~
+
+.. manpage:: 7 filter-save
+
+
+Synopsis
+--------
+
+::
+
+  filter-save: [<file>]
+
+  filter-save: |[cmd]
+
+
+Description
+-----------
+
+`filter-save` writes all events to a file. This can be useful to
+repeat the same event flow later.
+
+
+Options
+-------
+
+:p:`file`
+    Name of the destination file; the default is the standard output.
+
+:p:`cmd`
+    If the specified name starts with a ``|``, the following
+    string is executed as a command and the filter output is
+    piped into the new process' stdin.
+
+
+See Also
+--------
+
+:man:`input-file(7)`

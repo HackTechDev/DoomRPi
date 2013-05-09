@@ -1,0 +1,28 @@
+.TH "input-tcp" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-tcp\fR : TCP event filter input
+.SH SYNOPSIS
+.nb
+.nf
+input-tcp: <host>:<port>
+.fi
+
+.SH DESCRIPTION
+Reads events from a TCP-socket who's peer end is the filter-tcp
+filter, also included in LibGII. The filter-tcp filter takes the same
+arguments as the tcp inputlib, and anyone of the sublibs can be the
+listening end.
+.SH OPTIONS
+.TP
+\fIhost\fR 
+The hostname to connect to. If this is set to \f(CWlisten\fR the
+sublib will enter listening mode and wait for the corresponding
+sublib to connect.
+
+.TP
+\fIport\fR
+Specifies the port to connect to/listen on.
+
+.PP
+.SH SEE ALSO
+\f(CWfilter-tcp(7)\fR

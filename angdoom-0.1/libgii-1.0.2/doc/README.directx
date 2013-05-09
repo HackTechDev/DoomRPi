@@ -1,0 +1,128 @@
+README for Windows port of LibGII.
+Created: 8 Jul 2001 by John Fortin (fortinj@attglobal.net)
+Updated: 2 Nov 2004 by Peter Ekberg (peda@lysator.liu.se)
+
+
+Quick Installation Guide for Cygwin
+===================================
+
+I) Software needed:
+
+	- Cygwin for Win32 (www.cygwin.com)
+	    (Installing all packages from setup.exe is perhaps overkill, but
+	     will work. A minimum set of needed packages has not been
+	     determined at the time of this writing)
+	- DirectX headers (optional)
+
+	The DirectX headers are optional, but needed for the directx target
+	to work. You can get the headers from
+	http://www.lysator.liu.se/~peda/directx-headers/
+	Follow the installation instructions inside the tarball.
+
+II) Installing from CVS:
+
+	If you have a release of libgii (or a snapshot) you can skip ahead to
+	section III.
+
+	You'll need the development series of autotools, i.e. the two packages
+	automake-devel and autoconf-devel. I have installed the autotools
+	wrapper scripts (i.e. the automake and autoconf packages), and this
+	guide assumes the wrapper scripts are present. Install the needed
+	packages from the Cygwin install.
+
+	Note, use UNIX style text files in Cygwin and the cvs program provided
+	by Cygwin. If you want use some Win32 native version of cvs (such as
+	wincvs), it is likely to use DOS style text files, in which case Cygwin
+	needs to use that as well. Using DOS style text files in Cygwin might
+	break things in mysterious ways, so you're on your own if you use them.
+
+	Now generate the configure script with:
+
+	  WANT_AUTOMAKE_VER=1.8.5 WANT_AUTOCONF_VER=2.59 ./autogen.sh
+
+	The version numbers for WANT_AUTOMAKE_VER and WANT_AUTOCONF_VER can be
+	determined by running automake and autoconf with the --version switch.
+	Use the latest available versions.
+
+III) Compilation:
+
+	From the libgii directory, issue the following commands:
+
+	  ./configure --prefix=/usr
+	  make
+	  make install
+
+	The core libgii dlls will be installed into /usr/bin, import libraries
+	into /usr/lib and headers into /usr/include/ggi. Target libraries will
+	be installed into /usr/lib/ggi and the configuration into /usr/etc/ggi.
+
+IV) Notes:
+
+	- libgii must be built and installed prior to building libggi
+	- The input-directx target cannot be used without libGGI
+	- The configure script sometimes terminates early due to bash bugs.
+	  Try again if you get this or a similar error:
+	  configure: error: invalid package name: extra-includes
+	  The bash people are informed of the problem.
+	- The file C:\foo can by default be accessed as /cygdrive/c/foo
+	- Avoid building in a directory with spaces such as
+	  /cygdrive/c/Documents and Settings/username.
+
+
+
+Quick Installation Guide for MinGW
+==================================
+
+I) Software needed:
+
+	- MSYS and MinGW (http://www.mingw.org/)
+	- DirectX headers
+
+	You can get the DirectX headers from
+	http://www.lysator.liu.se/~peda/directx-headers/
+	Follow the installation instructions inside the tarball.
+
+II) Installing from CVS:
+
+	If you have a release of libgii (or a snapshot) you can skip ahead to
+	section III.
+
+	You'll need to somehow generate the configure script when installing
+	from CVS. It is not unlikely that the msys-automake and msys-autoconf
+	packages can be used to generate the configure script, but that is
+	untested at the time of this writing. What has been tested is to
+	generate the configure script on Cygwin (or any decent unix). See the
+	Quick Installation Guide for Cygwin for details.
+
+III) Compilation:
+
+	From the libgii directory, issue the following commands:
+
+	  ./configure --prefix=/usr LDFLAGS="-Wl,--enable-auto-import
+	  	-Wl,--enable-runtime-pseudo-reloc"
+	  make
+	  make install
+
+	The core libgii dlls will be installed into /usr/bin, import libraries
+	into /usr/lib and headers into /usr/include/ggi. Target libraries will
+	be installed into /usr/lib/ggi and the configuration into /usr/etc/ggi.
+
+IV) Notes:
+
+	- libgii must be built and installed prior to building libggi
+	- The input-directx target cannot be used without libGGI
+	- If MSYS was installed in c:\msys\1.0, you need to look in the
+	  folders below that to find the generated files. Beware that
+	  MSYS by default maps /usr to /. E.g. the core dlls can by
+	  default be found in c:\msys\1.0\bin (and not the expected
+	  c:\msys\1.0\usr\bin).
+	- The file C:\foo can by default be accessed as /c/foo in MSYS.
+	- The default MSYS shell (sh in rxvt) does not grab data on standard
+	  output from the child process unless it explicitly flushes the
+	  file descriptor (it should be enough to write a newline). Demo
+	  programs that writes to stdout might appear to not work, when they
+	  in fact work perfectly fine. Try to run them at the windows command
+	  prompt instead.
+	  http://sourceforge.net/tracker/index.php?func=detail&aid=946191&group_id=2435&atid=102435
+	- Avoid building in a directory with spaces such as
+	  /c/Documents and Settings/username.

@@ -1,0 +1,144 @@
+.TH "ggi_mode" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggi_mode\fR, \fBggi_coord\fR, \fBggi_graphtype\fR : LibGGI mode description
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+typedef struct { int16_t x, y; } ggi_coord;
+
+typedef uint32_t ggi_graphtype;
+
+typedef struct {
+      int32_t          frames;
+      ggi_coord       visible;
+      ggi_coord       virt;
+      ggi_coord       size;
+      ggi_graphtype   graphtype;
+      ggi_coord       dpp;
+} ggi_mode;
+.fi
+
+.SH DESCRIPTION
+The mode structure describes a visual configuration given by its size
+and other graphic properties.
+.SH STRUCTURE MEMBERS
+.TP
+\fBframes\fR
+The number of frames. Some displays have multi-buffer capabilities
+(double-buffering, triple-buffering,...). See libggi frame-related
+functions (ggi{s,g}et{Read,Write,Display}Frame) for information on
+working with multiple frames.
+
+.TP
+\fBvisible\fR
+The size of the visible area in pixels. This is what the user will
+see.
+
+.TP
+\fBvirt\fR
+The virtual size of the visual in pixels. It can be larger
+(but not smaller)
+than the visible area, in which case only a part of it is
+displayed.  It is useful for scrolling or backing up portions of
+screen efficiently.  See \fBggi[Set|Get]Origin\fR functions for more.
+
+.TP
+\fBsize\fR
+The size of the visible area in mm.
+
+.TP
+\fBgraphtype\fR
+It holds information on the type of display.  libggi defines
+macros to construct graphtypes values or access individual field.
+.RS
+.TP
+\fBdepth\fR ( access via \fBGT_DEPTH(gt)\fR, \fBGT_SETDEPTH(gt,x)\fR )
+The number of significant bits holding color information.
+
+.TP
+\fBsize\fR ( access via  \fBGT_SIZE(gt)\fR, \fBGT_SETSIZE(gt,x)\fR )
+The actual size (in bits) of a pixel.  For instance, on a 32
+bits X server the pixel size is 32 but the depth is only 24
+(8bits RGB channels, 8 unused).
+
+.TP
+\fBscheme\fR ( access via  \fBGT_SCHEME(gt)\fR, \fBGT_SETSCHEME(gt,x)\fR )
+The following schemes are available :
+.RS
+.IP \(bu 4
+\fBGT_TEXT\fR : text mode only
+.IP \(bu 4
+\fBGT_TRUECOLOR\fR : true color mode
+.IP \(bu 4
+\fBGT_GREYSCALE\fR : pixels represent level of gray
+.IP \(bu 4
+\fBGT_PALETTE\fR : pixels are entries in a CLUT (Color Look-Up Table)
+.IP \(bu 4
+\fBGT_STATIC_PALETTE\fR
+.IP \(bu 4
+\fBGT_SUBSAMPLE_YUV\fR
+.IP \(bu 4
+\fBGT_SUBSAMPLE_U_YCRBR\fR
+.IP \(bu 4
+\fBGT_SUBSAMPLE_S_YCRBR\fR
+.IP \(bu 4
+\fBGT_NIL\fR
+.PP
+
+.RE
+.TP
+\fBsubscheme\fR ( access via \fBGT_SUBSCHEME(gt)\fR, \fBGT_SETSUBSCHEME(gt,x)\fR )
+One of:
+.RS
+.IP \(bu 4
+\fBGT_SUB_REVERSE_ENDIAN\fR
+.IP \(bu 4
+\fBGT_SUB_HIGHBIT_RIGHT\fR
+.IP \(bu 4
+\fBGT_SUB_PACKED_GETPUT\fR
+.PP
+
+.RE
+.PP
+Graphtypes can be constructed directly or via the
+\fBGT_CONSTRUCT(depth,scheme,size)\fR macro.  The following common
+graphtypes are defined :
+.IP \(bu 4
+\fBGT_TEXT16\fR
+.IP \(bu 4
+\fBGT_TEXT32\fR
+.IP \(bu 4
+\fBGT_1BIT\fR
+.IP \(bu 4
+\fBGT_2BIT\fR
+.IP \(bu 4
+\fBGT_4BIT\fR
+.IP \(bu 4
+\fBGT_8BIT\fR
+.IP \(bu 4
+\fBGT_15BIT\fR
+.IP \(bu 4
+\fBGT_16BIT\fR
+.IP \(bu 4
+\fBGT_24BIT\fR
+.IP \(bu 4
+\fBGT_32BIT\fR
+.IP \(bu 4
+\fBGT_AUTO\fR
+.IP \(bu 4
+\fBGT_INVALID\fR
+.PP
+
+.RE
+.TP
+\fBdpp\fR
+It stands for dot-per-pixel.
+
+.PP
+When filling a mode structure for setting a visual, any field can be
+assigned \fBGGI_AUTO\fR (\fBGT_AUTO\fR for graphtype) if a specific value
+isn't required.
+.SH SEE ALSO
+\f(CWggiCheckMode(3)\fR, \f(CWggiSetMode(3)\fR

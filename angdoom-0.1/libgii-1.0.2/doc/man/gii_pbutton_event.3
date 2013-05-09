@@ -1,0 +1,40 @@
+.TH "gii_pbutton_event" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_pbutton_event\fR : LibGII pointer button events
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct gii_pbutton_event {
+
+    COMMON_DATA;
+
+    uint32_t  button;
+
+} gii_pbutton_event;
+.fi
+
+.SH DESCRIPTION
+Button events are sent to report a change in pointer button
+state. Depending on the event type, the button is either being pressed
+or released.
+.SH GENERATED EVENTS
+This structure is used for \fBevPtrButtonPress\fR and \fBevPtrButtonRelease\fR
+events.
+.SH STRUCTURE MEMBERS
+\fBgii_pbutton_event\fR simply specifies that the \fBbutton\fR is pressed or
+released.
+
+Pointer buttons are specified in order of common usage, with 1 being
+the primary button. The following values are defined:
+.IP \(bu 4
+\fBGII_PBUTTON_LEFT\fR, \fBGII_PBUTTON_PRIMARY\fR, \fBGGI_PBUTTON_FIRST\fR equal 1.
+.IP \(bu 4
+\fBGII_PBUTTON_RIGHT\fR, \fBGII_PBUTTON_SECONDARY\fR, \fBGGI_PBUTTON_SECOND\fR equal 2.
+.IP \(bu 4
+\fBGII_PBUTTON_MIDDLE\fR, \fBGII_PBUTTON_TERTIARY\fR, \fBGGI_PBUTTON_THIRD\fR equal 3.
+.PP
+Of course, applications should avoid hardcoding mouse button values.
+.SH SEE ALSO
+\f(CWgii_event(3)\fR

@@ -1,0 +1,37 @@
+X11 standalone input
+~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-x
+
+
+Synopsis
+--------
+
+::
+
+  input-x [-nokeyfocus]
+
+  input-xwin
+
+  input-xf86dga
+
+
+Description
+-----------
+
+input-x and input-xwin, an input target for X11 Environments.
+input-x opens a X11 window to receive input from and
+works standalone.
+
+input-xwin and input-xf86dga is used by libggi's :man:`display-x(7)`.
+They are NOT intended to be directly used by applications.
+
+X11R5 is required.
+
+
+Options
+-------
+
+``-nokeyfocus``
+    Disables keyboard focus. See the XSetInputFocus(3X11) manpage for the details
+    on keyboard focus, where *focus* is a 'window' and *revert_to* is 'RevertToParent'.

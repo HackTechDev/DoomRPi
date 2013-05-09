@@ -1,0 +1,19 @@
+.TH "ggiDrawPixel" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiDrawPixel\fR, \fBggiPutPixel\fR, \fBggiGetPixel\fR : Draw, put, and get a single pixel from a visual
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiDrawPixel(ggi_visual_t vis, int x, int y);
+
+int ggiPutPixel(ggi_visual_t vis, int x, int y, ggi_pixel pixel);
+
+int ggiGetPixel(ggi_visual_t vis, int x, int y, ggi_pixel *pixel);
+.fi
+
+.SH DESCRIPTION
+Draw, put, or get a single pixelvalue at (\fIx\fR, \fIy\fR).
+.SH RETURN VALUE
+All three functions return \fB0\fR to indicate success.

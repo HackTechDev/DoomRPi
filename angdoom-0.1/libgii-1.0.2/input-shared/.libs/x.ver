@@ -1,0 +1,5 @@
+{ global:
+GIIdl_x;
+GIIdl_xwin;
+GIIdl_xf86dga;
+local: *; };

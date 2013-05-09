@@ -1,0 +1,53 @@
+.TH "gii_expose_event" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_expose_event\fR : LibGII expose events
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct gii_expose_event {
+
+    COMMON_DATA;
+
+    uint32_t  x,y;
+    uint32_t  h,w;
+
+} gii_expose_event;
+.fi
+
+.SH DESCRIPTION
+If an application loses the focus and is not physically displayed
+(e.g. console switching, iconifying), it may be stopped. Some targets
+may implement a backbuffer and allow continuing, though.
+
+After reactivation, the application will receive a redraw event,
+\fBevExpose\fR.
+.SH GENERATED EVENTS
+The \fBgii_expose_event\fR is used for the \fBevExpose\fR event.
+.SH STRUCTURE MEMBERS
+The fields describe the region which needs to be redrawn.
+.SH EXAMPLES
+\fBevExpose\fR handling skeleton:
+
+.nb
+.nf
+ggi_visual_t vis;
+ggi_event ev;
+
+/* ... wait and get the event... */
+
+if (ev.any.type == evExpose) {
+    /* We might not be able to render partially ... */
+    render_screen(vis);
+              
+    /* but flush only the region needed */
+    ggiFlushRegion(vis, ev.expose.x, ev.expose.y,
+                        ev.expose.w, ev.expose.h);
+}
+
+/* ... etc ... */
+.fi
+
+.SH SEE ALSO
+\f(CWgii_event(3)\fR

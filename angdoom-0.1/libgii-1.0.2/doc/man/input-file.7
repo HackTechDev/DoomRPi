@@ -1,0 +1,29 @@
+.TH "input-file" 7 "2004-05-21" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-file\fR : File input
+.SH SYNOPSIS
+.nb
+.nf
+input-file: [<file>]
+
+input-file: |[cmd]
+.fi
+
+.SH DESCRIPTION
+Reads and generates events from a file such as one created by
+\fBfilter-save(7)\fR.
+.SH OPTIONS
+.TP
+\fIfile\fR
+The file events are read from. The standard input is used by
+default.
+
+.TP
+\fIcmd\fR
+If the file name starts with a \f(CW|\fR, it is interpreted as a
+command which is run. The process stdout is used as input file
+for \fBinput-file\fR.
+
+.PP
+.SH SEE ALSO
+\f(CWfilter-save(7)\fR

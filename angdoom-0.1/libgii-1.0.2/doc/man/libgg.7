@@ -1,0 +1,130 @@
+.TH "libgg" 7 "2005-08-06" "libgg-1.0.x" GGI
+.SH NAME
+\fBlibgg\fR : Handy, portable wrappers for several basic OS features
+.SH DESCRIPTION
+\fBLibGG\fR provides a portable, unified interface to various very basic
+operating system features, making it easy to write portable programs without
+locking the author into a restricted, bloated, or overbearing development 
+paradigm.   By abstracting the most commonly used functionality in an
+operating-system-independent fashion, relying on prepackaged \fBLibGG\fR
+distributions can also can reduce the complexity involved in maintaining 
+a portability suite (e.g. autotools) for the application's development.
+
+Originally \fBLibGG\fR came into being as part of the GGI Project, when 
+\fBLibGII\fR input functionality was separated from \fBLibGGI\fR into a stand-alone 
+library, and a place was needed to put functions needed by both libraries.  
+(Since then, we have forgotten what "GG" stood for, so don't ask.)
+
+The master upstream source of \fBLibGG\fR is still distributed as part of 
+\fBLibGII\fR, however it is itself a separately-distributable stand-alone 
+package of utilities that can be very useful to applications developers.
+
+\fBLibGG\fR provides the following groups of functions and/or macros.  Some
+may not be possible to implement on some operating systems, some may
+be possible, just nobody has done so yet.  We try to make them all 
+available where we can find the time and expertise:
+
+Time functions (\fBggCurTime(3)\fR, \fBggUSleep(3)\fR and \fBggUSlumber(3)\fR) to handle 
+high-resolution timing and delays without busy-looping.
+
+Cleanup callbacks (\fBggRegisterCleanup(3)\fR, \fBggUnregisterCleanup(3)\fR, 
+\fBggCleanupForceExit(3)\fR) to allow your application to perform emergency
+actions before a program is terminated abnormally.
+
+Timer callbacks (\fBggAddTask(3)\fR, \fBggDelTask(3)\fR, \fBggTimeBase(3)\fR) provide a
+(non-realtime) wall-clock periodic/one-shot callback scheduler that can 
+be shared between many different areas of the application code without 
+fear of interference.
+
+Locking Functions (\fBggLock(3)\fR, \fBggLockCreate(3)\fR, \fBggLockDestroy(3)\fR, \fBggTryLock(3)\fR, 
+\fBggUnlock(3)\fR) which are thread-safe in threaded environments.
+
+System and CPU detection utilities (\fBggGetSwarType(3)\fR, \fBGG_HAVE_INT64\fR,
+\fBGG_LITTLE_ENDIAN\fR) to allow you to detect CPU endianness and the 
+presence of features such as SWAR (SIMD) instruction sets (e.g. MMX), 
+and to turn on/off or change SWARs for testing or as a workaround.
+
+Very basic overrun-proof string operations (\fBggstrlcpy(3)\fR, \fBggstrlcat(3)\fR)
+which are a horrible mess for cross-platform programs to map to 
+OS-local string functions/headers.
+
+Dynamic symbol management functions (\fBggGetScope(3)\fR, \fBggDelScope(3)\fR,
+\fBggFromScope(3)\fR, \fBggNewScope(3)\fR) allows you to create a plug-in system
+where code is either dynamically loaded into and out of your program,
+or statically linked in the library or program.
+
+An option parser (\fBggParseOpts\fR, \fBggSystemOpts\fR) and plugin configuration 
+system (\fBggGetUserDir(3)\fR, \fBggParseTarget\fR, \fBggLoadConfig(3)\fR, \fBggFreeConfig(3)\fR, 
+\fBggMatchConfig\fR, \fBggConfigExpandAlias\fR) which are by-products of the 
+pluggable module support but can be useful for other things if you like 
+the format.
+
+LibGG provides a few additionnal tools that are used internaly, for
+other GGI libraries and that can also be useful to the application
+programmer: macros for managing data structures such as lists, queues,
+trees, a simple iterator scheme.  These features are mostly
+macro-based.
+.SH ENVIRONMENT VARIABLE:
+The following outlines the environment variables, intended for the
+user, which affect the behaviour of LibGG:
+.TP
+\fIGG_OPTS\fR
+LibGG uses the environment variable \fIGG_OPTS\fR, and
+expects it to contain a valid option string as documented in the
+manpage for \fBggParseOpts\fR.  The available options are documented
+along with the LibGG API functions which they most affect.
+
+.TP
+\fIGG_DEBUG\fR
+The debug level for LibGII:
+.RS
+.IP \(bu 4
+0 or unset : debug output is off; debugging is off
+.IP \(bu 4
+255 : all debug output is on
+.PP
+You may also bitwise 'or' any of the following together:
+.IP \(bu 4
+2  : debug core
+.IP \(bu 4
+4  : misc debugging output
+.IP \(bu 4
+8  : debug locking code
+.IP \(bu 4
+16 : debug task subsystem
+.IP \(bu 4
+32 : debug scope code (dynamic library and symbol lookup)
+.IP \(bu 4
+64 : debug api code (not there yet)
+.PP
+
+.RE
+.TP
+\fIGG_DEBUGSYNC\fR
+Turn on synchronous debug output, flushing the output buffers
+before returning from \fBDPRINT\fR calls.
+
+.PP
+.SH RESERVED SIGNAL:
+LibGG requires the exclusive use of one signal under certain
+environments.  This signal defaults to SIGPROF, where available, but
+may be configured through the GG_OPTS option \f(CW-signum=n\fR where
+\fIn\fR represents the numerical value of the signal to use.  This
+signal should not be one of the fatal signals handled by the LibGG
+cleanup facilities, and must be a signal onto which a handler may be
+assigned.  Applications should not install handlers or alter the
+signal handler in any way for this signal.
+.SH BUGS:
+There is still some legacy to \fBLibGGI\fR in some of the namespace, 
+especially \fBGGI_LITTLE_ENDIAN\fR is currently the real name for
+\fBGG_LITTLE_ENDIAN\fR, which is an unofficial new addition destined
+to replace it.  Deprecation will take a few revisions as it must 
+be done in an orderly fashion.
+
+Likewise the header file is included as \fB<ggi/gg.h>\fR but we will 
+probably keep that as-is because of the way \fBLibGG\fR is distributed and
+to avoid adding more clutter in system include directories than 
+is necessary.
+
+Several features are incomplete, for example, code is still needed 
+to detect SWAR on many of the more obscure architectures.

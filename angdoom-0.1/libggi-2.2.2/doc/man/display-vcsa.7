@@ -1,0 +1,59 @@
+.TH "display-vcsa" 7 "2004-10-14" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-vcsa\fR : Display using Linux virtual console text device
+.SH SYNOPSIS
+.nb
+.nf
+display-vcsa : [ [-noinput] | [ [-nokbd] [-nomouse] ] ] [-ascii]
+                 [-physz=<sizex>,<sizey>[dpi]] [-shade] [<vcsa device>]
+.fi
+
+.SH DESCRIPTION
+Uses the Linux \fB/dev/vcsa*\fR devices to render text modes onto the
+console.
+.SH OPTIONS
+.TP
+\f(CW-nokbd\fR
+Do not open any libraries for keyboard input.
+
+.TP
+\f(CW-nomouse\fR
+Do not open any libraries for mouse input.
+
+.TP
+\f(CW-noinput\fR
+Same as both \f(CW-nokbd\fR and \f(CW-nomouse\fR.
+
+.TP
+\f(CW-ascii\fR
+The \f(CW-ascii\fR option limits the color mapping to only using ASCII
+characters.  The default mode uses IBM special characters (the
+solid block mainly, and others when using \f(CW-shade\fR).
+
+.TP
+\f(CW-shade\fR
+The \f(CW-shade\fR option turns on \fIshading mode\fR, which changes the
+color mapping so that it chooses characters which emulate a
+shading effect.  This makes a big improvement if using (some might
+say abusing :) the vcsa target for graphical purposes.
+
+.TP
+\f(CW-physz=<sizex>,<sizey>[dpi]\fR
+This option will provide a physical screen size for applications
+which wish to remain resolution independent.  \fIsizex\fR,
+\fIsizey\fR are the x,y size of the screen in millimeters, unless
+the optional \f(CWdpi\fR string is affixed, in which case, they
+represent resolution in dots-per-inch.
+
+.TP
+\fIvcsa device\fR
+The filename of the device file, defaulting to \fB/dev/vcsa\fR which
+draws on the current virtual console.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+No DirectBuffer support.
+.IP \(bu 4
+Unaccelerated.
+.PP

@@ -1,0 +1,51 @@
+.TH "ggiSetOrigin" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiSetOrigin\fR, \fBggiGetOrigin\fR : Set and get origin of virtual screen
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiSetOrigin(ggi_visual_t vis, int x, int y);
+
+int ggiGetOrigin(ggi_visual_t vis, int *x, int *y);
+.fi
+
+.SH DESCRIPTION
+\fBggiSetOrigin\fR sets the top-left corner of the displayed area to
+(\fIx\fR, \fIy\fR).
+
+When using a larger virtual area, you can pan the visible area over
+the virtual one to do scrolling. Some targets have extremely efficient
+means to do this (i.e. they do it in hardware).
+
+Large virtual areas are also commonly used for buffering the display
+contents, but that is usually more easily accomplished by requesting a
+specific number of \fBframes\fR when setting a mode.
+
+This call takes \fIdot\fR coordinates (see \f(CWggi_mode(3)\fR), not pixel
+coordinates as all other drawing primitives do. There is no difference
+in graphic modes because by definition \fIdpp\fR is 1x1, but in text
+modes the application can do smooth scrolling.
+
+When \fBggiSetOrigin\fR returns, the screen reflects the new origin.
+It is not necessary to call ggiFlush.
+
+\fBggiGetOrigin\fR gets the current top-left corner of the displayed area
+into (\fIx\fR, \fIy\fR).
+
+Due to rounding to the hardware's capabilities, the values retrieved
+by a subsequent \fBggiGetOrigin\fR may not necessarily match those passed
+to \fBggiSetOrigin\fR previously.
+.SH RETURN VALUE
+\fB0\fR for OK, otherwise a \f(CWggi-error(3)\fR code.
+.SH EXAMPLES
+Pan from the top to the bottom of the virtual screen:
+
+.nb
+.nf
+for(i = 0; i < virt_y-visible_y; i++) {
+      ggiSetOrigin(vis, 0, i);
+}
+.fi
+

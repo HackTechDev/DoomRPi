@@ -1,0 +1,11 @@
+// README //
+
+The vgl GII input device is the GII kbd backend for the FreeBSD libvgl
+library. Please see vgl(3) on a FreeBSD system (>=3.0) for more info.
+
+Have fun!
+
+This port has been funded by Alcove - http://www.alcove.com
+
+Nicolas Souchu <nsouch@freebsd.org>
+http://www.freebsd.org/~nsouch/ggiport.html

@@ -1,0 +1,202 @@
+.TH "ggAddTask" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggAddTask\fR, \fBggDelTask\fR, \fBggTimeBase\fR, \fBGG_SCHED_TICKS2USECS\fR, \fBGG_SCHED_USECS2TICKS\fR : LibGG simple task scheduler routines
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+struct gg_task {
+      gg_task_callback_fn     *cb;    /* Function to call to run task      */
+      void                    *hook;  /* Task data can be hung here        */
+      int                     pticks; /* Run once every pticks ticks.      */
+      int                     ncalls; /* Run ncalls times (0 = infinite)   */
+      int                     lasttick; /* last tick run (read-only)       */
+
+      /* Other members present but are for internal use only. */
+};
+
+typedef int (gg_task_callback_fn)(struct gg_task *task);
+
+GG_SCHED_TICKS2USECS(uint32_t ticks);
+GG_SCHED_USECS2TICKS(uint32_t usecs);
+
+uint32_t ggTimeBase(void);
+
+int ggAddTask(struct gg_task *task);
+
+int ggDelTask(struct gg_task *task);
+.fi
+
+.SH DESCRIPTION
+LibGG implements a task scheduler in both threaded and non-threaded 
+environments.  Tasks can be registered with the scheduler to run short,
+asynchronous routines called "handlers" which may interrupt or run in 
+parallel with the normal flow-of-control.  It is recommended to use 
+LibGG tasks in lieue of threads when writing for maximum portability, if 
+they can meet the demands of the application, since not all environments 
+support threads.
+
+The LibGG task scheduler uses a unit of time called a "tick", which may
+vary between architectures.  The tick is guaranteed to be no more than
+one second, however, most environments will support at least 60 ticks 
+per second.  By default LibGG will select 60 ticks per second if it is
+supported, see below for instructions on modifying this behavior.  The
+function \fBggTimeBase\fR is used to find out the size of a tick.
+
+\fBGG_SCHED_TICKS2USECS\fR and \fBGG_SCHED_USECS2TICKS\fR are convenient
+macros that simplifies conversion between ticks and microseconds
+and vice versa.
+
+The maximum rate at which a periodic task may run is once per tick.  
+The maximum period (minimum rate) of a LibGG task is the value of the macro 
+\fBGG_SCHED_TICK_WRAP\fR minus one, and is also measured in ticks.
+
+\fBggAddTask\fR will examine the values in the offered task control structure
+\fItask\fR.  Before calling \fBggAddTask\fR the task control structure must
+be initialized by filling it with zeros, including the internal-use-only area.
+The task control structure should be further initialized by providing at 
+least a pointer to a callback handler function in the member \fIcb\fR, and 
+initializing the \fIpticks\fR member to contain the number of ticks between
+each call to the handler function.  The \fIncalls\fR member may be left 
+at zero, in which case the task remains scheduled to run once every pticks
+until explicitly deleted, or it may be set to a positive integer to indicate
+that the task should be automatically deleted after the handler has been
+called \fIncalls\fR times. The int return type on the callback hook is only
+there for possible future expansion. For now callbacks should always
+return 0. Other values are undefined.
+
+The task control structure must only be used for one task, however a task 
+handler may be called by multiple tasks.  The member \fIhook\fR is provided 
+for the application's use in the task control structure as a means to 
+easily transport task-local data to the handler.  If a tick arrives during 
+a call to \fBggAddTask\fR, the handler may be invoked before \fBggAddTask\fR 
+returns; A memory barrier is included in \fBggAddTask\fR which ensures that 
+all values in the task control structure are up to date on multiprocessor
+systems even in this case.  The task control structure should not be altered,
+except by a task handler as noted below, while the task is scheduled.
+
+\fBggDelTask\fR will remove a task from the scheduler.  The task may be called
+after \fBggDelTask\fR is called, but is guaranteed not to be called after 
+\fBggDelTask\fR has returned, until such a point as it is added again with
+\fBggAddTask\fR.
+
+A task can be put to sleep for a certain amount of time in microseconds
+by altering the period of the task to the correct number of ticks, and then
+that task itself can reset it's period back based on a value in it's
+private hook when it next runs.
+
+A task can wait for an other task to finish either by writing code
+to poll the other task's flags, or by writing a callback into the
+latter task when it is done to reschedule a list of waiting tasks.
+How a task terminates is entirely up to the author.
+
+Each scheduled task is guaranteed never to be reentered by the scheduler.  
+That is, only one call to a task handler for a given task control structure
+will be run at a time, though a single handler function that handles more 
+than one task control structure may be entered simultaneously once per 
+structure.
+
+When a task executes, the handler is invoked and the parameter \fItask\fR
+given to the handler contains the same pointer value as was given to
+\fBggAddTask\fR.  The \fIncalls\fR member will be updated to contain the 
+number of calls, including the current call, which remain before the 
+task is automatically deleted (or zero if the task will never be 
+automatically deleted.)  Thus it is safe to call \fBggAddTask\fR again 
+to reuse the task control structure once the handler has returned 
+with \fIncalls\fR equal to 1.  The \fIlasttick\fR member will contain 
+the number of the LibGG scheduler tick being executed, which should 
+increase monotonically unless a problem occurs as noted below, 
+wrapping around modulus the value GG_SCHED_TICK_WRAP.
+
+\fBggAddTask\fR and \fBggDelTask\fR may not be called from within a task 
+handler, however, the task handler is free to alter the \fIpticks\fR 
+and \fIncalls\fR members in the task control structure \fItask\fR in order
+to change its period, or increase or decrease the number of calls
+before auto-deletion.  For example, to cancel itself, a task need
+only set \fIncalls\fR to 1 before returning.  The task handler may also 
+change it's callback function or data hook members.  A write memory
+barrier is included in the scheduler to prevent old values from 
+being seen by other processors on SMP systems.
+
+LibGG ticks are measured in real (wall clock) time and LibGG
+makes every effort to ensure that drift due to runtime factors is kept 
+at a minimum.  When a process is suspended, however, LibGG ticks stop 
+and resume where they left off.  Likewise, when system utilization is 
+very high or tasks are misused the LibGG scheduler may fail to count 
+ticks.  However the \f(CWggCurTime(3)\fR function will still be accurate
+in these cases and can be used to detect such situations.
+
+All scheduled LibGG tasks may in the worst case have to be run 
+serialized, and may be postponed slightly while a call to \fBggAddTask\fR
+or \fBggDelTask\fR is in progress, so there may be some delay between the 
+start of a LibGG tick and the actual execution of the task.  This 
+can be minimized by limiting the duties of task handlers to very 
+short, quick operations.
+
+When utilization is high or tasks misbehave, the scheduler may elect 
+simply not to call a task handler even though it is scheduled to be 
+called on a given tick.  This may happen either to all tasks or to 
+select individual tasks.   The "lasttick" member of the task control
+structure can be safely read from within a task handler in order
+to detect such a circumstance (it will always contain the current
+tick, but can be compared to a previously stored value.)
+
+Since LibGG tasks may be called in a signal handler or other 
+non-interruptible context, they should not call \fBggLock(3)\fR on any
+locks that may already be locked.  In addition, there may be limits 
+imposed on the functions which are safe to use inside task handlers
+(that is, only reentrant functions may be safe.)  More detailed
+information on using locks inside LibGG task handlers is contained
+in the manpage for \f(CWggLock(3)\fR.
+
+Scheduled tasks will be canceled, in a somewhat precarious fashion, by 
+a normal call to \f(CWggExit(3)\fR.  As such, it is considered best practice to 
+use \fBggDelTask\fR to cancel tasks when gracefully deinitializing LibGG or 
+a library that uses LibGG.
+.SH RETURN VALUE
+\fBggAddTask\fR returns \fBGGI_OK\fR on success or:
+.IP \(bu 4
+\fBGGI_EARGREQ\fR if called with \fBNULL\fR argument;
+.IP \(bu 4
+\fBGGI_EARGINVAL\fR if the task is incorrectly set;
+.IP \(bu 4
+\fBGGI_EBUSY\fR if the task is already added;
+.IP \(bu 4
+\fBGGI_ENOMEM\fR if the task lock could not be created.
+.PP
+\fBggDelTask\fR returns  \fBGGI_OK\fR on success or:
+.IP \(bu 4
+\fBGGI_EARGREQ\fR if called with \fBNULL\fR argument;
+.IP \(bu 4
+\fBGGI_EARGINVAL\fR if the task is not currently scheduled.
+.PP
+\fBggTimeBase\fR returns an integer between 1 and 1000000, inclusive, which
+represents the number on microseconds between each tick of the LibGG
+scheduler.
+.SH ENVIRONMENT VARIABLES
+If the "-schedhz=speed" option is present in the \fBGG_OPTS\fR 
+environment variable when ggInit is first called, the scheduler
+time base will be set such that the scheduler executes \fIspeed\fR
+ticks per second.  If this is not possible, \f(CWggInit(3)\fR will fail.
+The default speed is 60HZ, or the maximum that the environment
+can support, whichever is less.
+
+If the "-signum=n" option is present in the \fBGG_OPTS\fR 
+environment variable when ggInit is first called, and LibGG is
+not compiled with threads support, the UNIX signal used by the
+scheduler may be selected.  If \fIn\fR is not a valid signal
+for this purpose, the results are undefined, but should not be 
+unsafe for SUID processes.  The default signal used is usually 
+SIGPROF, but may be chosen differently based on the needs of the 
+package maintainer for any particular LibGG distribution.
+Applications using LibGG are forbidden from using this signal for 
+other purposes, whether or not tasks are used.
+
+If the "-schedthreads=numthreads" option is present in the \fBGG_OPTS\fR 
+environment variable when ggInit is first called, and \fBLibGG\fR is
+compiled with threading support, the scheduler will create 
+\fInumthreads\fR additional threads to call task handlers.  The default 
+is one additional thread.  If \fInumthreads\fR is not valid or causes
+resource allocation problems, the results are undefined, but should
+not be unsafe for SUID (or other elevated privilege) processes.

@@ -1,0 +1,19 @@
+			=========================                   Updated:
+			Display targets in LibGGI                   20030114
+			=========================
+
+
+The targets currently included in LibGGI are:
+* Primary targets
+	X, DGA, aa, fbdev, file, glide, memory, svgalib, vcsa
+
+* Emulation targets (runs on top of one or more other targets)
+	monotext, multi, palemu, tile, trueemu
+
+* Special targets (these can only be opened explicitly by applications,
+  setting GGI_DISPLAY to one of these causes undefined behaviour)
+	sub
+
+
+Detailed information about targets are available via man pages.
+Get them by the 'man display-<targetname>' command.

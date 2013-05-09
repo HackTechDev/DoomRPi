@@ -1,0 +1,200 @@
+.TH "ggLoadConfig" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggLoadConfig\fR, \fBggFreeConfig\fR, \fBggConfigIterTarget\fR, \fBggConfigIterLocation\fR : Configuration helpers
+.SH SYNOPSIS
+.nb
+.nf
+int ggLoadConfig(const char *file, gg_config *config);
+
+void ggFreeConfig(gg_config config);
+
+struct gg_location_iter {
+      struct gg_iter iter;
+      const void * config;
+      const char * name;
+      char * location;
+      const char * symbol;
+      void * _state;
+};
+
+int ggConfigIterLocation(struct gg_location_iter * iter);
+ 
+struct gg_target_iter {
+      struct gg_iter iter;
+      void * config;
+      const char * input;
+      char * target;
+      char * options;
+      void * nested;
+};
+
+int ggConfigIterTarget(struct gg_target_iter *iter);
+.fi
+
+.SH DESCRIPTION
+These functions provides a simple way of handling configuration files.
+
+\fBggLoadConfig\fR tries to load the configuration file given as
+parameter. It adds the content to the config handle found at
+\fI*config\fR. If the handle is NULL, a new one is created.
+
+\fBggFreeConfig\fR deletes the internal structure for the configuration
+handle \fIconfig\fR. This handle becomes invalid and should not be used
+anymore.
+
+\fBggConfigIterLocation\fR allows to retreive the location and symbol
+associated to canonical names. This function is mainly used together
+with the scope abstraction to query application modules at runtime.
+This function will prepare the \fIiter\fR structure to be used as an
+iterator that will generate correct matches.  \fIiter\fR is a pointer
+to a gg_location_iter structure owned by the caller. This user part of
+the structure must be set by the caller before calling
+\fBggConfigIterLocation\fR. The \fIconfig\fR field must be filled with the
+config handle which contains target information; the \fIname\fR field
+must be filled with the canonical name that is being looked
+for. \fIlocation\fR and \fIsymbol\fR are placeholders in which the
+results will be found along the iteration. The resulting strings
+\*fBdo*\fR belong to libgg and \*fBmust not*\fR be freed or altered, and they
+may be invalidated if not used during the iteration process. They must
+be copied if needed later.  \fI_state\fR is an internal opaque
+pointer that keeps track of the iterator state. Its value must never be
+touched by the caller.
+
+\fBggConfigIterTarget\fR allows to iterate over canonical target names and
+options strings found in a target spec string.  This function also
+work as a generator. \fIiter\fR is a pointer to a gg_target_iter
+structure owned by the caller. This user part of the structure must be
+set by the caller before calling \fBggConfigIterTarget\fR.  The
+\fIconfig\fR field must be filled with the config handle which contains
+target information; the \fIinput\fR field must be filled with the
+initial input spec string.  \fItarget\fR and \fIoptions\fR are
+placeholders in which the results will be found along the iteration.
+Here again, the resulting strings \*fBdo*\fR belong to libgg and \*fBmust
+not*\fR be freed or altered, and they may be invalidated if not used
+during the iteration process. They must be copied if needed later.
+\fInested\fR is an internal opaque pointer that keeps track of the
+iterator state. Its value must never be touched by the caller.
+.SH RETURN VALUE
+\fBggLoadConfig\fR returns \fBGGI_OK\fR on success, or:
+.IP \(bu 4
+\fBGGI_ENOMEM\fR if it can not allocate a new configuration handle.
+Note that if subsequent memory allocations fail (when feeding the
+handle), those will not be reported as an error. The handle will be
+incomplete with regard to the config file contents;
+.IP \(bu 4
+\fBGGI_ENOTFOUND\fR if the file does not exists. Note that missing files
+in include directives will not be reported an error. Also, other
+parse error in the file will simply cause the incriminated lines to
+be ignored.
+.PP
+\fBggConfigIterLocation\fR returns \fBGGI_OK\fR on success or \fBGGI_ENOMEM\fR.
+
+\fBggConfigIterTarget\fR always return \fBGGI_OK\fR and will never fail.
+.SH CONFIG FILE FORMAT
+The configuration file is line oriented. Each line may define a
+mapping between a canonical name and a location. The generic format
+is:
+
+.nb
+.nf
+<pattern>  <location>[:<symbol>]
+
+alias <name> <expansion>
+.fi
+
+On the first line \f(CWpattern\fR is a canonical name that may contain one
+\f(CW*\fR as a wildcard, \f(CWlocation\fR is a string that corresponds to a
+scope location, and \f(CWsymbol\fR is an optional string that gives the
+name of the symbol to retreive from the scope. If not given, NULL will
+be reported. The second line defines an alias. When a target called
+\f(CWname\fR is found while iterating over target spec strings, the
+iterator parse \f(CWexpansion\fR as a sub-input spec, and aggregate all
+option strings that where found on upstream aliases.
+
+In addition, the configuration file loader knowns the following
+directives:
+
+.nb
+.nf
+.root <path>
+
+.include <file>
+.fi
+
+When locations following the \f(CW.root\fR directive are given as relative
+path, \f(CWpath\fR will be prepended. \f(CW.include\fR will parse the given
+file recursively, before continuing with the current one.
+.SH EXAMPLE
+This code demonstrates how to get the first module init function
+accessible from a scope for a given name. It also shows how to use the
+libgg iterator scheme:
+
+.nb
+.nf
+int openModule(gg_config cfg, const char * moduleName,
+                              const char * defaultSymbol) {
+  struct gg_location_iter match;
+  gg_scope scope;
+  module_init_func *init;
+  
+  /* prepare the iterator */
+  
+  match.name = name;
+  match.config = cfg;
+  ggConfigMatchIter(&match);
+  
+  /* iterate over the matches */
+  
+  GG_ITER_FOREACH(&match) {
+
+     /* try to retreive the collection at suggested location */
+     if((scope = ggGetScope(match.location)) == NULL)
+               continue;
+
+     /* use default symbol if none suggested */
+     if (match.symbol == NULL) match.symbol = defaultSymbol;
+     
+     /* try to retreive the symbol from that scope */
+     if((init = ggFromScope(scope, match.symbol)) == NULL) {
+              ggDelScope(scope);
+              continue;
+     }
+     /* try to initialize the module */
+     if(init() != GGI_OK) {
+              ggDelScope(scope);
+              continue;
+     }
+     /* the module is up, abort iteration and return */
+     GG_ITER_DONE(&match);
+     return GGI_OK;
+  }
+  
+  /* module not found */
+  GG_ITER_DONE(&match);
+  return GGI_ENOTFOUND;
+.fi
+
+Note that this code is not completely correct, because the scope
+cannot be deleted later if it is not remembered somewhere.  This next
+example shows how to list all targets and options specified by a
+string:
+
+.nb
+.nf
+static void showAllTargets(void * cfg, const char * input)
+{
+      struct gg_target_iter match;
+      
+      match.config = cfg;
+      match.input = input;
+      ggConfigIterTarget(&match);
+      GG_ITER_FOREACH(&match) {
+              printf("Target \e"%s\e" with options \e"%s\e".\en",
+                     match.target, match.options);
+      }
+      GG_ITER_DONE(&match);
+}
+.fi
+
+.SH SEE ALSO
+\f(CWggGetScope(3)\fR

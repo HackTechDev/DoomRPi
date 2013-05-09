@@ -1,0 +1,506 @@
+/* config.h.in.  Generated from configure.in by autoheader.  */
+
+/* Support for builtin filter-keytrans */
+#undef BUILTIN_FILTER_KEYTRANS
+
+/* Support for builtin filter-mouse */
+#undef BUILTIN_FILTER_MOUSE
+
+/* Support for builtin filter-save */
+#undef BUILTIN_FILTER_SAVE
+
+/* Support for builtin filter-tcp */
+#undef BUILTIN_FILTER_TCP
+
+/* Support for builtin input-cocoa */
+#undef BUILTIN_INPUT_COCOA
+
+/* Support for builtin input-directx */
+#undef BUILTIN_INPUT_DIRECTX
+
+/* Support for builtin input-file */
+#undef BUILTIN_INPUT_FILE
+
+/* Support for builtin input-ipaq-ts */
+#undef BUILTIN_INPUT_IPAQ_TS
+
+/* Support for builtin input-kii */
+#undef BUILTIN_INPUT_KII
+
+/* Support for builtin input-linux-evdev */
+#undef BUILTIN_INPUT_LINUX_EVDEV
+
+/* Support for builtin input-linux-joy */
+#undef BUILTIN_INPUT_LINUX_JOY
+
+/* Support for builtin input-linux-kbd */
+#undef BUILTIN_INPUT_LINUX_KBD
+
+/* Support for builtin input-linux-mouse */
+#undef BUILTIN_INPUT_LINUX_MOUSE
+
+/* Support for builtin input-lk201 */
+#undef BUILTIN_INPUT_LK201
+
+/* Support for builtin input-mouse */
+#undef BUILTIN_INPUT_MOUSE
+
+/* Support for builtin input-null */
+#undef BUILTIN_INPUT_NULL
+
+/* Support for builtin input-pcjoy */
+#undef BUILTIN_INPUT_PCJOY
+
+/* Support for builtin input-quartz */
+#undef BUILTIN_INPUT_QUARTZ
+
+/* Support for builtin input-spaceorb */
+#undef BUILTIN_INPUT_SPACEORB
+
+/* Support for builtin input-stdin */
+#undef BUILTIN_INPUT_STDIN
+
+/* Support for builtin input-tcp */
+#undef BUILTIN_INPUT_TCP
+
+/* Support for builtin input-vgl */
+#undef BUILTIN_INPUT_VGL
+
+/* Support for builtin input-x */
+#undef BUILTIN_INPUT_X
+
+/* Support for builtin input-zaurus */
+#undef BUILTIN_INPUT_ZAURUS_TS
+
+/* Define if CC can compile amask opcode (DEC) */
+#undef CC_CAN_AMASK
+
+/* Define if CC can compile cpuid opcode (Intel) */
+#undef CC_CAN_CPUID
+
+/* Define to 1 to use win32 `GetSystemTimeAsFileTime' for ggCurTime. */
+#undef GG_CURTIME_USE_GETSYSTEMTIMEASFILETIME
+
+/* Define to 1 to use `gettimeofday' for ggCurTime. */
+#undef GG_CURTIME_USE_GETTIMEOFDAY
+
+/* Define if you want memory usage debugging code */
+#undef GG_MEMDEBUG
+
+/* Tell libgg to define integer types for building */
+#undef GG_NEED_INTTYPES
+
+/* Define to 1 if the `usleep' function limits usecs value. */
+#undef GG_USLEEP_999999
+
+/* Define to 1 to use `select' for ggUSleep/ggUSlumber. */
+#undef GG_USLEEP_USE_SELECT
+
+/* Define to 1 to use `usleep' for ggUSleep/ggUSlumber. */
+#undef GG_USLEEP_USE_USLEEP
+
+/* Define to 1 to use win32 `Sleep' for ggUSleep/ggUSlumber. */
+#undef GG_USLEEP_USE_W32SLEEP
+
+/* Define to 1 if the `usleep' function returns void. */
+#undef GG_USLEEP_VOID
+
+/* Full path of configuration directory (including tag) */
+#undef GIICONFDIR
+
+/* Name of LibGII main conf file */
+#undef GIICONFFILE
+
+/* Used to s// in path to libgii.conf */
+#undef GIIPATHTAG
+
+/* Define to length of below tag */
+#undef GIITAGLEN
+
+/* Define to 1 if you have the <ApplicationServices/ApplicationServices.h>
+   header file. */
+#undef HAVE_APPLICATIONSERVICES_APPLICATIONSERVICES_H
+
+/* Define to 1 if you have the <arpa/inet.h> header file. */
+#undef HAVE_ARPA_INET_H
+
+/* Define to 1 if you have the <asm/sharp_ts.h> header file. */
+#undef HAVE_ASM_SHARP_TS_H
+
+/* Define to 1 if you have the `asprintf' function. */
+#undef HAVE_ASPRINTF
+
+/* Define to 1 if you have the `atexit' function. */
+#undef HAVE_ATEXIT
+
+/* Define to 1 if you have the `connect' function. */
+#undef HAVE_CONNECT
+
+/* Define to 1 if you have the <c_asm.h> header file. */
+#undef HAVE_C_ASM_H
+
+/* Define to 1 if you have the <dinput.h> header file. */
+#undef HAVE_DINPUT_H
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define if your system has dlopen */
+#undef HAVE_DLOPEN
+
+/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+#undef HAVE_DOPRNT
+
+/* Define to 1 if you have the `fcntl' function. */
+#undef HAVE_FCNTL
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define to 1 if you have the `gethostbyname' function. */
+#undef HAVE_GETHOSTBYNAME
+
+/* Define to 1 if you have the `getopt' function. */
+#undef HAVE_GETOPT
+
+/* Define to 1 if you have the `GetSystemTimeAsFileTime' function. */
+#undef HAVE_GETSYSTEMTIMEASFILETIME
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the `inet_aton' function. */
+#undef HAVE_INET_ATON
+
+/* Define to 1 if the system has the type `intptr_t'. */
+#undef HAVE_INTPTR_T
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `c' library (-lc). */
+#undef HAVE_LIBC
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* Define to 1 if you have the <link.h> header file. */
+#undef HAVE_LINK_H
+
+/* Define to 1 if you have the <linux/h3600_ts.h> header file. */
+#undef HAVE_LINUX_H3600_TS_H
+
+/* Define to 1 if you have the <linux/input.h> header file. */
+#undef HAVE_LINUX_INPUT_H
+
+/* Define to 1 if you have the <linux/joystick.h> header file. */
+#undef HAVE_LINUX_JOYSTICK_H
+
+/* Define to 1 if you have the <linux/kdev_t.h> header file. */
+#undef HAVE_LINUX_KDEV_T_H
+
+/* Define to 1 if you have the <linux/kd.h> header file. */
+#undef HAVE_LINUX_KD_H
+
+/* Define to 1 if you have the <linux/keyboard.h> header file. */
+#undef HAVE_LINUX_KEYBOARD_H
+
+/* Define to 1 if you have the <linux/major.h> header file. */
+#undef HAVE_LINUX_MAJOR_H
+
+/* Define to 1 if you have the <linux/vt.h> header file. */
+#undef HAVE_LINUX_VT_H
+
+/* Define to 1 if you have the <mach-o/dyld.h> header file. */
+#undef HAVE_MACH_O_DYLD_H
+
+/* Define to 1 if you have the <malloc.h> header file. */
+#undef HAVE_MALLOC_H
+
+/* Define if your libc has a __malloc_hook for debug */
+#undef HAVE_MALLOC_HOOK
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define if you have the `nanosleep' function */
+#undef HAVE_NANOSLEEP
+
+/* Define to 1 if you have the <netdb.h> header file. */
+#undef HAVE_NETDB_H
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#undef HAVE_NETINET_IN_H
+
+/* Define if there is no way to check CPU ID */
+#undef HAVE_NO_CPUID
+
+/* Undefine when there is an implementation for ggGetSwarType */
+#undef HAVE_NO_SWARTYPE_IMPLEMENTATION
+
+/* Define to 1 if you have the `NSCreateObjectFileImageFromFile' function. */
+#undef HAVE_NSCREATEOBJECTFILEIMAGEFROMFILE
+
+/* Define to 1 if you have the `NSDestroyObjectFileImage' function. */
+#undef HAVE_NSDESTROYOBJECTFILEIMAGE
+
+/* Define to 1 if you have the `on_exit' function. */
+#undef HAVE_ON_EXIT
+
+/* Define to 1 if you have the `pclose' function. */
+#undef HAVE_PCLOSE
+
+/* Define to 1 if you have the `pipe' function. */
+#undef HAVE_PIPE
+
+/* Define to 1 if you have the `popen' function. */
+#undef HAVE_POPEN
+
+/* Define to 1 if you have the <pthread.h> header file. */
+#undef HAVE_PTHREAD_H
+
+/* Define to 1 if you have the `raise' function. */
+#undef HAVE_RAISE
+
+/* Define to 1 if you have the `readlink' function. */
+#undef HAVE_READLINK
+
+/* Define to 1 if you have the <sched.h> header file. */
+#undef HAVE_SCHED_H
+
+/* Define if you have the sched_yield function */
+#undef HAVE_SCHED_YIELD
+
+/* Define to 1 if you have the <shlobj.h> header file. */
+#undef HAVE_SHLOBJ_H
+
+/* Define to 1 if you have the `sigaction' function. */
+#undef HAVE_SIGACTION
+
+/* Define to 1 if you have the `siginterrupt' function. */
+#undef HAVE_SIGINTERRUPT
+
+/* Define to 1 if you have the `signal' function. */
+#undef HAVE_SIGNAL
+
+/* Define to 1 if you have the <signal.h> header file. */
+#undef HAVE_SIGNAL_H
+
+/* Define to 1 if you have the `Sleep' function. */
+#undef HAVE_SLEEP
+
+/* Define to 1 if you have the `snprintf' function. */
+#undef HAVE_SNPRINTF
+
+/* Define if socklen_t type is supported. */
+#undef HAVE_SOCKLEN_T
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strdup' function. */
+#undef HAVE_STRDUP
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strlcat' function. */
+#undef HAVE_STRLCAT
+
+/* Define to 1 if you have the `strlcpy' function. */
+#undef HAVE_STRLCPY
+
+/* Define to 1 if you have the `strncasecmp' function. */
+#undef HAVE_STRNCASECMP
+
+/* Define to 1 if you have the `strncat' function. */
+#undef HAVE_STRNCAT
+
+/* Define to 1 if you have the `strncpy' function. */
+#undef HAVE_STRNCPY
+
+/* Define to 1 if you have the `strtol' function. */
+#undef HAVE_STRTOL
+
+/* Define to 1 if you have the `strtoll' function. */
+#undef HAVE_STRTOLL
+
+/* Define to 1 if you have the `strtoul' function. */
+#undef HAVE_STRTOUL
+
+/* Define to 1 if you have the `strtoull' function. */
+#undef HAVE_STRTOULL
+
+/* Define to 1 if `st_rdev' is member of `struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_RDEV
+
+/* Define to 1 if your `struct stat' has `st_rdev'. Deprecated, use
+   `HAVE_STRUCT_STAT_ST_RDEV' instead. */
+#undef HAVE_ST_RDEV
+
+/* Define to 1 if you have the <sys/fbio.h> header file. */
+#undef HAVE_SYS_FBIO_H
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/io.h> header file. */
+#undef HAVE_SYS_IO_H
+
+/* Define to 1 if you have the <sys/kd.h> header file. */
+#undef HAVE_SYS_KD_H
+
+/* Define to 1 if you have the <sys/param.h> header file. */
+#undef HAVE_SYS_PARAM_H
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/sysctl.h> header file. */
+#undef HAVE_SYS_SYSCTL_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <sys/un.h> header file. */
+#undef HAVE_SYS_UN_H
+
+/* Define to 1 if you have the <sys/vt.h> header file. */
+#undef HAVE_SYS_VT_H
+
+/* Define to 1 if you have the <termios.h> header file. */
+#undef HAVE_TERMIOS_H
+
+/* Define if sys/ioctl.h defines TIOCMSET */
+#undef HAVE_TIOCMSET
+
+/* Define to 1 if the system has the type `uintptr_t'. */
+#undef HAVE_UINTPTR_T
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to 1 if you have the `usleep' function. */
+#undef HAVE_USLEEP
+
+/* Define to 1 if you have the <vgl.h> header file. */
+#undef HAVE_VGL_H
+
+/* Define to 1 if you have the `vprintf' function. */
+#undef HAVE_VPRINTF
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
+
+/* Define to 1 if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
+
+/* Define to 1 if you have the <winsock2.h> header file. */
+#undef HAVE_WINSOCK2_H
+
+/* Define to 1 if you have the <winsock.h> header file. */
+#undef HAVE_WINSOCK_H
+
+/* Define to 1 if you have the <X11/extensions/xf86dga.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XF86DGA_H
+
+/* Support for xf86dga in input-x */
+#undef HAVE_XF86DGA
+
+/* Define to 1 if you have the `_exit' function. */
+#undef HAVE__EXIT
+
+/* Set to install path */
+#undef INSTALL_PREFIX
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define as the return type of signal handlers (`int' or `void'). */
+#undef RETSIGTYPE
+
+/* The size of a `char', as computed by sizeof. */
+#undef SIZEOF_CHAR
+
+/* The size of a `int', as computed by sizeof. */
+#undef SIZEOF_INT
+
+/* The size of a `long', as computed by sizeof. */
+#undef SIZEOF_LONG
+
+/* The size of a `long long', as computed by sizeof. */
+#undef SIZEOF_LONG_LONG
+
+/* The size of a `short', as computed by sizeof. */
+#undef SIZEOF_SHORT
+
+/* The size of a `SSIZE_T', as computed by sizeof. */
+#undef SIZEOF_SSIZE_T
+
+/* The size of a `void *', as computed by sizeof. */
+#undef SIZEOF_VOID_P
+
+/* The size of a `__darwin_ssize_t', as computed by sizeof. */
+#undef SIZEOF___DARWIN_SSIZE_T
+
+/* The size of a `__int64', as computed by sizeof. */
+#undef SIZEOF___INT64
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define if symbols are prefixed with underscore */
+#undef SYMBOL_UNDERSCORE
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME
+
+/* Define to 1 if your processor stores words with the most significant byte
+   first (like Motorola and SPARC, unlike Intel and VAX). */
+#undef WORDS_BIGENDIAN
+
+/* Define to 1 if the X Window System is missing or not being used. */
+#undef X_DISPLAY_MISSING
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif
+
+/* Define to `unsigned' if <sys/types.h> does not define. */
+#undef size_t

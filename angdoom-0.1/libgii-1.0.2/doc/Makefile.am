@@ -1,0 +1,6 @@
+SUBDIRS = man
+
+EXTRA_DIST = README.directx
+
+MAINTAINERCLEANFILES = Makefile.in
+

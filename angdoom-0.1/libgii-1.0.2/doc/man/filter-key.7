@@ -1,0 +1,66 @@
+.TH "filter-key" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBfilter-key\fR, \fBfilter-keytrans\fR : Generic key event translator
+.SH SYNOPSIS
+.nb
+.nf
+filter-key: [<file>]
+
+filter-keytrans: [<file>]
+.fi
+
+.SH DESCRIPTION
+This filter translates key events according to a set of
+translation rules. This can be used to remap a keyboard.
+.SH OPTIONS
+.TP
+\fIfile\fR
+The name of the configuration file. If none given, the filter will
+first look for the file \fBfilter/keytrans\fR in the user GGI
+directory (\fB$HOME/.ggi/\fR on UNIX), then in the base GGI directory
+if not found.
+
+.PP
+.SH CONFIGURATION
+The mapping is specified through a simple text file, each line being a
+translation rule. A line starting with a \f(CW#\fR is a comment. Each line
+must contain 10 values in the following order:
+.TP
+modifier_mask
+Consider only the bits set here.
+
+.TP
+modifier_value
+The bits set above must match this value.
+
+.TP
+button_in, label_in, symbol_in
+If this is not \f(CWKEY_UNMAPPED==0xffff\fR, the button/label/symbol
+of the incoming key must match these fields.
+
+.TP
+modifier_changemask
+Change these bits from the original modifiers...
+
+.TP
+modifier_ormask
+... set them to these - one shouldn't use that.
+
+.TP
+button_out, label_out, symbol_out
+The data that is then sent by the keymapper. Any fields set
+to \f(CWKEY_UNMAPPED==0xffff\fR will be copied from the
+incoming event.
+
+.PP
+.SH EXAMPLE
+Mapping a symbol:
+
+.nb
+.nf
+# Take any key that produces a symbol of 0x41 ('A') map it to ESC
+#
+# modmsk modval buttin lablin symin  modchg modor  butout labout symout
+0x0000 0x0000 0xffff 0xffff 0x0041 0x0000 0x0000 0xffff 0xffff 0x001b
+.fi
+

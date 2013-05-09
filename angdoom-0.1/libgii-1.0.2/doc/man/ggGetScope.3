@@ -1,0 +1,88 @@
+.TH "ggGetScope" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggGetScope\fR, \fBggFromScope\fR, \fBggDelScope\fR, \fBggNewScope\fR : Portable code module loading facilities
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+gg_scope ggGetScope(const char *location);
+
+void ggDelScope(gg_scope scope);
+
+void *ggFromScope(gg_scope, const char *symbol);
+
+typedef  void *(*ggfunc_scope_get)(void * handle, const char * symbol);
+typedef  void (*ggfunc_scope_del)(void * handle);
+
+gg_scope ggNewScope(const char * location, void * handle,
+                    ggfunc_scope_get get, ggfunc_scope_del del)
+.fi
+
+.SH DESCRIPTION
+LibGG abstracts dynamic code loading (and emulates dynamic code loading
+for statically linked embedded binaries) through a simple API which
+represents the very lowest level required of any loadable module system.  
+The actual underlying mechanisms used in various operating systems
+to load additional code into an application on demand vary drastically, 
+however, minus OS-specific frills, they can all be mapped to the above 
+three LibGG API functions.
+
+\fBggGetScope\fR finds a loadable collection of symbols known by its
+\fIlocation\fR through whatever system is available on the operating
+system.  Those symbols were once supposed to be code from modules, but
+the scope abstraction does not impose this restriction. The scopes can
+have different implementations and are not restricted to dynamic
+libraries. They could also be used as an interface to a
+attribute/value configuration system.
+
+Note that when a scope happens to be dynamic library, the symbols are
+loaded into the address space of the caller, but libgg does not
+guarantee that the imported symbols will be seen by other modules.
+
+\fBggDelScope\fR unloads the symbol collection represented by the 
+handle \fIscope\fR, which must have been previously loaded with 
+\fBggGetScope\fR  (\fIscope\fR should be a return value from a previous 
+call to \fBggGetScope\fR.)  Reference counts are kept to ensure that 
+redundantly loaded symbol collections are not discarded until their 
+last owner releases them.  Calling \fBggDelScope\fR on a handle too
+many times, or on an invalid handle, may produce undefined results.
+Accessing symbols after the collections they were contained in are 
+unloaded will produce undesirable and undefined results.
+
+\fBggFromScope\fR searches the symbol collection represented by the handle
+\fIscope\fR, which has been loaded with \fBggGetScope\fR (and not yet
+unloaded with \fBggDelScope\fR, of course) for a symbol named \fIsymbol\fR,
+so that the application may use the item associated with the symbol.
+The parameter \fIscope\fR should be a return value from a previous call
+to \fBggDelScope\fR.  As \fBggFromScope\fR may have no way of knowing what the
+symbol represents, the application must take the responsibility for
+assigning the item a correct C type.
+
+\fBggNewScope\fR allows to register a custom scope to libgg. The primary
+purpose is to allow libraries to provide builtin modules that are
+accessible through the same interface as dynamic ones. \fIlocation\fR
+is the string at which the scope can be retreived. \fIhandle\fR is a
+opaque pointer provided by the caller that will be passed to the
+callbacks. \fIget\fR is a function that take an opaque handle, a symbol
+name, and that must return the requested symbol address, or NULL if
+not found. \fIdel\fR is a function that will take the provided handler,
+and that must cleanup everything before the scope is removed from the
+scope registry. This scheme allows to implement all kind of scopes in
+a very flexible way. Note that \fBggNewScope\fR will take a reference on the
+scope.
+.SH RETURN VALUE
+On success, \fBggGetScope\fR returns an opaque pointer to a handle
+representing a newly loaded symbol collection (which must be retained
+in order to use or free the collection.)  These pointers are not
+guaranteed to be unique.  On failure, \fBggGetScope\fR returns \fBNULL\fR.
+
+\fBggFromScope\fR returns the address of the item that the named symbol
+represents, if it has been loaded into the caller's address space.
+Otherwise it returns \fBNULL\fR. Note that the value associated to a
+symbol really depends on the scope itself and the caller must know
+what is behind it. So a \fBNULL\fR value does not necessarily means
+failure. It could be a valid value for a specific scope.
+
+\fBggNewScope\fR returns an opaque pointer to a handle representing the
+custom scope.  On failure, \fBggNewScope\fR returns \fBNULL\fR.

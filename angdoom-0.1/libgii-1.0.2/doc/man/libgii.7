@@ -1,0 +1,70 @@
+.TH "libgii" 7 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBlibgii\fR : A flexible library for input handling
+.SH DESCRIPTION
+LibGII is an input library developed by the GGI Project.  Its
+design philosophy is similar to LibGGI, which deals with graphics
+output.
+LibGII is based on the concept of input streams, which virtualize
+access to the underlying input drivers. Events from various input
+devices are abstracted into easy-to-use structures. LibGII also allows
+the application to join streams together, receiving input from an
+arbitrary combination of devices.
+
+LibGII is a separate component from LibGGI, although LibGGI depends on
+LibGII for input purposes.  (LibGGI's input functions are simply
+wrappers for LibGII functions.)
+.SH ENVIRONMENT VARIABLES
+The following outlines the environment variables, intended for the
+user, which affect the behaviour of LibGII:
+.TP
+\fBGII_INPUT\fR
+The default input source(s) and/or filter(s) to use when giiOpen()
+is called with a NULL argument.  The format is: \f(CWinput:inputargs\fR.
+Multiple inputs can be specified by this notation: \f(CW(i1):(i2) ...\fR.
+.RS
+\fBNote:\fR
+This setting does not affect LibGGI visuals automatically
+opening inputs. Use the \f(CWGGI_INPUTx\fR variable instead.
+.RE
+
+.TP
+\fBGII_DEBUG\fR
+The debug level for LibGII:
+.RS
+.IP \(bu 4
+0 or unset : debug output is off; debugging is off
+.IP \(bu 4
+255 : all debug output is on
+.PP
+You may also bitwise 'or' any of the following together:
+.IP \(bu 4
+2   : debug core
+.IP \(bu 4
+32  : misc debugging output
+.IP \(bu 4
+64  : debug dynamic library handling
+.IP \(bu 4
+128 : debug event handling
+.PP
+
+.RE
+.TP
+\fBGII_DEBUGSYNC\fR
+Turn on synchronous debug output, flushing the output buffers
+before returning from \fBDPRINT\fR calls.
+
+.TP
+\fBGII_CONFDIR\fR
+Override compiled-in path to global config files (Win32 only,
+but not Cygwin).
+
+.PP
+Other environment variables specific to filters and inputs are
+documented in the corresponding manual page.
+.SH SEE ALSO
+\f(CWlibgii.conf(5)\fR, \f(CWfilter-keytrans(7)\fR, \f(CWfilter-mouse(7)\fR,
+\f(CWfilter-save(7)\fR, \f(CWfilter-tcp(7)\fR, \f(CWinput-directx(7)\fR, 
+\f(CWinput-linux-kbd(7)\fR, \f(CWinput-mouse(7)\fR, \f(CWinput-file(7)\fR, 
+\f(CWinput-linux-mouse(7)\fR, \f(CWinput-tcp(7)\fR,
+\f(CWinput-linux-evdev(7)\fR, \f(CWinput-lk201(7)\fR.

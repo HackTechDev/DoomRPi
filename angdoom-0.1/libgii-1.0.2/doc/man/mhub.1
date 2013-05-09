@@ -1,0 +1,70 @@
+.TH "mhub" 1 "2004-10-14" "libgii-1.0.x" GGI
+.SH NAME
+\fBmhub\fR : converts LibGII events to mouse protocol or mhub data
+.SH SYNOPSIS
+.nb
+.nf
+mhub [options]
+.fi
+
+.SH DESCRIPTION
+mhub reads pointer events from the LibGII default device and outputs mouse
+protocol data and/or mhub data to the specified files.
+The default device is specified with the \fBGII_INPUT\fR environment variable,
+see the \fBlibgii(7)\fR manual for more info.
+.SH OPTIONS
+.TP
+\fB-h\fR
+displays this help and exit
+
+.TP
+\fB-v\fR
+output version information and exit
+
+.TP
+\fB-d\fR
+print contents of received events to standard error
+
+.TP
+\fB-s\fR
+terminate program when a SIGPIPE signal is received.
+The default is to ignore SIGPIPE.
+
+.TP
+\fB-e BUTNR\fR
+only generate mhub events for buttons >= \fBBUTNR\fR.  The default is 4.
+
+.TP
+\fB-b FILE\fR
+output mhub events to \fBFILE\fR
+
+.TP
+\fB-2 FILE\fR
+output PS/2 format data to \fBFILE\fR
+
+.TP
+\fB-i FILE\fR
+output (serial) IntelliMouse format data to \fBFILE\fR
+
+.TP
+\fB-m FILE\fR
+output MouseSystems format data to \fBFILE\fR
+
+.TP
+\fB-r FROM TO\fR
+remap button \fBFROM\fR to button \fBTO\fR
+
+.TP
+\fB-w BUTNR\fR
+transform wheel up motion to a \fBBUTNR\fR mhub event
+
+.TP
+\fB-W BUTNR\fR
+transform wheel down motion to a \fBBUTNR\fR mhub event
+
+.PP
+A maximum of 20 mhub event outputs and 20 mouse data outputs are supported.
+The number of remaps are unlimited and all remaps occur before any other
+processing.
+
+Mouse data outputs may all use different protocols.

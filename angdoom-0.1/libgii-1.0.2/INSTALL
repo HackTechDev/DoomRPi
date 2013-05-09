@@ -1,0 +1,84 @@
+Installation notes for LibGII
+-----------------------------
+
+This file contains notes specific to LibGII.
+LibGII uses autoconf for configuration purposes, thus make sure you also
+read the file INSTALL.autoconf which contains some generic info.
+
+Short installation instructions for the impatient:
+
+./configure; make; make install
+will build LibGII and install it in /usr/local.
+Make sure that your dynamic linker has /usr/local/lib in it's search path.
+Under Linux this is accomplished by adding the dir to /etc/ld.so.conf.
+
+Libraries and Includes:
+
+If you have installed X in a nonstandard location, and the files do not get
+found, use:
+
+  --x-includes=DIR        X include files are in DIR
+  --x-libraries=DIR       X library files are in DIR
+  --with-x                use the X Window System
+
+Other missing library/include directories can be added with:
+
+  --with-extra-includes=DIR
+                          add extra include paths
+  --with-extra-libs=DIR   add extra library paths
+where DIR is a colon separated list of directories.
+
+LibGII stores its configuration in sysconfdir/ggi (sysconfdir defaults to
+PREFIX/etc, see INSTALL.autoconf about PREFIX) by default. As the conffile
+contains library name mappings, it has to be protected against tampering.
+If for some reason you want to change sysconfdir you can set it with:
+
+  --sysconfdir=DIR        read-only single-machine data in DIR [PREFIX/etc]
+
+Some targets/inputs require proper locking for threadsafety. The default is
+to autodetect the type of mutexes to use. If you know what you are doing you
+can choose a suitable kind of locking for your machine using:
+
+  --enable-mutexes=TYPE   force the kind of mutexes to use
+                            (builtin, pthread or win32)
+
+In case you are never ever interested in debugging LibGII, you can compile
+out all debugging code, making it a bit smaller and faster:
+
+  --disable-debug         don't build with run-time debugging (speed freaks)
+
+Note that usually autoconf defaults to compiling with "-O2 -g" independent
+of whether --disable-debug is used or not. To compile with other flags
+simply set the environment variable CFLAGS to the desired value when running
+configure.
+
+On the contrary, you can slow down your machine if you think it's too fast
+
+  --enable-memdebug       include memory usage debugging code in LibGG
+
+In case you do not want some input libraries to be built, or want to force
+experimental or wrongly undetected inputlibs to be build, you can use:
+
+  --disable-filter-mouse  don't build the mouse filterlib
+  --disable-filter-save   don't build the save filterlib
+  --disable-null          don't build the null inputlib (discouraged - this
+                            is REQUIRED by LibGGI)
+  --disable-stdin         don't build the stdin inputlib
+  --disable-x             don't build the x inputlib
+  --disable-mouse         don't build the mouse inputlib
+  --disable-linux-mouse   don't build the linux-mouse inputlib
+  --disable-linux-kbd     don't build the linux-kbd inputlib
+  --disable-linux-joy     don't build the linux-joy inputlib
+  --disable-spaceorb      don't build the spaceorb inputlib
+  --enable-pcjoy          build the pcjoy inputlib
+
+  --disable-filter-keytrans  don't build the key translation filterlib
+  --disable-filter-tcp    don't build the tcp filterlib
+  --disable-file          don't build the file inputlib
+  --disable-tcp           don't build the tcp inputlib
+  --disable-linux-evdev   don't build the linux-evdev inputlib
+  --disable-directx       don't build the directx inputlib
+  --disable-vgl           don't build the vgl inputlib
+  --disable-cocoa         don't build the cocoa inputlib
+  --disable-quartz        don't build the quartz inputlib
+  --enable-lk201          build the lk201 DEC serial terminal inputlib

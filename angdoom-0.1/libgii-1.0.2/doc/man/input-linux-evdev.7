@@ -1,0 +1,26 @@
+.TH "input-linux-evdev" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-linux-evdev\fR : Linux event interface input
+.SH SYNOPSIS
+.nb
+.nf
+input-linux-evdev: [<device>]
+.fi
+
+.SH DESCRIPTION
+Reads events from the Linux event interface (\fB/dev/input/eventX\fR) and
+converts them to LibGII events.
+.SH OPTIONS
+.TP
+\fIdevice\fR
+Specifies the device to use, the default is
+\fB/dev/input/event0\fR.
+
+.PP
+.SH BUGS/TODO
+.IP \(bu 4
+Key repeat messages are not sent, which can annoy users who want
+to use the cursor keys.
+.IP \(bu 4
+Handles setting of keyclick and bell, which can also annoy users.
+.PP

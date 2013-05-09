@@ -1,0 +1,42 @@
+.TH "ggidev-inc_3" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggidev-inc_3\fR, \fBggidev-dec_3\fR, \fBggidev-negate_3\fR, \fBggidev-abs_3\fR : Unary arithmetic triple-int operations
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/internal/triple-int.h>
+
+unsigned *inc_3(unsigned x[3]);
+unsigned *dec_3(unsigned x[3]);
+
+unsigned *negate_3(unsigned x[3]);
+unsigned *abs_3(unsigned x[3]);
+.fi
+
+.SH DESCRIPTION
+\fBinc_3\fR increments \fBx\fR by one. Equivalent to ++x.
+
+\fBdec_3\fR decrements \fBx\fR by one. Equivalent to --x.
+
+\fBnegate_3\fR negates \fBx\fR. Equivalent to x=-x.
+
+\fBabs_3\fR takes the absolute value of \fBx\fR. Equivalent to x=x<0?-x:x.
+.SH RETURN VALUE
+\fBinc_3\fR, \fBdec_3\fR, \fBnegate_3\fR and \fBabs_3\fR all return a pointer
+to \fBx\fR which has been updated in place.
+.SH EXAMPLES
+Some unary arithmetic operations on \fBtriple-ints\fR:
+
+.nb
+.nf
+unsigned x[3];
+
+assign_int_3(x, 44);
+negate_3(x);  /* x is now -44 */
+inc_3(x);     /* x is now -43 */
+abs_3(x);     /* x is now 43 */
+dec_3(x);     /* x is now 42 */
+.fi
+
+.SH SEE ALSO
+\f(CWggidev-triple-int(7)\fR, \f(CWggidev-assign_int_3(3)\fR

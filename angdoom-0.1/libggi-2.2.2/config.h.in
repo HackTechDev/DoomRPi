@@ -1,0 +1,507 @@
+/* config.h.in.  Generated from configure.in by autoheader.  */
+
+/* Support for builtin default renderers */
+#undef BUILTIN_DEFAULT
+
+/* Support for builtin fbdev-accel */
+#undef BUILTIN_DEFAULT_FBDEV_ACCEL
+
+/* Support for builtin default-fbdev-directfb */
+#undef BUILTIN_DEFAULT_FBDEV_DIRECTFB
+
+/* Support for builtin default-kgi-accel */
+#undef BUILTIN_DEFAULT_KGI_ACCEL
+
+/* Support for builtin display targets */
+#undef BUILTIN_DISPLAY
+
+/* Support for builtin display-aa */
+#undef BUILTIN_DISPLAY_AA
+
+/* Support for builtin display-directx */
+#undef BUILTIN_DISPLAY_DIRECTX
+
+/* Support for builtin display-fbdev */
+#undef BUILTIN_DISPLAY_FBDEV
+
+/* Support for builtin display-file */
+#undef BUILTIN_DISPLAY_FILE
+
+/* Support for builtin display-glide */
+#undef BUILTIN_DISPLAY_GLIDE
+
+/* Support for builtin display-ipc */
+#undef BUILTIN_DISPLAY_IPC
+
+/* Support for builtin display-kgi */
+#undef BUILTIN_DISPLAY_KGI
+
+/* Support for builtin display-lcd823 */
+#undef BUILTIN_DISPLAY_LCD823
+
+/* Support for builtin display-libkgi */
+#undef BUILTIN_DISPLAY_LIBKGI
+
+/* Support for builtin display-memory */
+#undef BUILTIN_DISPLAY_MEMORY
+
+/* Support for builtin display-monotext */
+#undef BUILTIN_DISPLAY_MONOTEXT
+
+/* Support for builtin display-multi */
+#undef BUILTIN_DISPLAY_MULTI
+
+/* Support for builtin display-palemu */
+#undef BUILTIN_DISPLAY_PALEMU
+
+/* Support for builtin display-quartz */
+#undef BUILTIN_DISPLAY_QUARTZ
+
+/* Support for builtin display-sub */
+#undef BUILTIN_DISPLAY_SUB
+
+/* Support for builtin display-svgalib */
+#undef BUILTIN_DISPLAY_SVGALIB
+
+/* Support for builtin display-tele */
+#undef BUILTIN_DISPLAY_TELE
+
+/* Support for builtin display-terminfo */
+#undef BUILTIN_DISPLAY_TERMINFO
+
+/* Support for builtin display-tile */
+#undef BUILTIN_DISPLAY_TILE
+
+/* Support for builtin display-trueemu */
+#undef BUILTIN_DISPLAY_TRUEEMU
+
+/* Support for builtin display-vcsa */
+#undef BUILTIN_DISPLAY_VCSA
+
+/* Support for builtin display-vgl */
+#undef BUILTIN_DISPLAY_VGL
+
+/* Support for builtin display-x */
+#undef BUILTIN_DISPLAY_X
+
+/* Support for builtin helper-linvtsw */
+#undef BUILTIN_HELPER_LINVTSW
+
+/* Support for builtin helper-mansync */
+#undef BUILTIN_HELPER_MANSYNC
+
+/* Support for builtin helper-vgagl */
+#undef BUILTIN_HELPER_VGAGL
+
+/* Support for builtin helper-x-dbe */
+#undef BUILTIN_HELPER_X_DBE
+
+/* Support for builtin helper-x-dga */
+#undef BUILTIN_HELPER_X_DGA
+
+/* Support for builtin helper-x-evi */
+#undef BUILTIN_HELPER_X_EVI
+
+/* Support for builtin helper-x-shm */
+#undef BUILTIN_HELPER_X_SHM
+
+/* Support for builtin helper-x-vidmode */
+#undef BUILTIN_HELPER_X_VIDMODE
+
+/* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
+   systems. This function is required for `alloca.c' support on those systems.
+   */
+#undef CRAY_STACKSEG_END
+
+/* Define to 1 if using `alloca.c'. */
+#undef C_ALLOCA
+
+/* Where to look for DirectFB modules */
+#undef DIRECTFB_DRIVER_DIR
+
+/* Defines for SWAR selection */
+#undef DO_SWAR_3DNOW
+
+/* Defines for SWAR selection */
+#undef DO_SWAR_64BITC
+
+/* Defines for SWAR selection */
+#undef DO_SWAR_MMX
+
+/* Defines for SWAR selection */
+#undef DO_SWAR_MVI
+
+/* Defines for SWAR selection */
+#undef DO_SWAR_NONE
+
+/* Defines for SWAR selection */
+#undef DO_SWAR_VIS
+
+/* Tag plus path to config dir */
+#undef GGICONFDIR
+
+/* Name of LibGGI master config file */
+#undef GGICONFFILE
+
+/* Tag to identify path to $ggi_conffile */
+#undef GGIPATHTAG
+
+/* The length of the tag */
+#undef GGITAGLEN
+
+/* Tell libgg to define integer types when building */
+#undef GG_NEED_INTTYPES
+
+/* Define to 1 if you have `alloca', as a function or macro. */
+#undef HAVE_ALLOCA
+
+/* Define to 1 if you have <alloca.h> and it should be used (not on Ultrix).
+   */
+#undef HAVE_ALLOCA_H
+
+/* Define to 1 if you have the <ApplicationServices/ApplicationServices.h>
+   header file. */
+#undef HAVE_APPLICATIONSERVICES_APPLICATIONSERVICES_H
+
+/* Define to 1 if you have the <asm/sharp_ts.h> header file. */
+#undef HAVE_ASM_SHARP_TS_H
+
+/* Define to 1 if you have the `asprintf' function. */
+#undef HAVE_ASPRINTF
+
+/* Define if you have the <curses.h> header file. */
+#undef HAVE_CURSES_H
+
+/* Define to 1 if you have the <ddraw.h> header file. */
+#undef HAVE_DDRAW_H
+
+/* Define if you have <directfb.h> header file */
+#undef HAVE_DIRECTFB_H
+
+/* Define to 1 if you have the <dirent.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_DIRENT_H
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#undef HAVE_DLFCN_H
+
+/* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
+#undef HAVE_DOPRNT
+
+/* Define to 1 if you have the <fcntl.h> header file. */
+#undef HAVE_FCNTL_H
+
+/* Define to 1 if you have the `fork' function. */
+#undef HAVE_FORK
+
+/* Define to 1 if you have the `gethostbyname' function. */
+#undef HAVE_GETHOSTBYNAME
+
+/* Define to 1 if you have the `getopt' function. */
+#undef HAVE_GETOPT
+
+/* Define to 1 if you have the <getopt.h> header file. */
+#undef HAVE_GETOPT_H
+
+/* Define to 1 if you have the `getpagesize' function. */
+#undef HAVE_GETPAGESIZE
+
+/* Define to 1 if you have the `gettimeofday' function. */
+#undef HAVE_GETTIMEOFDAY
+
+/* Define to 1 if you have the <ggi/gii.h> header file. */
+#undef HAVE_GGI_GII_H
+
+/* Define to 1 if you have the <glide/glide.h> header file. */
+#undef HAVE_GLIDE_GLIDE_H
+
+/* Define to 1 if you have the <glide.h> header file. */
+#undef HAVE_GLIDE_H
+
+/* Define to 1 if you have the `herror' function. */
+#undef HAVE_HERROR
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the <kgimon.h> header file. */
+#undef HAVE_KGIMON_H
+
+/* Define to 1 if you have the `kill' function. */
+#undef HAVE_KILL
+
+/* Define to 1 if you have the `c' library (-lc). */
+#undef HAVE_LIBC
+
+/* Define to 1 if you have the <limits.h> header file. */
+#undef HAVE_LIMITS_H
+
+/* Define to 1 if you have the <linux/h3600_ts.h> header file. */
+#undef HAVE_LINUX_H3600_TS_H
+
+/* Define to 1 if you have the <linux/kdev_t.h> header file. */
+#undef HAVE_LINUX_KDEV_T_H
+
+/* Define to 1 if you have the <linux/kd.h> header file. */
+#undef HAVE_LINUX_KD_H
+
+/* Define to 1 if you have the <linux/major.h> header file. */
+#undef HAVE_LINUX_MAJOR_H
+
+/* Define to 1 if you have the <linux/vt.h> header file. */
+#undef HAVE_LINUX_VT_H
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have a working `mmap' system call. */
+#undef HAVE_MMAP
+
+/* Define if you have the <ncurses.h> header file */
+#undef HAVE_NCURSES_H
+
+/* Define if you have the <ncurses/ncurses.h> header file. */
+#undef HAVE_NCURSES_NCURSES_H
+
+/* Define to 1 if you have the <ndir.h> header file, and it defines `DIR'. */
+#undef HAVE_NDIR_H
+
+/* Define to 1 if you have the <netdb.h> header file. */
+#undef HAVE_NETDB_H
+
+/* Define to 1 if you have the <netinet/in.h> header file. */
+#undef HAVE_NETINET_IN_H
+
+/* Define if struct fb_fix_screeninfo has an 'accel' member. */
+#undef HAVE_NEW_FBDEV
+
+/* Define to 1 if you have the `putenv' function. */
+#undef HAVE_PUTENV
+
+/* Define to 1 if you have the `random' function. */
+#undef HAVE_RANDOM
+
+/* Define to 1 if you have the `select' function. */
+#undef HAVE_SELECT
+
+/* Define to 1 if you have the `setenv' function. */
+#undef HAVE_SETENV
+
+/* Define to 1 if you have the <signal.h> header file. */
+#undef HAVE_SIGNAL_H
+
+/* Define to 1 if you have the `sigpending' function. */
+#undef HAVE_SIGPENDING
+
+/* Define to 1 if you have the `snprintf' function. */
+#undef HAVE_SNPRINTF
+
+/* Define if socklen_t type is supported. */
+#undef HAVE_SOCKLEN_T
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the `strcasecmp' function. */
+#undef HAVE_STRCASECMP
+
+/* Define to 1 if you have the `strdup' function. */
+#undef HAVE_STRDUP
+
+/* Define to 1 if you have the `strerror' function. */
+#undef HAVE_STRERROR
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the `strlcat' function. */
+#undef HAVE_STRLCAT
+
+/* Define to 1 if you have the `strlcpy' function. */
+#undef HAVE_STRLCPY
+
+/* Define to 1 if you have the `strncasecmp' function. */
+#undef HAVE_STRNCASECMP
+
+/* Define to 1 if you have the `strncat' function. */
+#undef HAVE_STRNCAT
+
+/* Define to 1 if you have the `strncpy' function. */
+#undef HAVE_STRNCPY
+
+/* Define to 1 if you have the `strtol' function. */
+#undef HAVE_STRTOL
+
+/* Define to 1 if you have the `strtoll' function. */
+#undef HAVE_STRTOLL
+
+/* Define to 1 if you have the `strtoul' function. */
+#undef HAVE_STRTOUL
+
+/* Define to 1 if you have the `strtoull' function. */
+#undef HAVE_STRTOULL
+
+/* Define to 1 if `st_rdev' is member of `struct stat'. */
+#undef HAVE_STRUCT_STAT_ST_RDEV
+
+/* Define to 1 if your `struct stat' has `st_rdev'. Deprecated, use
+   `HAVE_STRUCT_STAT_ST_RDEV' instead. */
+#undef HAVE_ST_RDEV
+
+/* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_SYS_DIR_H
+
+/* Define to 1 if you have the <sys/fbio.h> header file. */
+#undef HAVE_SYS_FBIO_H
+
+/* Define to 1 if you have the <sys/ioctl.h> header file. */
+#undef HAVE_SYS_IOCTL_H
+
+/* Define to 1 if you have the <sys/ipc.h> header file. */
+#undef HAVE_SYS_IPC_H
+
+/* Define to 1 if you have the <sys/kd.h> header file. */
+#undef HAVE_SYS_KD_H
+
+/* Define to 1 if you have the <sys/ndir.h> header file, and it defines `DIR'.
+   */
+#undef HAVE_SYS_NDIR_H
+
+/* Define to 1 if you have the <sys/select.h> header file. */
+#undef HAVE_SYS_SELECT_H
+
+/* Define to 1 if you have the <sys/shm.h> header file. */
+#undef HAVE_SYS_SHM_H
+
+/* Define to 1 if you have the <sys/socket.h> header file. */
+#undef HAVE_SYS_SOCKET_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/times.h> header file. */
+#undef HAVE_SYS_TIMES_H
+
+/* Define to 1 if you have the <sys/time.h> header file. */
+#undef HAVE_SYS_TIME_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <sys/un.h> header file. */
+#undef HAVE_SYS_UN_H
+
+/* Define to 1 if you have the <sys/vt.h> header file. */
+#undef HAVE_SYS_VT_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define if Unix domain sockets are supported. */
+#undef HAVE_UNIX_DOMAIN_SOCKET
+
+/* Define to 1 if you have the <vgl.h> header file. */
+#undef HAVE_VGL_H
+
+/* Define to 1 if you have the `vprintf' function. */
+#undef HAVE_VPRINTF
+
+/* Define to 1 if you have the `vsnprintf' function. */
+#undef HAVE_VSNPRINTF
+
+/* Define to 1 if you have the <windows.h> header file. */
+#undef HAVE_WINDOWS_H
+
+/* Define to 1 if you have the <winsock2.h> header file. */
+#undef HAVE_WINSOCK2_H
+
+/* Define to 1 if you have the <winsock.h> header file. */
+#undef HAVE_WINSOCK_H
+
+/* Define to 1 if you have the <X11/extensions/Xdbe.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XDBE_H
+
+/* Define to 1 if you have the <X11/extensions/XEVI.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XEVI_H
+
+/* Define to 1 if you have the <X11/extensions/xf86dga.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XF86DGA_H
+
+/* Define to 1 if you have the <X11/extensions/xf86vmode.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XF86VMODE_H
+
+/* Define to 1 if you have the <X11/extensions/xf86vmstr.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XF86VMSTR_H
+
+/* Define to 1 if you have the <X11/extensions/XShm.h> header file. */
+#undef HAVE_X11_EXTENSIONS_XSHM_H
+
+/* Define to 1 if you have the `XInitImage' function. */
+#undef HAVE_XINITIMAGE
+
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+   */
+#undef LT_OBJDIR
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define as the return type of signal handlers (`int' or `void'). */
+#undef RETSIGTYPE
+
+/* If using the C implementation of alloca, define if you know the
+   direction of stack growth for your system; otherwise it will be
+   automatically deduced at run-time.
+	STACK_DIRECTION > 0 => grows toward higher addresses
+	STACK_DIRECTION < 0 => grows toward lower addresses
+	STACK_DIRECTION = 0 => direction of growth unknown */
+#undef STACK_DIRECTION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
+#undef TIME_WITH_SYS_TIME
+
+/* Define to 1 if your <sys/time.h> declares `struct tm'. */
+#undef TM_IN_SYS_TIME
+
+/* Define to 1 if the X Window System is missing or not being used. */
+#undef X_DISPLAY_MISSING
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const
+
+/* Define to `__inline__' or `__inline' if that's what the C compiler
+   calls it, or to nothing if 'inline' is not supported under any name.  */
+#ifndef __cplusplus
+#undef inline
+#endif
+
+/* Define to `long' if <sys/types.h> does not define. */
+#undef off_t
+
+/* Define to `int' if <sys/types.h> does not define. */
+#undef pid_t
+
+/* Define to `unsigned' if <sys/types.h> does not define. */
+#undef size_t

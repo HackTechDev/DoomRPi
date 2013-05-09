@@ -1,0 +1,46 @@
+.TH "ggiMapColor" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiMapColor\fR, \fBggiUnmapPixel\fR, \fBggiPackColors\fR, \fBggiUnpackPixels\fR : Convert from ggi_color(s) to ggi_pixel(s) and vice versa
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+
+ggi_pixel ggiMapColor(ggi_visual_t vis, const ggi_color *col);
+
+int ggiUnmapPixel(ggi_visual_t vis, ggi_pixel pixel, ggi_color *col);
+
+int ggiPackColors(ggi_visual_t vis, void *buf, const ggi_color *cols, int len); 
+
+int ggiUnpackPixels(ggi_visual_t vis, const void *buf, ggi_color *cols, int len);
+.fi
+
+.SH DESCRIPTION
+\fBggiMapColor\fR gets the pixelvalue for the given color.
+
+\fBggiUnmapPixel\fR gets the color associated with the given pixelvalue.
+
+\fBggiPackColors\fR converts the colors in \fIcols\fR to pixelvalues in
+\fIbuf\fR.  The output from this function is suitable for input to the
+\fBggiPut{HLine,VLine,Box}\fR functions.
+
+\fBggiUnpackPixels\fR converts the pixelvalues in \fIbuf\fR to individual
+elements of \fIcols\fR.  This function may be used to convert buffers
+output by the \fBggiGet{HLine,VLine,Box}\fR functions from the pixelvalue
+representation to their actual colors as defined by
+\f(CWggi_color(3)\fR.
+
+The buffers output from \fBggiPackColors\fR and the input to
+\fBggiUnpackPixels\fR are in the same format as the get/put buffers. Their
+format is defined in \f(CWggi_pixelformat(3)\fR.
+
+Try to cache the results of color lookups in your application for
+efficiency purposes.
+.SH RETURN VALUE
+\fBggiMapColor\fR returns a \f(CWggi_pixel(3)\fR.
+
+\fBggiUnmapPixel\fR, \fBggiPackColors\fR and \fBggiUnpackPixels\fR returns \fB0\fR
+for OK, otherwise a \f(CWggi-error(3)\fR code.
+.SH SEE ALSO
+\f(CWggiGetPixelFormat(3)\fR, \f(CWggi_color(3)\fR, \f(CWggi_pixelformat(3)\fR

@@ -1,0 +1,44 @@
+.TH "gii_cmddata_getdevinfo" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_cmddata_getdevinfo\fR : GII device capabilities description
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct {
+    char              longname[75];
+    char              shortname[5];
+    gii_event_mask    can_generate;
+    uint32_t          num_button;
+    uint32_t          num_axes;
+} gii_cmddata_getdevinfo;
+.fi
+
+.SH DESCRIPTION
+This structure describe an input device.
+.SH STRUCTURE MEMBERS
+.TP
+\fBlongname\fR
+A human-redable NULL terminated string identifying the device.
+
+.TP
+\fBshortname\fR
+A 4 chars(+null) identifier for the device.
+
+.TP
+\fBcan_generate\fR
+This mask tells what kind of events this device can generate.
+
+.TP
+\fBnum_buttons\fR
+The number of button this device has.  \fBGII_NUM_UNKNOWN\fR
+means that the number of button is not known.
+
+.TP
+\fBnum_axes\fR
+The number of axes this device has.
+
+.PP
+.SH SEE ALSO
+\f(CWgiiQueryDeviceInfo(3)\fR

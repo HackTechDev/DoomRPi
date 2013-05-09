@@ -1,0 +1,40 @@
+File input
+~~~~~~~~~~
+
+.. manpage:: 7 input-file
+
+Synopsis
+--------
+
+::
+
+  input-file: [<file>]
+
+  input-file: |[cmd]
+
+ 
+Description
+-----------
+
+
+Reads and generates events from a file such as one created by
+`filter-save`.
+
+
+Options
+-------
+
+:p:`file`
+    The file events are read from. The standard input is used by
+    default.
+
+:p:`cmd`
+    If the file name starts with a ``|``, it is interpreted as a
+    command which is run. The process stdout is used as input file
+    for `input-file`.
+
+
+See Also
+--------
+
+:man:`filter-save(7)`

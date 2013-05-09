@@ -1,0 +1,73 @@
+Generic key event translator
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 filter-key filter-keytrans
+
+
+Synopsis
+--------
+
+::
+
+  filter-key: [<file>]
+
+  filter-keytrans: [<file>]
+
+
+Description
+-----------
+
+This filter translates key events according to a set of
+translation rules. This can be used to remap a keyboard.
+
+
+Options
+-------
+
+:p:`file`
+    The name of the configuration file. If none given, the filter will
+    first look for the file `filter/keytrans` in the user GGI
+    directory (`$HOME/.ggi/` on UNIX), then in the base GGI directory
+    if not found.
+
+Configuration
+-------------
+
+
+The mapping is specified through a simple text file, each line being a
+translation rule. A line starting with a ``#`` is a comment. Each line
+must contain 10 values in the following order:
+
+modifier_mask
+    Consider only the bits set here.
+
+modifier_value
+    The bits set above must match this value.
+    
+
+button_in, label_in, symbol_in
+    If this is not ``KEY_UNMAPPED==0xffff``, the button/label/symbol
+    of the incoming key must match these fields.
+
+modifier_changemask
+    Change these bits from the original modifiers...
+
+
+modifier_ormask
+    ... set them to these - one shouldn't use that.
+
+button_out, label_out, symbol_out
+    The data that is then sent by the keymapper. Any fields set
+    to ``KEY_UNMAPPED==0xffff`` will be copied from the
+    incoming event.
+
+
+Example
+-------
+
+Mapping a symbol::
+
+  # Take any key that produces a symbol of 0x41 ('A') map it to ESC
+  #
+  # modmsk modval buttin lablin symin  modchg modor  butout labout symout
+  0x0000 0x0000 0xffff 0xffff 0x0041 0x0000 0x0000 0xffff 0xffff 0x001b

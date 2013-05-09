@@ -1,0 +1,86 @@
+.TH "gii_pmove_event" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_pmove_event\fR : LibGII pointer movement events
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct gii_pmove_event {
+
+    COMMON_DATA;
+
+    int32_t  x, y;           /* absolute/relative position   */
+    int32_t  z, wheel;
+
+} gii_pmove_event;
+.fi
+
+.SH DESCRIPTION
+The \fBgii_pmove_event\fR structure is used to report change of pointer
+position. Depending on the event type, the values are either absolute
+or relative.
+.SH GENERATED EVENTS
+This structure is used for \fBevPtrRelative\fR and \fBevPtrAbsolute\fR events.
+.SH STRUCTURE MEMBERS
+The \fBgii_pmove_event\fR structure describes pointer (mice, etc.) motion
+in terms of the \fBx\fR, \fBy\fR, \fBz\fR coordinates and the \fBwheel\fR values of
+the device.  The motion described may be relative (offset from the
+current location) or absolute (a specific location on the 'screen'),
+depending on whether the event is of type \fBevPtrRelative\fR or
+\fBevPtrAbsolute\fR, respectively.
+
+LibGII does not attempt to interpolate or keep track of the \fIcurrent\fR
+pointer position.  (This is the application's responsibility.)  LibGII
+may also report both relative and absolute pointer motion for the same
+input, which may happen when the mouse is being emulated using a
+keyboard on an input/target that is normally reports absolute motion.
+.SH EXAMPLES
+Input handling for applications expecting absolute pointer position:
+
+.nb
+.nf
+{
+    static int mousex,mousey;
+
+    ggiEventPoll(vis, emKey|emPointer, NULL);
+    events = ggiEventsQueued(vis, emKey|emPointer);
+
+    while (events--) {
+        ggiEventRead(vis, &event, emKey|emPointer);
+
+        switch(event.any.type) {
+        case evPtrButtonPress:
+                switch(event.pbutton.button) {
+                case GII_PBUTTON_FIRST:
+                    do_something_as_appropriate(mousex,mousey);
+                    break;
+                case GII_PBUTTON_SECOND:
+                    /* ... */
+                }
+                break;
+        case evPtrButtonRelease:
+            /* ... if needed ... */
+            break;
+        case evPtrAbsolute:
+            mousex = event.pmove.x;
+            mousey = event.pmove.y;
+            break;
+        case evPtrRelative:
+            mousex += event.pmove.x;
+            mousey += event.pmove.y;
+            break;
+        }
+
+        /* Constrain mouse in any case */
+        if (mousex < 0) mousex = 0;
+        if (mousey < 0) mousey = 0;
+        if (mousex > xmax) mousex = xmax;
+        if (mousey > ymax) mousey = ymax;
+
+    } /* while */
+}
+.fi
+
+.SH SEE ALSO
+\f(CWgii_event(3)\fR

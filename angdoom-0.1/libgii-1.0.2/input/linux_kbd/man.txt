@@ -1,0 +1,40 @@
+Linux console keyboard input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-linux-kbd
+
+
+Synopsis
+--------
+
+::
+
+  input-linux-kbd: [<device>]
+
+
+Description
+-----------
+
+`input-linux-kbd` puts the Linux console
+into mediumraw mode and reads keyboard events from it. 
+
+
+Options
+-------
+
+:p:`device`
+    Names the tty to open; the default is `/dev/tty`.
+
+
+Environment variables
+---------------------
+
+`GII_CTRLALT_VTSWITCH`
+    If set, the key combination to switch VTs is
+    ``Ctrl-Alt-Fn``. Otherwise ``Alt-Fn`` is used.
+
+
+Features
+--------
+
+- Generates evKey* events.

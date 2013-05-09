@@ -1,0 +1,220 @@
+.TH "ggRegisterCleanup" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggRegisterCleanup\fR, \fBggUnregisterCleanup\fR, \fBggCleanupForceExit\fR : Cleanup callback facilities
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+typedef void (ggcleanup_func)(void *);
+
+int ggRegisterCleanup(ggcleanup_func *func, void *arg);
+
+int ggUnregisterCleanup(ggcleanup_func *func, void *arg);
+
+void ggCleanupForceExit(void);
+.fi
+
+.SH DESCRIPTION
+\fBggRegisterCleanup\fR registers a callback function ("handler") to be 
+executed when any abnormal or unexpected program termination is 
+imminent. The \fIfunc\fRtion will be called with its \fIarg\fRument.
+
+\fBggUnregisterCleanup\fR cancels a callback installed with
+\fBggRegisterCleanup\fR.  If more than one exactly identical callbacks
+have been installed, the most recently installed one is canceled.
+
+\fBggCleanupForceExit\fR may only be called from within a LibGG cleanup
+handler.  Once \fBggCleanupForceExit\fR is called, \f(CW_exit(2)\fR will 
+be explicitly called after all registered cleanup callbacks have
+completed by \f(CWggExit(3)\fR, assuming there is no error that prevents
+them from completing.  It is not possible to cancel such a request once
+it has been made.
+
+Cleanup functions are executed in LIFO order.  They are guaranteed
+to only be executed once during program termination or during
+\f(CWggExit(3)\fR.
+
+These functions are for emergency use only, and should not be
+used as a substitute to proper memory deallocation routines.
+They should only be used to restore system state that would 
+otherwise be left corrupted after an abnormal program termination, 
+for example, a video-card timing mode or tty mode.  When normal 
+termination occurs, \fBggUnregisterCleanup\fR should be called to 
+systematically remove the emergency callbacks before
+\f(CWggExit(3)\fR or \f(CWexit(3)\fR are called.
+
+Callback functions registered with \fBggRegisterCleanup\fR should not 
+themselves invoke (or invoke any subroutines that may in turn invoke) 
+any of the LibGG locking functions \f(CWggLockCreate(3)\fR,
+\f(CWggLockDestroy(3)\fR, \f(CWggLock(3)\fR, \f(CWggUnlock(3)\fR, or
+\f(CWggTryLock(3)\fR.  However, since callbacks are only invoked
+during emergencies, they should be ignoring locks in general. 
+If a callback function may be used by anything other than LibGG,
+it must also be reentrant.  Callback functions can come at any time,
+so write them with this in mind -- make them minimal and tolerant of
+concurrent access to global read/write data and avoid accessing such
+data in the first place if it is not absolutely necessary.
+
+The callback functions may be called by a normal call to \f(CWggExit(3)\fR.
+As such, it is considered best practice to use \fBggUnregisterCleanup\fR
+to remove cleanups when gracefully deinitializing LibGG or a library 
+that uses LibGG, before \f(CWggExit(3)\fR is called.
+
+\fBggRegisterCleanup\fR and \fBggUnregisterCleanup\fR are threadsafe, however, 
+they are not safe to call from a thread that may be canceled during their
+execution, and they are not guaranteed to be safe to call from 
+LibGG tasks or any other special context such as a signal handler 
+or a asyncronous procedure call.  Above all they should not be called
+from inside a LibGG cleanup handler.
+.SH RETURN VALUE
+\fBggRegisterCleanup\fR returns \fBGGI_OK\fR on success, or one of these error
+codes:
+.IP \(bu 4
+\fBGGI_EUNKNOWN\fR;
+.IP \(bu 4
+\fBGGI_ENOMEM\fR;
+.IP \(bu 4
+\fBGGI_EBUSY\fR.
+.PP
+\fBggUnregisterCleanup\fR returns \fBGGI_OK\fR on success, or one of these
+error codes:
+.IP \(bu 4
+\fBGGI_EBUSY\fR;
+.IP \(bu 4
+\fBGGI_ENOTALLOC\fR;
+.IP \(bu 4
+\fBGGI_ENOMEM\fR.
+.PP
+.SH INTERACTION WITH UNIX SIGNALS
+On UNIX systems the LibGG cleanup facilities install signal handlers
+as per \f(CWsignal(3)\fR or \f(CWsigaction(2)\fR.  It is advisible to
+use LibGG cleanup handlers instead of UNIX signals for the purpose of
+catching fatal signals because they are implemented portably, however,
+this is not always an option when mixing LibGG with other libraries.
+When LibGG must be used with other code that also installs signal
+handlers, consult the following section.
+
+LibGG installs signal handlers for those signals which are normally
+fatal to the program.  The exact set of functions that is caught depends
+on the software platform.  LibGG installs signal handlers when the
+first LibGG cleanup handler is installed.  These may in fact be installed
+in \f(CWggInit(3)\fR as LibGG may use cleanups internally.  The only way
+to be sure that the LibGG signal handlers are installed is to install a 
+cleanup after \f(CWggInit(3)\fR.
+
+By setting any signal handler to \fBSIG_IGN\fR before calling \f(CWggInit(3)\fR,
+the application can force LibGG to ignore the signal, so that cleanups
+are not run when that particular signal is received.  LibGG will 
+also overload any application signal handlers for fatal signals that 
+are present when it installs a signal handler.  Overloaded signal 
+handlers will be run before cleanups are run when the signal occurs.  
+The overloaded signal handler is not guaranteed to be called exactly as it 
+would be by the main application, for example, support for the long form
+of the signal handler prototype available through \f(CWsigaction(2)\fR on
+some systems is not yet implemented, though it may be in the future.
+
+If the system uses the tradition (broken) UNIX signal behavior where
+signal handlers are set to \fBSIG_DFL\fR to 'block' additional occurances,
+this may result in rare instances where signal handlers are reentered.
+Thus the signal handler for a given signal may call the overloaded
+cleanup multiple times before cleanup functions are called.  This will
+also apply to signal handlers that manipulate the signal mask on more
+advanced \f(CWsigaction(2)\fR based systems.
+
+Signals that arrive after that signal which triggers the cleanup callbacks
+may have their handlers run before or during the execution of the cleanups.
+
+After \f(CWggInit(3)\fR and \fBggRegisterCleanup\fR are called, individual
+signals may be overridden by application-specific signal handlers or
+set to \fBSIG_IGN\fR or \fBSIG_DFL\fR.  This will prevent LibGG cleanups from
+being run when the signal occurs.  Within limits, it is also acceptable
+to overload the LibGG signal handler.  However it is not acceptable to
+call the LibGG signal handler with signum equal to any signal on which
+LibGG did not initially install the handler function, and deinitializing
+LibGG while overloading its signal handler may cause undefined bahavior.
+.SH SHORT TUTORIAL ON WRITING DECENT SIGNAL HANDLERS
+LibGG attempts to be tolerant of badly written signal handlers, but
+consistant, correct behavior can only be guaranteed if signal handlers
+are written within the following guidelines.  First, a signal handler
+must be written using sigaction if sigaction is available, or the 
+results may not be perfect.  If sigaction is not available, the proper 
+code for a simple, overloadable signal handler is such:
+
+.nb
+.nf
+lasthandler = signal(signum, SIG_DFL));
+/* do stuff */
+if (lasthandler == SIG_DFL) signal(signum, current_handler);
+else signal(signum, lasthandler);
+.fi
+
+This code looks circumlocuitous but each part is important for 
+maintaining overloadability in a portable fashion.  The signal handler 
+should not reinstall itself unless it detects original UNIX signals 
+are in effect by detecting the automatically installed \fBSIG_DFL\fR, or else 
+it might get called directly, skipping the parent signal handler.  
+Installing \fBSIG_DFL\fR temporarily should be harmless to BSD style signals 
+because the OS is required to block stacked signals through some other 
+mechanism until the signal handler returns.
+
+In order to overload a signal handler, again still dealing with
+the situation where sigaction is not available, the above code can be 
+modified as such:
+
+.nb
+.nf
+lasthandler = signal(signum, SIG_DFL);
+/* do stuff */
+if (had_oldhandler) {
+     signal(signum, lasthandler);
+     oldhandler(signum);
+}
+if (lasthandler == SIG_DFL) signal(signum, current_handler);
+else signal(signum, lasthandler);
+.fi
+
+This is not perfect because it may allow lasthandler to be reentered
+when used on a system with the original UNIX behavior, in the short
+period between when lasthandler is reinstalled and the oldhandler 
+installs \fBSIG_DFL\fR.  However, if the handlers are all reentrant this
+should work fine.  In the BSD behavior, this again is harmless because
+other OS mechanisms prevent reentry.
+
+Systems without sigaction are pretty cretinous and rarer these days,
+however.  When \f(CWsigaction(2)\fR is available we can assume that
+signal handlers do not need to reinstall themselves as per the
+original UNIX \fBSIG_DFL\fR behavior.  As such no special consideration is
+needed to write a proper overloading/overloadable handler, however, in
+order to assure that cleanup functions are only run once even in
+multithreaded, multiprocessor environments, LibGG may need to
+temporarily overload a signal handler which has overloaded LibGG's
+signal handler with a dummy pass-through handler, and as of this
+writing LibGG's behavior when the signal mask is altered is not yet
+specified and should be considered undefined.
+
+Measures are taken within LibGG to limit the impact of interaction
+with badly written signal handlers that reinstall their own handler
+when it is not needed or desired, however it is recommended that 
+libraries that use such handlers be updated to use better code 
+when compiled on more modern systems.
+
+One last note on stacking signal handlers: When writing for an
+environment where different libraries may overload signals, all
+libraries must prevent loops from forming.  It is not sufficient 
+that they simply check that they never overload their own signal
+handler, because another library may have overloaded it already,
+and thus you may have handler A calling handler B calling handler
+A which then calls handler B again.  Libraries must keep track
+of whether their signal handlers are installed or not through 
+other means.
+.SH FALLBACK MODE
+LibGG expects some sort of signal-like system to be present in
+the environment, otherwise there is no way to implement the behavior
+described above.  When LibGG is compiled on a system that has no
+such support, a fallback mode is invoked where cleanup handlers
+are registered with the \f(CWatexit(3)\fR facility, or anything it may
+have that is like \f(CWatexit(3)\fR.  It may not be possible to unregister
+cleanups supported in such a way, and they will always run at
+normal program exit, even after LibGG is exited.  There is no way 
+for them to run during abnormal termination.

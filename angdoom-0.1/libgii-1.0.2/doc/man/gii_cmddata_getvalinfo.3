@@ -1,0 +1,121 @@
+.TH "gii_cmddata_getvalinfo" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_cmddata_getvalinfo\fR, \fBgii_phystype\fR, \fBgii_valrange\fR : GII valuators description
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct gii_valrange {
+    int32_t           min, center, max;
+} gii_valrange;
+
+typedef struct {
+    uint32_t          number;
+    char              longname[75];
+    char              shortname[5];
+    gii_valrange      range;
+    gii_phystype      phystype;
+    int32_t           SI_add,SI_mul,SI_div,SI_shift;
+} gii_cmddata_getvalinfo;
+.fi
+
+.SH DESCRIPTION
+This structure is used to describe the values reported by a specific
+valuator.
+.SH STRUCTURE MEMBERS
+\fBgii_cmddata_getvalinfo\fR fields are defined as follow:
+.TP
+\fBnumber\fR
+Number of the queried valuator.
+
+.TP
+\fBlongname\fR
+A human-redable NULL terminated string identifying the valuator.
+
+.TP
+\fBshortname\fR
+A NULL terminated abbreviated name for this valuator.
+
+.TP
+\fBrange\fR
+Contains the minimum, center and maximum values for this
+valuator. Note that this range may change on some devices due to
+calibration, but it is usually not expected that a device
+recalibrates while in use. You should react gracefully to values
+received from the valuator that are outside the specified range,
+though.
+
+.TP
+\fBphystype\fR
+Gives the physical quantity the device measures. The idea is to
+report the thing the user actually controls. I.e. a Joystick
+actually measures resistance, but should report \fBGII_PT_ANGLE\fR or
+\fBGII_PT_FORCE\fR, as that is what the user does to the stick and
+what results in the changed resistance.
+
+.TP
+\fBSI_add\fR, \fBSI_mul\fR, \fBSI_div\fR, \fBSI_shift\fR
+Using these values, it is possible to give calibration data to
+the application or to compute the actual floating point value (in
+the unit expressed in \fBphystype\fR) reported by the valuator with
+the following formula:
+
+.nb
+.nf
+(float)(SI_add + value) * (float)SI_mul / (float)SI_div * pow(2.0, SI_shift);
+.fi
+
+
+.PP
+.SH PHYSICAL UNITS
+The following physical units are defined for \fBgii_phystype\fR:
+.IP \(bu 4
+\fBGII_PT_UNKNOWN\fR         : unknown
+.IP \(bu 4
+\fBGII_PT_TIME\fR            : base unit s (second)
+.IP \(bu 4
+\fBGII_PT_FREQUENCY\fR       : base unit 1/s (Hz)
+.IP \(bu 4
+\fBGII_PT_LENGTH\fR          : base unit m (meter)
+.IP \(bu 4
+\fBGII_PT_VELOCITY\fR        : base unit m/s
+.IP \(bu 4
+\fBGII_PT_ACCELERATION\fR    : base unit m/s^2
+.IP \(bu 4
+\fBGII_PT_ANGLE\fR           : base unit radian
+.IP \(bu 4
+\fBGII_PT_ANGVELOCITY\fR     : base unit radian/s
+.IP \(bu 4
+\fBGII_PT_ANGACCELERATION\fR : base unit radian/s^2
+.IP \(bu 4
+\fBGII_PT_AREA\fR            : base unit m^2
+.IP \(bu 4
+\fBGII_PT_VOLUME\fR          : base unit m^3
+.IP \(bu 4
+\fBGII_PT_MASS\fR            : base unit kg
+.IP \(bu 4
+\fBGII_PT_FORCE\fR           : base unit N (kg*m/s^2)
+.IP \(bu 4
+\fBGII_PT_PRESSURE\fR        : base unit N/m^2 (Pa)
+.IP \(bu 4
+\fBGII_PT_TORQUE\fR          : base unit Nm
+.IP \(bu 4
+\fBGII_PT_ENERGY\fR          : base unit Nm, VAs, J
+.IP \(bu 4
+\fBGII_PT_POWER\fR           : base unit Nm/s, VA, W
+.IP \(bu 4
+\fBGII_PT_TEMPERATURE\fR     : base unit K
+.IP \(bu 4
+\fBGII_PT_CURRENT\fR         : base unit A
+.IP \(bu 4
+\fBGII_PT_VOLTAGE\fR         : base unit V (kg*m^2/(As^3))
+.IP \(bu 4
+\fBGII_PT_RESISTANCE\fR      : base unit V/A (Ohm)
+.IP \(bu 4
+\fBGII_PT_CAPACITY\fR        : base unit As/V (Farad)
+.IP \(bu 4
+\fBGII_PT_INDUCTIVITY\fR     : base unit Vs/A (Henry)
+.PP
+.SH SEE ALSO
+\f(CWgiiQueryValInfo(3)\fR

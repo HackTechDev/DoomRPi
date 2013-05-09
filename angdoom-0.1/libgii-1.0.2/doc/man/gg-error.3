@@ -1,0 +1,56 @@
+.TH "gg-error" 3 "2005-07-29" "libgg-1.0.x" GGI
+.SH NAME
+\fBgg-error\fR, \fBgii-error\fR, \fBggi-error\fR : GGI error definitions
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/errors.h>
+.fi
+
+.SH DESCRIPTION
+GGI return code policy is usually (unless otherwise noted):
+
+.nb
+.nf
+== 0 on normal completion
+ > 0 when giving additional hints or returning positiv integer data
+ < 0 for errors
+.fi
+
+GGI error codes are of the form GGI_* and are guaranteed to be
+negative (except GGI_OK of course, which is guaranteed to be zero).
+
+The following error codes are defined:
+
+.nb
+.nf
+GGI_OK                  0     /* All is well */
+
+GGI_ENOMEM            -20     /* Out of memory */
+GGI_ENOFILE           -21     /* File does not exist */
+GGI_ENODEVICE         -22     /* Input/Output device can not be opened */
+GGI_EARGREQ           -23     /* Required argument missing */
+GGI_EARGINVAL         -24     /* Invalid argument(s) */
+GGI_ENOTALLOC         -25     /* Trying to use or deallocate a resource that
+                                 was not previously allocated */
+GGI_EFATAL            -26     /* Fatal error - the state of the target of
+                                 the operation is undefined */
+GGI_EBADFILE          -27     /* Error reading (config) file */
+GGI_ENOSPACE          -28     /* Out of space / range */
+GGI_ENOFUNC           -29     /* Function not implemented */
+GGI_EBUSY             -30     /* Object is busy */
+GGI_ENOTFOUND         -31     /* The requested object was not found */
+GGI_EEXCLUSIVE        -32     /* Tried to get non-exclusive access to object
+                                 which only supports exclusive access */
+GGI_ENOMATCH          -33     /* No matching entry found */
+
+GGI_EEVUNKNOWN        -40     /* Unknown event sent to or received from
+                                 input source */
+GGI_EEVNOTARGET       -41     /* No apropriate target for for sent event */
+GGI_EEVOVERFLOW       -42     /* Overflow when queuing event */
+
+GGI_EUNKNOWN          -99     /* Unknown error */
+.fi
+
+The values -1 to -19 are reserved for extensions. See their error manpage
+for the details.

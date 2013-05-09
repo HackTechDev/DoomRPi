@@ -1,0 +1,38 @@
+TCP/IP event repeater
+~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 filter-tcp
+
+Synopsis
+--------
+
+::
+
+  filter-tcp: <host>:<port>
+
+
+Description
+-----------
+
+This filter send all events on a TCP socket.
+
+
+Options
+-------
+
+:p:`host`
+    The name of the host to connect to. If it is set to
+    ``listen``, the filter will instead wait for a
+    TCP connection.
+
+:p:`port`
+    The port number to connect to on the remote host. If the
+    filter is waiting for a connection, this is the port number on
+    which it listens.
+
+
+See Also
+--------
+
+:man:`input-tcp(7)`
+

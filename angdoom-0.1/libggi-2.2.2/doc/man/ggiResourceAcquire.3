@@ -1,0 +1,61 @@
+.TH "ggiResourceAcquire" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiResourceAcquire\fR, \fBggiResourceRelease\fR, \fBggiResourceMustAcquire\fR : Acquire and release a LibGGI resource
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiResourceAcquire(ggi_resource_t res, uint32_t actype);
+
+int ggiResourceRelease(ggi_resource_t res);
+
+int ggiResourceMustAcquire(ggi_resource_t res);
+.fi
+
+.SH DESCRIPTION
+\fBggiResourceAcquire\fR acquires (locks) a LibGGI resource, typically a
+DirectBuffer (see examples below).  The \fIactype\fR indicates the
+desired access type for the operation.  The following flags may be
+bitwise-or'ed together:
+.TP
+\fBGGI_ACTYPE_READ\fR
+read access to the resource
+
+.TP
+\fBGGI_ACTYPE_WRITE\fR
+write access to the resource
+
+.PP
+\fBggiResourceRelease\fR releases (unlocks) an already-acquired resource.
+
+\fBggiResourceMustAcquire\fR determines whether or not the specified
+resource needs to be acquired before using.
+.SH RETURN VALUE
+\fBggiResourceAcquire\fR and \fBggiResourceRelease\fR return \fB0\fR on success,
+an \f(CWggi-error(3)\fR code on failure.
+
+\fBggiResourceMustAcquire\fR is simply a macro that returns true if the
+resource must be explicitly acquired and released, or false if not.
+However, it is still safe to call \fBggiResourceAcquire\fR or
+\fBggiResourceRelease\fR even in the latter case; it would be a no-op.
+.SH EXAMPLES
+Using DirectBuffers:
+
+.nb
+.nf
+const ggi_directbuffer *dbuf;
+
+/* Acquire DirectBuffer before we use it. */
+if (ggiResourceAcquire(dbuf->resource, GGI_ACTYPE_WRITE) != 0) {
+      fail("Error acquiring DirectBuffer\en");
+}
+
+/* Do framebuffer rendering here... */
+
+/* Release DirectBuffer when done with it. */
+ggiResourceRelease(dbuf->resource);
+.fi
+
+.SH SEE ALSO
+\f(CWggi_directbuffer(3)\fR

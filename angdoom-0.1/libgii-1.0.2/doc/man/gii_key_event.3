@@ -1,0 +1,145 @@
+.TH "gii_key_event" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_key_event\fR : LibGII key events
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct gii_key_event {
+
+    COMMON_DATA;
+    
+    uint32_t  modifiers;
+    uint32_t  sym;
+    uint32_t  label;
+    uint32_t  button;
+
+} gii_key_event;
+.fi
+
+.SH DESCRIPTION
+The \fBgii_key_event\fR structure represents key/button events from
+keyboards and other devices.
+.SH GENERATED EVENTS
+.TP
+\fBevKeyPress\fR
+The key specified in the structure is pressed. Not
+repeatedly produced while holding down the key.
+
+.TP
+\fBevKeyRelease\fR
+A key specified in the structure is released.
+
+.TP
+\fBevKeyRepeat\fR
+Makes sense when dealing with character input. A key is being
+held down and the character should be processed at intervals
+when the key is held down.
+
+The key repeat rate and the delay before repeat is unspecified
+and depends on the user's environment.
+
+.PP
+.SH STRUCTURE MEMBERS
+.TP
+\fBmodifiers\fR
+Result of bitwise-or of the following flags, indicating certain shift
+states:
+.RS
+.IP \(bu 4
+\fBGII_MOD_SHIFT\fR
+.IP \(bu 4
+\fBGII_MOD_CTRL\fR
+.IP \(bu 4
+\fBGII_MOD_ALT\fR
+.IP \(bu 4
+\fBGII_MOD_META\fR
+.IP \(bu 4
+\fBGII_MOD_SUPER\fR
+.IP \(bu 4
+\fBGII_MOD_HYPER\fR
+.IP \(bu 4
+\fBGII_MOD_ALTGR\fR
+.IP \(bu 4
+\fBGII_MOD_CAPS\fR
+.IP \(bu 4
+\fBGII_MOD_NUM\fR
+.IP \(bu 4
+\fBGII_MOD_SCROLL\fR
+.PP
+
+.RE
+.TP
+\fBsym\fR
+The \fIsymbol\fR of the key, which is the resultant character produced
+by the key. This is roughly a transformation of the \fBlabel\fR with
+the current \fBmodifiers\fR. It also depends on the user's key
+configuration.
+
+.TP
+\fBlabel\fR
+The actual label visible on the key in question.  This is either
+the symbol produced when there are no modifiers or it is the \fImost
+prominent\fR symbol on that key.  For example:
+.RS
+.IP \(bu 4
+The numeric keys on top of the letter keys on a standard PC
+keyboard have \fBlabel\fR values which are the digit characters in
+ASCII.
+.IP \(bu 4
+The English letter keys on a keyboard are represented by \f(CWA\fR
+through \f(CWZ\fR in \fBlabel\fR. Although in their unshifted state
+these keys produce lowercase letters, the keycaps are printed
+with uppercase by convention, so this is what LibGII returns.
+.PP
+\fBlabel\fR can be used as a generalized, portable keycode or scancode
+of the key (That is, if the documentation for an applications says
+that something is is mapped to key \f(CWy\fR, it is, even for German
+keyboard, where \f(CWy\fR and \f(CWz\fR are swapped)
+
+.RE
+.TP
+\fBbutton\fR
+The button number distinguishing between the different buttons on
+the device.  For example, on a keyboard it is a number from 0 to
+127 (i.e. a scancode), on a joystick it might be 1 to 4, and on a
+spaceorb it will be 1 to 8.
+
+.PP
+If an application is interested in what physical keys are pressed and
+released (most games for example), read the \fBlabel\fR field. Usually the
+modifiers in effect are irrelevant for these applications (however,
+for non-alphanumeric symbols like \f(CW+\fR and \f(CW-\fR, it is wise to check
+the \fBsym\fR field instead of \fBlabel\fR as they are accessed using shifts
+on some keyboard configurations).
+
+If an application wants a stream of characters (for text input), it
+should read the \fBsym\fR field.
+.SH GGI KEYSYM SYSTEM
+In GGI, key values are defined in \fBggi/keyboard.h\fR. They are basically
+Unicode characters with some extensions:
+
+Keys which are not represented by codepoints in the Unicode standard
+(such as the numeric keypad keys) are assigned codepoints in the
+private range. Applications should use the \fBGIIK_\fR #defines for
+representing these keys.  These codepoints are used in \fBlabel\fR, but
+they can also occur in \fBsym\fR when the symbol is not any character
+(e.g. arrow keys, function keys).
+
+The \fBGIIUC_\fR #defines represent normal Unicode characters. The
+#defines are interchangeable with their corresponding codepoint
+scalars and their use is optional. However, it is recommended to use
+them for the symbols \fBGIIUC_BackSpace\fR, \fBGIIUC_Return\fR, \fBGIIUC_Escape\fR
+and \fBGIIUC_Delete\fR.
+.RS
+\fBImportant:\fR
+In the LibGII system, no key is guaranteed to exist; the key
+values are for identification only.  Particularly, applications
+should \fBnot\fR rely on their presence.  Also, because not all
+keyboards are configured in the same way, applications are
+encouraged to allow user configuration of the keys used and not
+hard-code their values.
+.RE
+.SH SEE ALSO
+\f(CWgii_event(3)\fR

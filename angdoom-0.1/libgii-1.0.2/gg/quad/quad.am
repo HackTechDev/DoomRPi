@@ -1,0 +1,18 @@
+quad_dir = ${srcdir}/quad
+
+
+quad_src = ${quad_dir}/adddi3.c ${quad_dir}/anddi3.c	\
+	${quad_dir}/ashldi3.c ${quad_dir}/ashrdi3.c	\
+	${quad_dir}/cmpdi2.c ${quad_dir}/divdi3.c	\
+	${quad_dir}/fixdfdi.c ${quad_dir}/fixsfdi.c	\
+	${quad_dir}/fixunsdfdi.c ${quad_dir}/fixunssfdi.c \
+	${quad_dir}/floatdidf.c ${quad_dir}/floatdisf.c	\
+	${quad_dir}/floatunsdidf.c ${quad_dir}/iordi3.c	\
+	${quad_dir}/lshldi3.c ${quad_dir}/lshrdi3.c	\
+	${quad_dir}/moddi3.c ${quad_dir}/muldi3.c	\
+	${quad_dir}/negdi2.c ${quad_dir}/notdi2.c	\
+	${quad_dir}/qdivrem.c ${quad_dir}/subdi3.c	\
+	${quad_dir}/ucmpdi2.c ${quad_dir}/udivdi3.c	\
+	${quad_dir}/umoddi3.c ${quad_dir}/xordi3.c
+
+EXTRA_DIST += ${quad_dir}/quad.h

@@ -1,0 +1,36 @@
+.TH "giiQueryDeviceInfo" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiQueryDeviceInfo\fR, \fBgiiQueryDeviceInfoByNumber\fR : Get information about input sources
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>`
+
+int giiQueryDeviceInfo (gii_input_t inp, uint32_t origin,
+                        gii_cmddata_getdevinfo *info);
+
+int giiQueryDeviceInfoByNumber(gii_input_t inp, uint32_t number,
+                               uint32_t *origin, gii_cmddata_getdevinfo *info);
+.fi
+
+.SH DESCRIPTION
+Though when using GII inputs the exact type of device is fully
+transparent to the program, information about the device that is
+actually attached to a given gii input and origin id can be queried,
+e.g. for configuration interfaces.
+
+For \fBgiiQueryDeviceInfo\fR the parameters \fIinp\fR and \fIorigin\fR
+select the input to query. This version is usually used, if you want
+to identify a device after getting an event from it.
+
+For \fBgiiQueryDeviceInfoByNumber\fR the parameters \fIinp\fR and
+\fInumber\fR select the input to query - \fIorigin\fR gets set to the
+origin ID the queried device has. This version is used, when you want
+to query all known devices.
+
+The queried data is put into \fIinfo\fR.  See
+\f(CWgii_cmddata_getdevinfo(3)\fR for the description of the structure.
+.SH RETURN VALUE
+Returns \fB0\fR on success (info is valid, then) or \fB-1\fR otherwise.
+.SH SEE ALSO
+\f(CWgiiQueryValInfo(3)\fR

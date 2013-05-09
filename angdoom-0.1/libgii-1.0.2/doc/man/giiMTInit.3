@@ -1,0 +1,25 @@
+.TH "giiMTInit" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiMTInit\fR : Make LibGII thread-safe
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+int giiMTInit(void);
+.fi
+
+.SH DESCRIPTION
+\fBgiiMTInit\fR sets up LibGII so that it is fully thread-safe. This
+allows the application to call LibGII functions (on the same input)
+without doing its own locking. This will enable extra checks and locks
+that are off by default to avoid overhead.
+
+This function does not replace \fBgiiInit(3)\fR, which must still be called
+at least once.
+.SH RETURN VALUE
+\fBgiiMTInit\fR returns \fB0\fR on successful execution.
+.SH KNOWN BUGS
+This function has not been well tested.
+.SH SEE ALSO
+\f(CWgiiInit(3)\fR

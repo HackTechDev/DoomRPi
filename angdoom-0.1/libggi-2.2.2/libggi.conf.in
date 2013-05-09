@@ -1,0 +1,184 @@
+# Mapping file for suggest-strings to libraries
+.root: @ggi_sysconfdir_to_libdir@
+#
+# suggest_name			library_name			versions
+# ------------			--------------------------	--------
+# Displays
+display-aa			display/aa.@DLLEXT@
+display-auto			display/auto.@DLLEXT@
+display-directx			display/directx.@DLLEXT@
+display-file			display/file.@DLLEXT@
+display-fbdev			display/fbdev.@DLLEXT@
+display-glide			display/glide.@DLLEXT@
+display-kgi			display/kgi.@DLLEXT@
+display-ipc			display/ipc.@DLLEXT@
+display-lcd823			display/lcd823.@DLLEXT@
+display-libkgi			display/kgilib.@DLLEXT@
+display-memory			display/memory.@DLLEXT@
+display-monotext		display/monotext.@DLLEXT@
+display-multi			display/multi.@DLLEXT@
+display-palemu			display/palemu.@DLLEXT@
+display-quartz			display/quartz.@DLLEXT@
+display-sub			display/sub.@DLLEXT@
+display-suidkgi			display/suidkgi.@DLLEXT@
+display-svga			display/svgalib.@DLLEXT@
+display-svgalib			display/svgalib.@DLLEXT@
+display-terminfo		display/terminfo.@DLLEXT@
+display-tele			display/tele.@DLLEXT@
+display-tile			display/tile.@DLLEXT@
+display-trueemu			display/trueemu.@DLLEXT@
+display-vcsa			display/vcsa.@DLLEXT@
+helper-vgagl			display/vgagl.@DLLEXT@
+display-vgl			display/vgl.@DLLEXT@
+display-wsfb			display/wsfb.@DLLEXT@
+display-x			display/X.@DLLEXT@
+alias	display-dga		display-x:-fullscreen
+alias	display-xf86dga		display-dga
+helper-x-evi			helper/helper_x_evi.@DLLEXT@
+helper-x-dbe			helper/helper_x_dbe.@DLLEXT@
+helper-x-dga			helper/helper_x_dga.@DLLEXT@
+helper-x-shm			helper/helper_x_shm.@DLLEXT@
+helper-x-vidmode		helper/helper_x_vidmode.@DLLEXT@
+helper-mansync			display/mansync.@DLLEXT@
+helper-linux-vtswitch		display/linvtsw.@DLLEXT@
+
+# Display abbreviations
+alias	aa		display-aa
+alias	auto		display-auto
+alias	directx		display-directx
+alias	dga		display-dga
+alias	xf86dga		display-xf86dga
+alias	file		display-file
+alias	fbdev		display-fbdev
+alias	glide		display-glide
+alias	kgi		display-kgi
+alias	ipc		display-ipc
+alias	lcd823		display-lcd823
+alias	libkgi		display-libkgi
+alias	memory		display-memory
+alias	monotext	display-monotext
+alias	multi		display-multi
+alias	palemu		display-palemu
+alias	quartz		display-quartz
+alias	sub		display-sub
+alias	suidkgi		display-suidkgi
+alias	svga		display-svga
+alias	terminfo	display-terminfo
+alias	tele		display-tele
+alias	tile		display-tile
+alias	trueemu		display-trueemu
+alias	vcsa		display-vcsa
+alias	vgl		display-vgl
+alias	wsfb		display-wsfb
+alias	x		display-x
+
+# Stubs library - generic drawing code goes here
+generic-stubs			default/stubs.@DLLEXT@
+
+# Stubs library - code for pseudo targets goes here
+generic-pseudo-stubs		default/pseudo_stubs.@DLLEXT@
+
+# Color library
+generic-color			default/color.@DLLEXT@
+
+# Linear framebuffers
+generic-text-16			default/text_16.@DLLEXT@
+generic-text-32			default/text_32.@DLLEXT@
+
+generic-linear-1 		default/linear_1.@DLLEXT@
+generic-linear-1-r 		default/linear_1_r.@DLLEXT@
+generic-linear-2 		default/linear_2.@DLLEXT@
+generic-linear-4 		default/linear_4.@DLLEXT@
+generic-linear-4-r 		default/linear_4_r.@DLLEXT@
+generic-linear-8 		default/linear_8.@DLLEXT@
+generic-linear-16 		default/linear_16.@DLLEXT@
+generic-linear-24 		default/linear_24.@DLLEXT@
+generic-linear-32 		default/linear_32.@DLLEXT@
+generic-linmm-banked		default/linmm_banked.@DLLEXT@
+
+# Planar framebuffers
+generic-planar			default/planar.@DLLEXT@
+generic-ilbm			default/ilbm.@DLLEXT@
+generic-iplanar-2p		default/iplanar_2p.@DLLEXT@
+
+# Ramdac support via IOCTL
+generic-ramdac			default/ramdac.@DLLEXT@
+# MMIO ping-pong commands
+generic-mmio 			default/mmio.@DLLEXT@
+# IOCTL interface
+generic-ioctl 			default/ioctl.@DLLEXT@
+
+# Fbdev accels
+.include @ggi_sysconfdir@/targets/fbdev.conf
+
+# KGI accels
+.include @ggi_sysconfdir@/targets/kgi.conf
+
+# temporary directive to load LibBuf storage/renderers.
+.include @ggi_sysconfdir@/libggibuf.conf
+
+
+#
+# Builtins
+#
+generic-color		/@libggi:GGIdl_color
+
+generic-planar		/@libggi:GGIdl_planar
+generic-ilbm		/@libggi:GGIdl_ilbm
+generic-iplanar-2p	/@libggi:GGIdl_iplanar_2p
+
+generic-pseudo-stubs	/@libggi:GGIdl_pseudo_stubs
+generic-stubs		/@libggi:GGIdl_stubs
+
+generic-linear-1	/@libggi:GGIdl_linear_1
+generic-linear-1-r	/@libggi:GGIdl_linear_1_r
+generic-linear-2	/@libggi:GGIdl_linear_2
+generic-linear-4	/@libggi:GGIdl_linear_4
+generic-linear-4-r	/@libggi:GGIdl_linear_4_r
+generic-linear-8	/@libggi:GGIdl_linear_8
+generic-linear-16	/@libggi:GGIdl_linear_16
+generic-linear-24	/@libggi:GGIdl_linear_24
+generic-linear-32	/@libggi:GGIdl_linear_32
+generic-linmm-banked	/@libggi:GGIdl_linmm_banked
+
+generic-text-16		/@libggi:GGIdl_text_16
+generic-text-32		/@libggi:GGIdl_text_32
+
+generic-ramdac		/@libggi:GGIdl_ramdac
+generic-ioctl		/@libggi:GGIdl_ioctl
+
+display-aa		/@libggi:GGIdl_aa
+display-auto		/@libggi:GGIdl_auto
+display-directx		/@libggi:GGIdl_directx
+display-fbdev		/@libggi:GGIdl_fbdev
+display-file		/@libggi:GGIdl_file
+display-glide		/@libggi:GGIdl_glide
+display-ipc		/@libggi:GGIdl_ipc
+display-kgi		/@libggi:GGIdl_kgi
+display-lcd823		/@libggi:GGIdl_lcd823
+display-libkgi		/@libggi:GGIdl_libkgi
+display-memory		/@libggi:GGIdl_memory
+display-monotext	/@libggi:GGIdl_monotext
+display-multi		/@libggi:GGIdl_multi
+display-palemu		/@libggi:GGIdl_palemu
+display-quartz		/@libggi:GGIdl_quartz
+display-sub		/@libggi:GGIdl_sub
+display-suidkgi		/@libggi:GGIdl_suidkgi
+display-svgalib		/@libggi:GGIdl_svgalib
+display-tele		/@libggi:GGIdl_tele
+display-terminfo	/@libggi:GGIdl_terminfo
+display-tile		/@libggi:GGIdl_tile
+display-trueemu		/@libggi:GGIdl_trueemu
+display-vcsa		/@libggi:GGIdl_vcsa
+helper-vgagl		/@libggi:GGIdl_vgagl
+display-vgl		/@libggi:GGIdl_vgl
+display-wsfb		/@libggi:GGIdl_wsfb
+display-x		/@libggi:GGIdl_X
+helper-x-dbe		/@libggi:GGIdl_helper_x_dbe
+helper-x-dga		/@libggi:GGIdl_helper_x_dga
+helper-x-evi		/@libggi:GGIdl_helper_x_evi
+helper-x-shm		/@libggi:GGIdl_helper_x_shm
+helper-x-vidmode	/@libggi:GGIdl_helper_x_vidmode
+helper-linux-vtswitch	/@libggi:GGIdl_linvtsw
+helper-mansync		/@libggi:GGIdl_mansync
+

@@ -1,0 +1,63 @@
+.TH "input-lk201" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-lk201\fR : LK201/LK401 keyboard input
+.SH SYNOPSIS
+.nb
+.nf
+input-lk201: [<file>]
+.fi
+
+.SH DESCRIPTION
+The lk201 and lk401 devices are keyboards made by Digital Equipment
+Corporation for some of there older micro computer systems and
+terminals.
+
+They connect via a 4 pin RJ connector, which carries 11.8V (+/- 6%),
+GND, and two bidirectional async RS423 (RS232 Compatible) serial
+lines, which are Receive and Transmit.  The pins are as follows
+(looking on to the male (lk201 side) connector):
+
+.nb
+.nf
+ -------------------
+| "    "    "    "  |
+| L    V    G    D  |
+| K    +    N    E  |
+| ->        D    C  |
+| D             ->  |
+| E              L  |
+| C              K  |
+ --               --
+   |             |
+    --         --
+      |       |
+       -------
+.fi
+
+.SH OPTIONS
+.TP
+\fIfile\fR
+Specifies the serial port device to use (e.g. \fB/dev/ttyS1\fR).  If
+this argument is not specified as part of the input's arguments,
+then the device named in the environment variable
+\fBGII_LK201_OPTIONS\fR is used.
+
+.PP
+.SH ENVIRONMENT VARIABLES
+.TP
+\fBGII_LK201_OPTIONS\fR
+File name of serial port.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+Generates evKey* events.
+.PP
+.SH KNOWN BUGS
+.IP \(bu 4
+key repeat messages are not sent, which can annoy users who want
+to use the cursor keys.
+.IP \(bu 4
+Handle setting of keyclick and bell, which can also annoy
+users.
+.PP

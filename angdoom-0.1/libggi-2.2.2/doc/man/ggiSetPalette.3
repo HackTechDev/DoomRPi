@@ -1,0 +1,39 @@
+.TH "ggiSetPalette" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiSetPalette\fR, \fBggiGetPalette\fR : Manipulate the palette of a visual
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiSetPalette(ggi_visual_t vis, int s, int len, const ggi_color *cmap);
+
+int ggiGetPalette(ggi_visual_t vis, int s, int len, ggi_color *cmap);
+.fi
+
+.SH DESCRIPTION
+LibGGI visuals in \fBGT_PALETTE\fR mode map all pixelvalues to the
+corresponding \fBggi_color(3)\fR entry in the visual's palette.
+
+\fBggiSetPalette\fR sets a range of palette values of length \fIlen\fR,
+starting at index number \fIs\fR.  The index can be
+\fBGGI_PALETTE_DONTCARE\fR to indicate that the palette can be
+installed anywhere in the CLUT.  This allows optimized use in
+windowing environments (to minimize color flashing between windows)
+and should be used if possible.
+
+\fBggiGetPalette\fR copies the specified colors (starting from \fIs\fR, for
+\fIlen\fR colors) from the visual's palette to the array pointed by
+\fIcmap\fR.
+.SH RETURN VALUE
+\fBggiSetPalette\fR returns the number of the first entry changed.
+\fB<0\fR indicate a \f(CWggi-error(3)\fR.
+
+\fBggiGetPalette\fR returns \fB0\fR for OK, otherwise a \f(CWggi-error(3)\fR
+code. When called with len=0 this function will not automatically
+succeed, but the return code will indicate whether there is a
+readable CLUT.
+.SH PALETTE IN GGI
+Write something useful here.
+.SH SEE ALSO
+\f(CWggiSetColorfulPalette(3)\fR

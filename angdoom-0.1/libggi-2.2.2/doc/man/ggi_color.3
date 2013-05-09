@@ -1,0 +1,51 @@
+.TH "ggi_color" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggi_color\fR, \fBggi_pixel\fR : LibGGI color description
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+typedef struct { uint16_t r,g,b,a; }   ggi_color;
+
+typedef uint32_t   ggi_pixel;
+.fi
+
+.SH DESCRIPTION
+Colors in ggi are described generically through the display-independent
+\fBggi_color\fR structure. 16 bit channels are used to ensure sufficient
+precision on most displays.
+
+\fBggi_pixel\fRs are display-dependent pixel values.  They are used by all
+GGI drawing primitives for efficiency.  Use \f(CWggiMapColor(3)\fR to
+convert ggi_colors to ggi_pixels.
+.SH STRUCTURE MEMBERS
+\fBr\fR, \fBg\fR and \fBb\fR correspond to the red, green and blue channels.
+Since libggi does not deal with alpha compositing, the
+\fBa\fR (alpha) field is mainly there for padding and it is not used by
+libggi. Setting this value has no effect in libggi itself, and it will
+most probably not be unmapped correctly from \fBggi_pixel\fRs. However,
+some extensions might make use of it, in which case you should refer
+to their documentation.
+
+\fBggi_pixel\fRs format depends on the actual display and mode. For those
+who want to operate directly on pixel values, this format is described
+in the \fBggi_pixelformat(3)\fR structure.
+.SH PIXEL ARRAYS
+Although individual pixels are kept into 32 bits \fBggi_pixel\fR, arrays
+of pixels, as used in \fBggi[Get|Put]*\fR functions, \fBggiPackColors(3)\fR and
+\fBggiUnpackPixels(3)\fR, are stored in the display specific format, thus
+packed according to the actual pixel size.  This size is given by the
+\fBGT_SIZE\fR macro for \fBgraphtype\fR or the \fBsize\fR field of the
+\fBggi_pixelformat(3)\fR structure.
+
+The buffers provided to these functions must be big enough to store or
+read enough pixels. Although it is safe to use 32 bits per pixel, the
+optimum size (in bits) can be calculated by multiplying the number of
+pixel by their size. Don't forget to round up to a multiple of 8 to
+get the number of bytes.
+
+If you want to access such buffers directly, do \fInot\fR use pointer
+arithmetics with \fBggi_pixel\fRs.
+.SH SEE ALSO
+\f(CWggiMapColor(3)\fR, \f(CWggi_mode(3)\fR, \f(CWggi_pixelformat(3)\fR

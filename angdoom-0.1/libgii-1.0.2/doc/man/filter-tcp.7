@@ -1,0 +1,27 @@
+.TH "filter-tcp" 7 "2004-05-21" "libgii-1.0.x" GGI
+.SH NAME
+\fBfilter-tcp\fR : TCP/IP event repeater
+.SH SYNOPSIS
+.nb
+.nf
+filter-tcp: <host>:<port>
+.fi
+
+.SH DESCRIPTION
+This filter send all events on a TCP socket.
+.SH OPTIONS
+.TP
+\fIhost\fR
+The name of the host to connect to. If it is set to
+\f(CWlisten\fR, the filter will instead wait for a
+TCP connection.
+
+.TP
+\fIport\fR
+The port number to connect to on the remote host. If the
+filter is waiting for a connection, this is the port number on
+which it listens.
+
+.PP
+.SH SEE ALSO
+\f(CWinput-tcp(7)\fR

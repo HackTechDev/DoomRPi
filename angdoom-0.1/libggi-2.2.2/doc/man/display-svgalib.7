@@ -1,0 +1,38 @@
+.TH "display-svgalib" 7 "2004-04-06" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-svgalib\fR : Display fullscreen using SVGAlib
+.SH SYNOPSIS
+.nb
+.nf
+display-svgalib: [-physz=<sizex>,<sizey>[dpi]]
+.fi
+
+.SH DESCRIPTION
+Uses the SVGAlib library to display fullscreen on a VGA-compatible
+graphics card. You may need to be root in order to have IO permissions
+to drive the VGA device.
+.SH OPTIONS
+.TP
+\f(CW-physz=<sizex>,<sizey>[dpi]\fR
+This option will provide a physical screen size for applications
+which wish to remain resolution independent.  \fIsizex\fR,
+\fIsizey\fR are the x,y size of the screen in millimeters, unless
+the optional \f(CWdpi\fR string is affixed, in which case, they
+represent resolution in dots-per-inch.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer is available for the 320x200x8 mode. For other modes,
+support is only available if SVGAlib supports linear addressing.
+.IP \(bu 4
+Unaccelerated
+.PP
+.SH BUGS
+.IP \(bu 4
+The getbox test of demo.c does not work correct on modeX.
+.IP \(bu 4
+copybox is not implemented for banked and modeX modes.
+.IP \(bu 4
+1 and 4 bit modes don't work
+.PP

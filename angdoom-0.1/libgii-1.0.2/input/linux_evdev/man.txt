@@ -1,0 +1,35 @@
+Linux event interface input
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-linux-evdev
+
+Synopsis
+--------
+
+::
+
+  input-linux-evdev: [<device>]
+
+
+Description
+-----------
+
+Reads events from the Linux event interface (`/dev/input/eventX`) and
+converts them to LibGII events.
+
+Options
+-------
+
+
+:p:`device`
+    Specifies the device to use, the default is
+    `/dev/input/event0`.
+
+
+Bugs/TODO
+---------
+
+- Key repeat messages are not sent, which can annoy users who want
+  to use the cursor keys.
+
+- Handles setting of keyclick and bell, which can also annoy users.

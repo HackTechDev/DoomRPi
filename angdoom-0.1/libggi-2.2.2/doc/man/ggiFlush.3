@@ -1,0 +1,25 @@
+.TH "ggiFlush" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiFlush\fR, \fBggiFlushRegion\fR : Flush pending output
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiFlush(ggi_visual_t vis);
+
+int ggiFlushRegion(ggi_visual_t vis, int x, int y, int w, int h);
+.fi
+
+.SH DESCRIPTION
+\fBggiFlush\fR waits for the visual to finish pending accelerator
+commands, and in some targets, it refreshes the framebuffer.
+
+\fBggiFlushRegion\fR performs the flush function only in the specified
+region if it would improve performance.
+
+These functions are not needed if the visual is in synchronous mode.
+.SH RETURN VALUE
+No meaningful return value.
+.SH SEE ALSO
+\f(CWggiSetFlags(3)\fR

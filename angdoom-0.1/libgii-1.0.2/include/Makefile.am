@@ -1,0 +1,5 @@
+SUBDIRS = ggi
+
+DISTCLEANFILE = Makefile
+MAINTAINERCLEANFILES = Makefile.in
+

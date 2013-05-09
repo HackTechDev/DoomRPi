@@ -1,0 +1,29 @@
+.TH "ggiSetGCClipping" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiSetGCClipping\fR, \fBggiGetGCClipping\fR : Set or get the clipping rectangle for a visual
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiSetGCClipping(ggi_visual_t vis, int left, int top,
+                     int  right, int  bottom);
+
+int ggiGetGCClipping(ggi_visual_t vis, int *left, int *top,
+                     int *right, int *bottom);
+.fi
+
+.SH DESCRIPTION
+\fBggiSetGCClipping\fR sets the the current clipping rectangle to
+(\fIleft\fR, \fItop\fR) - (\fIright\fR-1, \fIbottom\fR-1), inclusive.
+
+Initially the clipping rectangle is the whole virtual screen.
+
+All LibGGI drawing primitives obey the clipping rectangle.  Negative
+coordinates given to LibGGI drawing functions will be clipped
+correctly.
+
+\fBggiGetGCClipping\fR reads the coordinates of the current clipping
+rectangle.
+.SH RETURN VALUE
+Both functions \fB0\fR for OK, ggiSetGCClipping returns a \f(CWggi-error(3)\fR.

@@ -1,0 +1,40 @@
+.TH "giiSetEventMask" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiSetEventMask\fR, \fBgiiGetEventMask\fR, \fBgiiAddEventMask\fR, \fBgiiRemoveEventMask\fR : Set the types of events queued
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+int giiSetEventMask(gii_input_t inp, gii_event_mask evm);
+
+gii_event_mask giiGetEventMask(gii_input_t inp);
+
+int giiAddEventMask(gii_input_t inp, gii_event_mask evm);
+
+int giiRemoveEventMask(gii_input_t inp, gii_event_mask evm);
+.fi
+
+.SH DESCRIPTION
+Calling \fBgiiSetEventMask\fR indicates to LibGII that only the types of
+events that match the specified event mask will be read by the
+application in subsequent \fBgiiEventPoll(3)\fR or \fBgiiEventRead(3)\fR calls.
+LibGII can then save time and memory by skipping checks and not
+allocating queues for events that will never be read out.  The default
+mask allows all events.
+
+\fBgiiAddEventMask\fR and \fBgiiRemoveEventMask\fR are macros that set or
+delete individual bits in the bitmask.
+.RS
+\fBNote:\fR
+\fBgiiSetEventMask\fR is an advisory call.  For correct operation, the
+application still needs to pass a restrictive event mask to the
+event reading functions.
+.RE
+.SH RETURN VALUE
+\fBgiiSetEventMask\fR, \fBgiiAddEventMask\fR and \fBgiiRemoveEventMask\fR return
+\fB0\fR on success or an \f(CWgii-error(3)\fR code otherwise.
+
+\fBgiiGetEventMask\fR returns the currently set mask.
+.SH SEE ALSO
+\f(CWgii_event_mask(3)\fR

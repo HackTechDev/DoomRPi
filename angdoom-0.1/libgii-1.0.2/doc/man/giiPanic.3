@@ -1,0 +1,30 @@
+.TH "giiPanic" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiPanic\fR : Exit LibGII programs for fatal errors
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+int giiPanic(const char * format, ...);
+.fi
+
+.SH DESCRIPTION
+\fBggiPanic(3)\fR shuts down the application, closing all inputs, with
+\f(CWprintf(3)\fR-style reporting to stderr, taking a format string and
+any additional variables.
+
+\fBgiiPanic\fR should only be used by usermode programs when something is
+really screwed, and they do not know what to do. The same applies for
+libraries, but might be used in rare situations such as corruption of
+critical data structures.
+.SH EXAMPLES
+An unrecoverable error:
+
+.nb
+.nf
+if (my_important_struct->magic != MAGIC) {
+  giiPanic("Fatal error: magic corrupted\en");
+}
+.fi
+

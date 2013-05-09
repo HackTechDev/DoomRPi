@@ -1,0 +1,44 @@
+Read mouse protocol data from file
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-mouse
+
+
+Synopsis
+--------
+
+::
+
+  input-mouse: <fd>:<proto>
+
+
+Description
+-----------
+
+`input-mouse` reads mouse protocol data from the specified file
+descriptor. This input is mainly designed to be opened automatically
+by `input-linux-mouse`, but can also be used stand alone.
+
+
+Options
+-------
+
+:p:`fd`
+    Specifies the file descriptor to read from.
+
+:p:`proto`
+    Specifies the mouse protocol to use.  This argument takes the same
+    values as :p:`mousetypes` in `input-linux-mouse`, except
+    auto-detection is not supported.
+
+Features
+--------
+
+- Generates evPtr* events.
+
+
+See Also
+--------
+
+:man:`input-linux-mouse(7)`
+

@@ -1,0 +1,34 @@
+.TH "display-monotext" 7 "2004-10-14" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-monotext\fR : Emulate palettized modes on text-mode visuals
+.SH SYNOPSIS
+.nb
+.nf
+display-monotext: [ [-a=<acc>] | [ [-x=<acc>] [-y=<acc>] ] ] <target-spec>
+.fi
+
+.SH DESCRIPTION
+Emulates palettized modes (\fBGT_PALETTE\fR) on another target which can
+only do text modes, by representing the graphics as ASCII characters.
+The effect is the much the same as the \fBAAlib\fR target, but does not
+depend on any external libraries.
+.SH OPTIONS
+.TP
+\f(CW-x=<acc>\fR, \f(CW-y=<acc>\fR
+A value between 1 and 5 which determines how accurately to map the
+graphics to ASCII characters.  Lower values are less accurate, but
+can represent a wider range of intensity levels.  The default is
+x=2 and y=4.
+
+.TP
+\f(CW-a=<acc>\fR
+Same as above, but sets both the x and y accuracy to the specified
+value.
+
+.TP
+\fItarget-spec\fR
+Specifies the target which to draw on (the \fIparent\fR target).  This
+defaults to automatic selection (just like using
+\f(CWggiOpen(NULL)\fR when \fBGGI_DISPLAY\fR is not set).
+
+.PP

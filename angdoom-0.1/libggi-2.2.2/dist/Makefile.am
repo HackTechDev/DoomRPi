@@ -1,0 +1,4 @@
+SUBDIRS = rpm
+
+MAINTAINERCLEANFILES = Makefile.in
+

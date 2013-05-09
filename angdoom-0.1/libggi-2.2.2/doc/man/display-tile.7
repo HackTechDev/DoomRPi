@@ -1,0 +1,64 @@
+.TH "display-tile" 7 "2003-04-02" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-tile\fR : Divide display into tiles similar to a video wall
+.SH SYNOPSIS
+.nb
+.nf
+display-tile : [ [-usedb] | [-nodb] ]
+               <offset-x>,<offset-y>,<size-x>,<size-y>,<child-target-spec>
+               ...
+.fi
+
+.SH DESCRIPTION
+Emulates one big target, where one or more areas are mapped to
+different child visuals.
+.SH OPTIONS
+For each tile (i.e. child visual or mapped area), the following must
+be specified:
+.TP
+\fIoffset-x\fR, \fIoffset-y\fR
+coordinates (within the parent visual) of the top-left corner of
+the child visual
+
+.TP
+\fIsize-x\fR, \fIsize-y\fR
+width and height of the child visual
+
+.TP
+:p`child-target-spec`
+a target spec.  Since target specs can (and often do) contain colons, it
+needs to be enclosed in parentheses.
+
+.PP
+The following options apply to the whole \fBdisplay-tile\fR:
+.TP
+\f(CW-usedb\fR
+Enables DirectBuffer emulation. This is the default mode.
+
+The contents of each mapped area is blitted from the DirectBuffer into
+their respective child visuals at regular intervals or when the visual
+is flushed.  DirectBuffer emulation works regardless of whether the
+child visuals support DirectBuffer or not.
+
+.TP
+\f(CW-nodb\fR
+Disables DirectBuffer emulation.  LibGGI primitives are passed to each
+of the child visuals with the necessary clipping and translation.  Thus,
+if a child visual underlying a mapped area supports acceleration, then
+the operation on that area will be accelerated.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer support depends on the \f(CW-usedb\fR and \f(CW-nodb\fR
+options.
+.IP \(bu 4
+Accelerated in no-DB mode if the underlying target is, otherwise
+unaccelerated.
+.PP
+.RS
+\fBTip:\fR
+\fBdisplay-tile\fR can be used to emulate DirectBuffer for obstinate
+applications that cannot run without it, by specifying one tile
+which maps the whole screen.
+.RE

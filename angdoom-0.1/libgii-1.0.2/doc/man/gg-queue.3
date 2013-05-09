@@ -1,0 +1,748 @@
+.TH "gg-queue" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBgg-queue\fR, \fBGG_SLIST_HEAD\fR, \fBGG_SLIST_HEAD_INITIALIZER\fR, \fBGG_SLIST_ENTRY\fR, \fBGG_SLIST_INIT2\fR, \fBGG_SLIST_INSERT_AFTER\fR, \fBGG_SLIST_INSERT_HEAD\fR, \fBGG_SLIST_REMOVE_HEAD\fR, \fBGG_SLIST_REMOVE\fR, \fBGG_SLIST_FOREACH\fR, \fBGG_SLIST_EMPTY\fR, \fBGG_SLIST_FIRST\fR, \fBGG_SLIST_NEXT\fR, \fBGG_SIMPLEQ_HEAD\fR, \fBGG_SIMPLEQ_HEAD_INITIALIZER\fR, \fBGG_SIMPLEQ_ENTRY\fR, \fBGG_SIMPLEQ_INIT\fR, \fBGG_SIMPLEQ_INSERT_HEAD\fR, \fBGG_SIMPLEQ_INSERT_TAIL\fR, \fBGG_SIMPLEQ_INSERT_AFTER\fR, \fBGG_SIMPLEQ_REMOVE_HEAD\fR, \fBGG_SIMPLEQ_REMOVE\fR, \fBGG_SIMPLEQ_FOREACH\fR, \fBGG_SIMPLEQ_EMPTY\fR, \fBGG_SIMPLEQ_FIRST\fR, \fBGG_SIMPLEQ_NEXT\fR, \fBGG_LIST_HEAD\fR, \fBGG_LIST_HEAD_INITIALIZER\fR, \fBGG_LIST_ENTRY\fR, \fBGG_LIST_INIT\fR, \fBGG_LIST_INSERT_AFTER\fR, \fBGG_LIST_INSERT_BEFORE\fR, \fBGG_LIST_INSERT_HEAD\fR, \fBGG_LIST_REMOVE\fR, \fBGG_LIST_FOREACH\fR, \fBGG_LIST_EMPTY\fR, \fBGG_LIST_FIRST\fR, \fBGG_LIST_NEXT\fR, \fBGG_TAILQ_HEAD\fR, \fBGG_TAILQ_HEAD_INITIALIZER\fR, \fBGG_TAILQ_ENTRY\fR, \fBGG_TAILQ_INIT\fR, \fBGG_TAILQ_INSERT_HEAD\fR, \fBGG_TAILQ_INSERT_TAIL\fR, \fBGG_TAILQ_INSERT_AFTER\fR, \fBGG_TAILQ_INSERT_BEFORE\fR, \fBGG_TAILQ_REMOVE\fR, \fBGG_TAILQ_FOREACH\fR, \fBGG_TAILQ_FOREACH_REVERSE\fR, \fBGG_TAILQ_EMPTY\fR, \fBGG_TAILQ_FIRST\fR, \fBGG_TAILQ_NEXT\fR, \fBGG_TAILQ_LAST\fR, \fBGG_TAILQ_PREV\fR, \fBGG_CIRCLEQ_HEAD\fR, \fBGG_CIRCLEQ_HEAD_INITIALIZER\fR, \fBGG_CIRCLEQ_ENTRY\fR, \fBGG_CIRCLEQ_INIT\fR, \fBGG_CIRCLEQ_INSERT_AFTER\fR, \fBGG_CIRCLEQ_INSERT_BEFORE\fR, \fBGG_CIRCLEQ_INSERT_HEAD\fR, \fBGG_CIRCLEQ_INSERT_TAIL\fR, \fBGG_CIRCLEQ_REMOVE\fR, \fBGG_CIRCLEQ_FOREACH\fR, \fBGG_CIRCLEQ_FOREACH_REVERSE\fR, \fBGG_CIRCLEQ_EMPTY\fR, \fBGG_CIRCLEQ_FIRST\fR, \fBGG_CIRCLEQ_LAST\fR, \fBGG_CIRCLEQ_NEXT\fR, \fBGG_CIRCLEQ_PREV\fR : implementations of singly-linked lists, simple queues, lists, tail queues, and circular queues
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg-queue.h>
+
+GG_SLIST_HEAD(HEADNAME, TYPE);
+
+GG_SLIST_HEAD_INITIALIZER(head);
+
+GG_SLIST_ENTRY(TYPE);
+
+GG_SLIST_INIT(GG_SLIST_HEAD *head);
+
+GG_SLIST_INSERT_AFTER(TYPE *listelm, TYPE *elm, GG_SLIST_ENTRY NAME);
+
+GG_SLIST_INSERT_HEAD(GG_SLIST_HEAD *head, TYPE *elm, GG_SLIST_ENTRY NAME);
+
+GG_SLIST_REMOVE_HEAD(GG_SLIST_HEAD *head, GG_SLIST_ENTRY NAME);
+
+GG_SLIST_REMOVE(GG_SLIST_HEAD *head, TYPE *elm, TYPE, GG_SLIST_ENTRY NAME);
+
+GG_SLIST_FOREACH(TYPE *var, GG_SLIST_HEAD *head, GG_SLIST_ENTRY NAME);
+
+int
+GG_SLIST_EMPTY(GG_SLIST_HEAD *head);
+
+TYPE *
+GG_SLIST_FIRST(GG_SLIST_HEAD *head);
+
+TYPE *
+GG_SLIST_NEXT(TYPE *elm, GG_SLIST_ENTRY NAME);
+
+GG_SIMPLEQ_HEAD(HEADNAME, TYPE);
+
+GG_SIMPLEQ_HEAD_INITIALIZER(head);
+
+GG_SIMPLEQ_ENTRY(TYPE);
+
+GG_SIMPLEQ_INIT(GG_SIMPLEQ_HEAD *head);
+
+GG_SIMPLEQ_INSERT_HEAD(GG_SIMPLEQ_HEAD *head, TYPE *elm, GG_SIMPLEQ_ENTRY NAME);
+
+GG_SIMPLEQ_INSERT_TAIL(GG_SIMPLEQ_HEAD *head, TYPE *elm, GG_SIMPLEQ_ENTRY NAME);
+
+GG_SIMPLEQ_INSERT_AFTER(GG_SIMPLEQ_HEAD *head, TYPE *listelm, TYPE *elm,
+           GG_SIMPLEQ_ENTRY NAME);
+
+GG_SIMPLEQ_REMOVE_HEAD(GG_SIMPLEQ_HEAD *head, GG_SIMPLEQ_ENTRY NAME);
+
+GG_SIMPLEQ_REMOVE(GG_SIMPLEQ_HEAD *head, TYPE *elm, TYPE, GG_SIMPLEQ_ENTRY NAME);
+
+GG_SIMPLEQ_FOREACH(TYPE *var, GG_SIMPLEQ_HEAD *head, GG_SIMPLEQ_ENTRY NAME);
+
+int
+GG_SIMPLEQ_EMPTY(GG_SIMPLEQ_HEAD *head);
+
+TYPE *
+GG_SIMPLEQ_FIRST(GG_SIMPLEQ_HEAD *head);
+
+TYPE *
+GG_SIMPLEQ_NEXT(TYPE *elm, GG_SIMPLEQ_ENTRY NAME);
+
+GG_LIST_HEAD(HEADNAME, TYPE);
+
+GG_LIST_HEAD_INITIALIZER(head);
+
+GG_LIST_ENTRY(TYPE);
+
+GG_LIST_INIT(GG_LIST_HEAD *head);
+
+GG_LIST_INSERT_AFTER(TYPE *listelm, TYPE *elm, GG_LIST_ENTRY NAME);
+
+GG_LIST_INSERT_BEFORE(TYPE *listelm, TYPE *elm, GG_LIST_ENTRY NAME);
+
+GG_LIST_INSERT_HEAD(GG_LIST_HEAD *head, TYPE *elm, GG_LIST_ENTRY NAME);
+
+GG_LIST_REMOVE(TYPE *elm, GG_LIST_ENTRY NAME);
+
+GG_LIST_FOREACH(TYPE *var, GG_LIST_HEAD *head, GG_LIST_ENTRY NAME);
+
+int
+GG_LIST_EMPTY(GG_LIST_HEAD *head);
+
+TYPE *
+GG_LIST_FIRST(GG_LIST_HEAD *head);
+
+TYPE *
+GG_LIST_NEXT(TYPE *elm, GG_LIST_ENTRY NAME);
+
+GG_TAILQ_HEAD(HEADNAME, TYPE);
+
+GG_TAILQ_HEAD_INITIALIZER(head);
+
+GG_TAILQ_ENTRY(TYPE);
+
+GG_TAILQ_INIT(GG_TAILQ_HEAD *head);
+
+GG_TAILQ_INSERT_HEAD(GG_TAILQ_HEAD *head, TYPE *elm, GG_TAILQ_ENTRY NAME);
+
+GG_TAILQ_INSERT_TAIL(GG_TAILQ_HEAD *head, TYPE *elm, GG_TAILQ_ENTRY NAME);
+
+GG_TAILQ_INSERT_AFTER(GG_TAILQ_HEAD *head, TYPE *listelm, TYPE *elm,
+           GG_TAILQ_ENTRY NAME);
+
+GG_TAILQ_INSERT_BEFORE(TYPE *listelm, TYPE *elm, GG_TAILQ_ENTRY NAME);
+
+GG_TAILQ_REMOVE(GG_TAILQ_HEAD *head, TYPE *elm, GG_TAILQ_ENTRY NAME);
+
+GG_TAILQ_FOREACH(TYPE *var, GG_TAILQ_HEAD *head, GG_TAILQ_ENTRY NAME);
+
+GG_TAILQ_FOREACH_REVERSE(TYPE *var, GG_TAILQ_HEAD *head, HEADNAME,
+           GG_TAILQ_ENTRY NAME);
+
+int
+GG_TAILQ_EMPTY(GG_TAILQ_HEAD *head);
+
+TYPE *
+GG_TAILQ_FIRST(GG_TAILQ_HEAD *head);
+
+TYPE *
+GG_TAILQ_NEXT(TYPE *elm, GG_TAILQ_ENTRY NAME);
+
+TYPE *
+GG_TAILQ_LAST(GG_TAILQ_HEAD *head, HEADNAME);
+
+TYPE *
+GG_TAILQ_PREV(TYPE *elm, HEADNAME, GG_TAILQ_ENTRY NAME);
+
+GG_CIRCLEQ_HEAD(HEADNAME, TYPE);
+
+GG_CIRCLEQ_HEAD_INITIALIZER(head);
+
+GG_CIRCLEQ_ENTRY(TYPE);
+
+GG_CIRCLEQ_INIT(GG_CIRCLEQ_HEAD *head);
+
+GG_CIRCLEQ_INSERT_AFTER(GG_CIRCLEQ_HEAD *head, TYPE *listelm, TYPE *elm,
+           GG_CIRCLEQ_ENTRY NAME);
+
+GG_CIRCLEQ_INSERT_BEFORE(GG_CIRCLEQ_HEAD *head, TYPE *listelm, TYPE *elm,
+           GG_CIRCLEQ_ENTRY NAME);
+
+GG_CIRCLEQ_INSERT_HEAD(GG_CIRCLEQ_HEAD *head, TYPE *elm, GG_CIRCLEQ_ENTRY NAME);
+
+GG_CIRCLEQ_INSERT_TAIL(GG_CIRCLEQ_HEAD *head, TYPE *elm, GG_CIRCLEQ_ENTRY NAME);
+
+GG_CIRCLEQ_REMOVE(GG_CIRCLEQ_HEAD *head, TYPE *elm, GG_CIRCLEQ_ENTRY NAME);
+
+GG_CIRCLEQ_FOREACH(TYPE *var, GG_CIRCLEQ_HEAD *head, GG_CIRCLEQ_ENTRY NAME);
+
+GG_CIRCLEQ_FOREACH_REVERSE(TYPE *var, GG_CIRCLEQ_HEAD *head,
+           GG_CIRCLEQ_ENTRY NAME);
+
+int
+GG_CIRCLEQ_EMPTY(GG_CIRCLEQ_HEAD *head);
+
+TYPE *
+GG_CIRCLEQ_FIRST(GG_CIRCLEQ_HEAD *head);
+
+TYPE *
+GG_CIRCLEQ_LAST(GG_CIRCLEQ_HEAD *head);
+
+TYPE *
+GG_CIRCLEQ_NEXT(TYPE *elm, GG_CIRCLEQ_ENTRY NAME);
+
+TYPE *
+GG_CIRCLEQ_PREV(TYPE *elm, GG_CIRCLEQ_ENTRY NAME);
+.fi
+
+.SH DESCRIPTION
+These macros define and operate on five types of data structures: singly-
+linked lists, simple queues, lists, tail queues, and circular queues.
+All five structures support the following functionality:
+.IP 1 4
+Insertion of a new entry at the head of the list.
+.IP 2 4
+Insertion of a new entry before or after any element in the
+list.
+.IP 3 4
+Removal of any entry in the list.
+.IP 4 4
+Forward traversal through the list.
+.PP
+Singly-linked lists are the simplest of the five data structures and support
+only the above functionality.  Singly-linked lists are ideal for
+applications with large datasets and few or no removals, or for implementing
+a LIFO queue.
+
+Simple queues add the following functionality:
+.IP 1 4
+Entries can be added at the end of a list.
+.PP
+However:
+.IP 1 4
+Entries may not be added before any element in the list.
+.IP 2 4
+All list insertions and removals must specify the head of the
+list.
+.IP 3 4
+Each head entry requires two pointers rather than one.
+.PP
+Simple queues are ideal for applications with large datasets and few or
+no removals, or for implementing a FIFO  queue.
+
+All doubly linked types of data structures (lists, tail queues, and circle
+queues) additionally allow:
+.IP 1 4
+Insertion of a new entry before any element in the list.
+.IP 2 4
+O(1) removal of any entry in the list.
+.PP
+However:
+.IP 1 4
+Each element requires two pointers rather than one.
+.IP 2 4
+Code size and execution time of operations (except for
+removal) is about twice that of the singly-linked data-structures.
+.PP
+Linked lists are the simplest of the doubly linked data structures and
+support only the above functionality over singly-linked lists.
+
+Tail queues add the following functionality:
+.IP 1 4
+Entries can be added at the end of a list.
+.PP
+However:
+.IP 1 4
+All list insertions and removals, except insertion before
+another element, must specify the head of the list.
+.IP 2 4
+Each head entry requires two pointers rather than one.
+.IP 3 4
+Code size is about 15% greater and operations run about 20%
+slower than lists.
+.PP
+Circular queues add the following functionality:
+.IP 1 4
+Entries can be added at the end of a list.
+.IP 2 4
+They may be traversed backwards, from tail to head.
+.PP
+However:
+.IP 1 4
+All list insertions and removals must specify the head of the
+list.
+.IP 2 4
+Each head entry requires two pointers rather than one.
+.IP 3 4
+The termination condition for traversal is more complex.
+.IP 4 4
+Code size is about 40% greater and operations run about 45%
+slower than lists.
+.PP
+In the macro definitions, \fITYPE\fR is the name of a user defined structure,
+that must contain a field of type \fBGG_LIST_ENTRY\fR, \fBGG_SIMPLEQ_ENTRY\fR,
+\fBGG_SLIST_ENTRY\fR, \fBGG_TAILQ_ENTRY\fR, or \fBGG_CIRCLEQ_ENTRY\fR, named \fINAME\fR. The
+argument \fIHEADNAME\fR is the name of a user defined structure that must be
+declared using the macros \fBGG_LIST_HEAD\fR, \fBGG_SIMPLEQ_HEAD\fR, \fBGG_SLIST_HEAD\fR,
+\fBGG_TAILQ_HEAD\fR, or \fBGG_CIRCLEQ_HEAD\fR. See the examples below for further
+explanation of how these macros are used.
+.SH SINGLY-LINKED LISTS
+A singly-linked list is headed by a structure defined by the SLIST_HEAD
+macro. This structure contains a single pointer to the first element on
+the list. The elements are singly linked for minimum space and pointer
+manipulation overhead at the expense of O(n) removal for arbitrary elements.
+New elements can be added to the list after an existing element
+or at the head of the list.  An \fBGG_SLIST_HEAD\fR structure is declared as follows:
+
+.nb
+.nf
+GG_SLIST_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and \fITYPE\fR is
+the type of the elements to be linked into the list.  A pointer to the
+head of the list can later be declared as:
+
+.nb
+.nf
+struct HEADNAME *headp;
+.fi
+
+(The names head and headp are user selectable.)
+
+The macro \fBGG_SLIST_HEAD_INITIALIZER\fR evaluates to an initializer for the list
+head.
+
+The macro \fBGG_SLIST_EMPTY\fR evaluates to true if there are no elements in the list.
+
+The macro \fBGG_SLIST_ENTRY\fR declares a structure that connects the elements in the list.
+
+The macro \fBGG_SLIST_FIRST\fR returns the first element in the list or NULL if
+the list is empty.
+
+The macro \fBGG_SLIST_FOREACH\fR traverses the list referenced by head in the forward
+direction, assigning each element in turn to var.
+
+The macro \fBGG_SLIST_INIT\fR initializes the list referenced by head.
+
+The macro \fBGG_SLIST_INSERT_HEAD\fR inserts the new element elm at the head of
+the list.
+
+The macro \fBGG_SLIST_INSERT_AFTER\fR inserts the new element elm after the element
+listelm.
+
+The macro \fBGG_SLIST_NEXT\fR returns the next element in the list.
+
+The macro \fBGG_SLIST_REMOVE\fR removes the element elm from the list.
+
+The macro \fBGG_SLIST_REMOVE_HEAD\fR removes the first element from the head of
+the list.  For optimum efficiency, elements being removed from the head
+of the list should explicitly use this macro instead of the generic
+\fBGG_SLIST_REMOVE\fR macro.
+.SH SINGLY-LINKED LIST EXAMPLE
+.nb
+.nf
+GG_SLIST_HEAD(slisthead, entry) head =
+    GG_SLIST_HEAD_INITIALIZER(head);
+struct slisthead *headp;                /* Singly-linked List head. */
+struct entry {
+        ...
+        GG_SLIST_ENTRY(entry) entries;  /* Singly-linked List. */
+        ...
+} *n1, *n2, *n3, *np;
+
+GG_SLIST_INIT(&head);                   /* Initialize the list. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+GG_SLIST_INSERT_HEAD(&head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+GG_SLIST_INSERT_AFTER(n1, n2, entries);
+
+GG_SLIST_REMOVE(&head, n2, entry, entries);/* Deletion. */
+free(n2);
+
+n3 = GG_SLIST_FIRST(&head);
+GG_SLIST_REMOVE_HEAD(&head, entries);   /* Deletion from the head. */
+free(n3);
+                                        /* Forward traversal. */
+GG_SLIST_FOREACH(np, &head, entries)
+        np-> ...
+
+while (!GG_SLIST_EMPTY(&head)) {        /* List Deletion. */
+        n1 = GG_SLIST_FIRST(&head);
+        GG_SLIST_REMOVE_HEAD(&head, entries);
+        free(n1);
+}
+.fi
+
+.SH SIMPLE QUEUES
+A simple queue is headed by a structure defined by the \fBGG_SIMPLEQ_HEAD\fR
+macro.  This structure contains a pair of pointers, one to the first
+element in the simple queue and the other to the last element in the simple
+queue.  The elements are singly linked for minimum space and pointer
+manipulation overhead at the expense of O(n) removal for arbitrary
+elements.  New elements can be added to the queue after an existing element,
+at the head of the queue, or at the end of the queue. A \fBGG_SIMPLEQ_HEAD\fR
+structure is declared as follows:
+
+.nb
+.nf
+GG_SIMPLEQ_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and \fITYPE\fR is
+the type of the elements to be linked into the simple queue.  A pointer
+to the head of the simple queue can later be declared as:
+
+.nb
+.nf
+struct HEADNAME *headp;
+.fi
+
+(The names head and headp are user selectable.)
+
+The macro \fBGG_SIMPLEQ_ENTRYk\fR declares a structure that connects the elements
+in the simple queue.
+
+The macro \fBGG_SIMPLEQ_HEAD_INITIALIZER\fR provides a value which can be used to
+initialize a simple queue head at compile time, and is used at the point
+that the simple queue head variable is declared, like:
+
+.nb
+.nf
+struct HEADNAME head = GG_SIMPLEQ_HEAD_INITIALIZER(head);
+.fi
+
+The macro \fBGG_SIMPLEQ_INIT\fR initializes the simple queue referenced by head.
+
+The macro \fBGG_SIMPLEQ_INSERT_HEAD\fR inserts the new element elm at the head of
+the simple queue.
+
+The macro \fBGG_SIMPLEQ_INSERT_TAIL\fR inserts the new element elm at the end of
+the simple queue.
+
+The macro \fBGG_SIMPLEQ_INSERT_AFTER\fR inserts the new element elm after the ele-
+ment listelm.
+
+The macro \fBGG_SIMPLEQ_REMOVE\fR removes elm from the simple queue.
+
+The macro \fBGG_SIMPLEQ_REMOVE_HEAD\fR removes the first element from the head of
+the simple queue.  For optimum efficiency, elements being removed from
+the head of the queue should explicitly use this macro instead of the
+generic \fBGG_SIMPLQ_REMOVE\fR macro.
+
+The macro \fBGG_SIMPLEQ_EMPTY\fR return true if the simple queue head has no elements.
+
+The macro \fBGG_SIMPLEQ_FIRST\fR returns the first element of the simple queue
+head.
+
+The macro \fBGG_SIMPLEQ_FOREACH\fR traverses the tail queue referenced by head in
+the forward direction, assigning each element in turn to var.
+
+The macro \fBGG_SIMPLEQ_NEXT\fR returns the element after the element elm.
+.SH SIMPLE QUEUE EXAMPLE
+.nb
+.nf
+GG_SIMPLEQ_HEAD(simplehead, entry) head;
+struct simplehead *headp;               /* Simple queue head. */
+struct entry {
+        ...
+        GG_SIMPLEQ_ENTRY(entry) entries;/* Simple queue. */
+        ...
+} *n1, *n2, *np;
+
+GG_SIMPLEQ_INIT(&head);                 /* Initialize the queue. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+GG_SIMPLEQ_INSERT_HEAD(&head, n1, entries);
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
+GG_SIMPLEQ_INSERT_TAIL(&head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+GG_SIMPLEQ_INSERT_AFTER(&head, n1, n2, entries);
+                                        /* Forward traversal. */
+GG_SIMPLEQ_FOREACH(np, &head, entries)
+        np-> ...
+                                        /* Delete. */
+while (GG_SIMPLEQ_FIRST(&head) != NULL)
+        GG_SIMPLEQ_REMOVE_HEAD(&head, entries);
+if (GG_SIMPLEQ_EMPTY(&head))            /* Test for emptiness. */
+        printf("nothing to do\en");
+.fi
+
+.SH LISTS
+A list is headed by a structure defined by the \fBGG_LIST_HEAD\fR macro.
+This structure contains a single pointer to the first element on the list.
+The elements are doubly linked so that an arbitrary element can be
+removed without traversing the list.  New elements can be added to the
+list after an existing element, before an existing element, or at the
+head of the list. A \fBLIST_HEAD\fR structure is declared as follows:
+
+.nb
+.nf
+GG_LIST_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and \fITYPE\fR is
+the type of the elements to be linked into the list.  A pointer to the
+head of the list can later be declared as:
+
+.nb
+.nf
+struct HEADNAME *headp;
+.fi
+
+(The names head and headp are user selectable.)
+
+The macro \fBGG_LIST_ENTRY\fR declares a structure that connects the elements in
+the list.
+
+The macro \fBGG_LIST_HEAD_INITIALIZER\fR provides a value which can be used to
+initialize a list head at compile time, and is used at the point that the
+list head variable is declared, like:
+
+.nb
+.nf
+struct HEADNAME head = GG_LIST_HEAD_INITIALIZER(head);
+.fi
+
+The macro \fBGG_LIST_INIT\fR initializes the list referenced by head.
+
+The macro \fBGG_LIST_INSERT_HEAD\fR inserts the new element elm at the head of the
+list.
+
+The macro \fBGG_LIST_INSERT_AFTER\fR inserts the new element elm after the element
+listelm.
+
+The macro \fBGG_LIST_INSERT_BEFORE\fR inserts the new element elm before the element
+listelm.
+
+The macro \fBGG_LIST_REMOVE\fR removes the element elm from the list.
+
+The macro \fBGG_LIST_EMPTY\fR return true if the list head has no elements.
+
+The macro \fBGG_LIST_FIRST\fR returns the first element of the list head.
+
+The macro \fBGG_LIST_FOREACH\fR traverses the list referenced by head in the forward
+direction, assigning each element in turn to var.
+
+The macro \fBGG_LIST_NEXT\fR returns the element after the element elm.
+.SH LIST EXAMPLE
+.nb
+.nf
+GG_LIST_HEAD(listhead, entry) head;
+struct listhead *headp;                 /* List head. */
+struct entry {
+        ...
+        GG_LIST_ENTRY(entry) entries;   /* List. */
+        ...
+} *n1, *n2, *np;
+
+GG_LIST_INIT(&head);                    /* Initialize the list. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+GG_LIST_INSERT_HEAD(&head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+GG_LIST_INSERT_AFTER(n1, n2, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert before. */
+GG_LIST_INSERT_BEFORE(n1, n2, entries);
+                                        /* Forward traversal. */
+GG_LIST_FOREACH(np, &head, entries)
+        np-> ...
+                                        /* Delete. */
+while (GG_LIST_FIRST(&head) != NULL)
+        GG_LIST_REMOVE(LIST_FIRST(&head), entries);
+if (GG_LIST_EMPTY(&head))               /* Test for emptiness. */
+        printf("nothing to do\en");
+.fi
+
+.SH TAIL QUEUES
+A tail queue is headed by a structure defined by the \fBGG_TAILQ_HEAD\fR macro.
+This structure contains a pair of pointers, one to the first element in
+the tail queue and the other to the last element in the tail queue. The
+elements are doubly linked so that an arbitrary element can be removed
+without traversing the tail queue. New elements can be added to the
+queue after an existing element, before an existing element, at the head
+of the queue, or at the end the queue. A \fBGG_TAILQ_HEAD\fR structure is
+declared as follows:
+
+.nb
+.nf
+TAILQ_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and \fITYPE\fR is
+the type of the elements to be linked into the tail queue.  A pointer to
+the head of the tail queue can later be declared as:
+
+.nb
+.nf
+struct HEADNAME *headp;
+.fi
+
+(The names head and headp are user selectable.)
+
+The macro \fBGG_TAILQ_ENTRY\fR declares a structure that connects the elements in
+the tail queue.
+
+The macro \fBGG_TAILQ_HEAD_INITIALIZER\fR provides a value which can be used to
+initialize a tail queue head at compile time, and is used at the point
+that the tail queue head variable is declared, like:
+
+.nb
+.nf
+struct HEADNAME head = GG_TAILQ_HEAD_INITIALIZER(head);
+.fi
+
+The macro \fBGG_TAILQ_INIT\fR initializes the tail queue referenced by head.
+
+The macro \fBGG_TAILQ_INSERT_HEAD\fR inserts the new element elm at the head of
+the tail queue.
+
+The macro \fBGG_TAILQ_INSERT_TAIL\fR inserts the new element elm at the end of the
+tail queue.
+
+The macro \fBGG_TAILQ_INSERT_AFTER\fR inserts the new element elm after the element listelm.
+
+The macro \fBGG_TAILQ_INSERT_BEFORE\fR inserts the new element elm before the element listelm.
+
+The macro \fBGG_TAILQ_REMOVE\fR removes the element elm from the tail queue.
+
+The macro \fBGG_TAILQ_EMPTY\fR return true if the tail queue head has no elements.
+
+The macro \fBGG_TAILQ_FIRST\fR returns the first element of the tail queue head.
+
+The macro \fBGG_TAILQ_FOREACH\fR traverses the tail queue referenced by head in
+the forward direction, assigning each element in turn to var.
+
+The macro \fBGG_TAILQ_FOREACH_REVERSE\fR traverses the tail queue referenced by
+head in the reverse direction, assigning each element in turn to var.
+
+The macro \fBGG_TAILQ_NEXT\fR returns the element after the element elm
+.SH TAIL QUEUE EXAMPLE
+.nb
+.nf
+GG_TAILQ_HEAD(tailhead, entry) head;
+struct tailhead *headp;                 /* Tail queue head. */
+struct entry {
+        ...
+        GG_TAILQ_ENTRY(entry) entries;  /* Tail queue. */
+        ...
+} *n1, *n2, *np;
+
+GG_TAILQ_INIT(&head);                   /* Initialize the queue. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+GG_TAILQ_INSERT_HEAD(&head, n1, entries);
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
+GG_TAILQ_INSERT_TAIL(&head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+GG_TAILQ_INSERT_AFTER(&head, n1, n2, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert before. */
+GG_TAILQ_INSERT_BEFORE(n1, n2, entries);
+                                        /* Forward traversal. */
+GG_TAILQ_FOREACH(np, &head, entries)
+        np-> ...
+                                        /* Reverse traversal. */
+GG_TAILQ_FOREACH_REVERSE(np, &head, tailhead, entries)
+        np-> ...
+                                        /* Delete. */
+while (GG_TAILQ_FIRST(&head) != NULL)
+        GG_TAILQ_REMOVE(&head, GG_TAILQ_FIRST(&head), entries);
+if (GG_TAILQ_EMPTY(&head))              /* Test for emptiness. */
+        printf("nothing to do\en");
+.fi
+
+.SH CIRCULAR QUEUES
+A circular queue is headed by a structure defined by the \fBGG_CIRCLEQ_HEAD\fR
+macro.  This structure contains a pair of pointers, one to the first
+element in the circular queue and the other to the last element in the
+circular queue.  The elements are doubly linked so that an arbitrary element
+can be removed without traversing the queue.  New elements can be added
+to the queue after an existing element, before an existing element, at
+the head of the queue, or at the end of the queue.  A \fBGG_CIRCLEQ_HEAD\fR
+structure is declared as follows:
+
+.nb
+.nf
+GG_CIRCLEQ_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and \fITYPE\fR
+is the type of the elements to be linked into the circular queue.  A pointer
+to the head of the circular queue can later be declared as:
+
+.nb
+.nf
+struct HEADNAME *headp;
+.fi
+
+(The names head and headp are user selectable.)
+
+The macro \fBGG_CIRCLEQ_ENTRY\fR declares a structure that connects the elements
+in the circular queue.
+
+The macro \fBGG_CIRCLEQ_HEAD_INITIALIZER\fR provides a value which can be used to
+initialize a circular queue head at compile time, and is used at the
+point that the circular queue head variable is declared, like:
+
+.nb
+.nf
+struct HEADNAME head = GG_CIRCLEQ_HEAD_INITIALIZER(head);
+.fi
+
+The macro \fBGG_CIRCLEQ_INIT\fR initializes the circular queue referenced by head.
+
+The macro \fBGG_CIRCLEQ_INSERT_HEAD\fR inserts the new element elm at the head of
+the circular queue.
+
+The macro \fBGG_CIRCLEQ_INSERT_TAIL\fR inserts the new element elm at the end of
+the circular queue.
+
+The macro \fBGG_CIRCLEQ_INSERT_AFTER\fR inserts the new element elm after the
+element listelm.
+
+The macro \fBGG_CIRCLEQ_INSERT_BEFORE\fR inserts the new element elm before the
+element listelm.
+
+The macro \fBGG_CIRCLEQ_REMOVE\fR removes the element elm from the circular queue.
+
+The macro \fBGG_CIRCLEQ_EMPTY\fR return true if the circular queue head has no
+elements.
+
+The macro \fBGG_CIRCLEQ_FIRST\fR returns the first element of the circular queue
+head.
+
+The macro \fBGG_CICRLEQ_FOREACH\fR traverses the circle queue referenced by head
+in the forward direction, assigning each element in turn to var.
+
+The macro \fBGG_CICRLEQ_FOREACH_REVERSE\fR traverses the circle queue referenced
+by head in the reverse direction, assigning each element in turn to var.
+
+The macro \fBGG_CIRCLEQ_LAST\fR returns the last element of the circular queue
+head.
+
+The macro \fBGG_CIRCLEQ_NEXT\fR returns the element after the element elm.
+
+The macro \fBGG_CIRCLEQ_PREV\fR returns the element before the element elm.
+.SH CIRCULAR QUEUE EXAMPLE
+.nb
+.nf
+GG_CIRCLEQ_HEAD(circleq, entry) head;
+struct circleq *headp;                  /* Circular queue head. */
+struct entry {
+       ...
+       GG_CIRCLEQ_ENTRY(entry) entries; /* Circular queue. */
+       ...
+} *n1, *n2, *np;
+
+GG_CIRCLEQ_INIT(&head);                 /* Initialize the circular queue. */
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the head. */
+GG_CIRCLEQ_INSERT_HEAD(&head, n1, entries);
+
+n1 = malloc(sizeof(struct entry));      /* Insert at the tail. */
+GG_CIRCLEQ_INSERT_TAIL(&head, n1, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert after. */
+GG_CIRCLEQ_INSERT_AFTER(&head, n1, n2, entries);
+
+n2 = malloc(sizeof(struct entry));      /* Insert before. */
+GG_CIRCLEQ_INSERT_BEFORE(&head, n1, n2, entries);
+                                        /* Forward traversal. */
+GG_CIRCLEQ_FOREACH(np, &head, entries)
+        np-> ...
+                                        /* Reverse traversal. */
+GG_CIRCLEQ_FOREACH_REVERSE(np, &head, entries)
+        np-> ...
+                                        /* Delete. */
+while (GG_CIRCLEQ_FIRST(&head) != (void *)&head)
+        GG_CIRCLEQ_REMOVE(&head, GG_CIRCLEQ_FIRST(&head), entries);
+if (GG_CIRCLEQ_EMPTY(&head))            /* Test for emptiness. */
+        printf("nothing to do\en");
+.fi
+
+.SH SEE ALSO
+\f(CWgg-tree(3)\fR

@@ -1,0 +1,76 @@
+LK201/LK401 keyboard input
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-lk201
+
+
+Synopsis
+--------
+
+::
+
+  input-lk201: [<file>]
+
+ 
+Description
+-----------
+
+
+The lk201 and lk401 devices are keyboards made by Digital Equipment
+Corporation for some of there older micro computer systems and
+terminals.
+
+
+
+They connect via a 4 pin RJ connector, which carries 11.8V (+/- 6%),
+GND, and two bidirectional async RS423 (RS232 Compatible) serial
+lines, which are Receive and Transmit.  The pins are as follows
+(looking on to the male (lk201 side) connector)::
+
+     -------------------
+    | "    "    "    "  |
+    | L    V    G    D  |
+    | K    +    N    E  |
+    | ->        D    C  |
+    | D             ->  |
+    | E              L  |
+    | C              K  |
+     --               --
+       |             |
+        --         --
+          |       |
+           -------
+
+
+
+Options
+-------
+
+:p:`file`
+    Specifies the serial port device to use (e.g. `/dev/ttyS1`).  If
+    this argument is not specified as part of the input's arguments,
+    then the device named in the environment variable
+    `GII_LK201_OPTIONS` is used.
+
+
+Environment variables
+---------------------
+
+`GII_LK201_OPTIONS`
+    File name of serial port.
+
+
+Features
+--------
+
+- Generates evKey* events.
+
+
+Known Bugs
+----------
+
+- key repeat messages are not sent, which can annoy users who want
+  to use the cursor keys.
+
+- Handle setting of keyclick and bell, which can also annoy
+  users.

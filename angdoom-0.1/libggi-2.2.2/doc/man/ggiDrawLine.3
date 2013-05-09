@@ -1,0 +1,20 @@
+.TH "ggiDrawLine" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiDrawLine\fR : Draw a line on a visual
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiDrawLine(ggi_visual_t vis, int x, int y, int xe, int ye);
+.fi
+
+.SH DESCRIPTION
+Draws any line, using the current foreground color set by
+\f(CWggiSetGCForeground(3)\fR, from (\fIx\fR, \fIy\fR) to (\fIxe\fR, \fIye\fR).
+The line is exact; the pixel set is no more than 0.5 pixels off the
+place it should be.
+.SH RETURN VALUE
+This function returns \fB0\fR to indicate success.
+.SH SEE ALSO
+\f(CWggiDrawHLine(3)\fR, \f(CWggiDrawVLine(3)\fR

@@ -1,0 +1,98 @@
+.TH "input-linux-mouse" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-linux-mouse\fR : Direct mouse input
+.SH SYNOPSIS
+.nb
+.nf
+input-linux-mouse: [<mousetype>] [,<file>] [,[b<bauds>][r<rts>][d<dtr>]]
+.fi
+
+.SH DESCRIPTION
+This input opens a file (usually a device file or pipe) and reads
+mouse protocol data from it.
+.SH OPTIONS
+.TP
+\fImousetype\fR
+Indicates what type of mouse is attached.  The following
+types are supported:
+.RS
+.IP \(bu 4
+\f(CWms\fR, \f(CWMicrosoft\fR : Two button Microsoft compatible mice.
+.IP \(bu 4
+\f(CWms3\fR, \f(CWIntelliMouse\fR, \f(CWmman+\fR : Serial Intellimouse or
+compatible. Supports four buttons for mice like the Logitech
+MouseMan+.
+.IP \(bu 4
+\f(CWMouseSystems\fR, \f(CWmsc\fR : MouseSystems compatible (used in
+most 3-button mice).
+.IP \(bu 4
+\f(CWLogitech\fR, \f(CWlogi\fR :  Used in older Logitech serial mice.
+.IP \(bu 4
+\f(CWmm\fR, \f(CWMMSeries\fR :    MM series mice.
+.IP \(bu 4
+\f(CWSun\fR : Sun mice. The protocol is the same as 'msc' protocol
+except it used only 3 bytes per packet.
+.IP \(bu 4
+\f(CWMouseMan\fR, \f(CWmman\fR :  MouseMan protocol.
+.IP \(bu 4
+\f(CWBusMouse\fR, \f(CWbm\fR : Non-PS/2 busmice.
+.IP \(bu 4
+\f(CWLinuxUSB\fR, \f(CWlnxusb\fR : IMPS2 that doesn't choke on USB (no
+init attempted).
+.IP \(bu 4
+\f(CWps2\fR, \f(CWPS/2\fR : PS/2 mice (most non-serial mice use this
+protocol)
+.IP \(bu 4
+\f(CWimps2\fR, \f(CWIMPS/2\fR : PS/2 IntelliMouse and compatible (not
+USB, see lnxusb for that.)
+.IP \(bu 4
+\f(CWmmanps2\fR, \f(CWMouseManPlusPS/2\fR : PS/2 Logitech MouseMan+ and
+compatible.
+.PP
+Most of the strings supported by GPM, SVGAlib and XFree can be
+specified.  If you find one that isn't, please report.
+
+The special value \f(CWauto\fR tells \fBinput-linux-mouse\fR to read
+\fB~/.ggi/input/linux-mouse\fR, and if that fails,
+\fB$sysconfdir/ggi/input/linux-mouse\fR.  If none of the two files are
+found, \fBinput-linux-mouse\fR tries to auto-detect the mouse, and as
+a last resort uses the mouse information specified in
+\fB/etc/vga/libvga.config\fR.
+
+.RE
+.TP
+\fIfile\fR
+The file to read mouse protocol data from; defaults to
+\fB/dev/mouse\fR.
+
+.TP
+\fIbaud\fR
+Baud rate of mouse device.
+
+.TP
+\fIrts\fR
+Turns off RTS if set to \f(CW0\fR; turns RTS on if
+set to a number greater than 0.
+
+.TP
+\fIdtr\fR
+Turns off DTR if set to \f(CW0\fR; turns DTR on if set
+to a number greater than 0.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+Generates evPtr* events.
+.PP
+.SH FILES
+\fB~/.ggi/input/linux-mouse\fR and \fB$sysconfdir/ggi/input/linux-mouse\fR
+consists of the following entries:
+
+.nb
+.nf
+mouse mousetype
+mdev file
+.fi
+
+where \fImousetype\fR and \fIfile\fR has the same semantics as the
+invocation options of the same names.

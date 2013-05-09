@@ -1,0 +1,321 @@
+.TH "gg-tree" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBgg-tree\fR, \fBGG_SPLAY_PROTOTYPE\fR, \fBGG_SPLAY_GENERATE\fR, \fBGG_SPLAY_ENTRY\fR, \fBGG_SPLAY_HEAD\fR, \fBGG_SPLAY_INITIALIZER\fR, \fBGG_SPLAY_ROOT\fR, \fBGG_SPLAY_EMPTY\fR, \fBGG_SPLAY_NEXT\fR, \fBGG_SPLAY_MIN\fR, \fBGG_SPLAY_MAX\fR, \fBGG_SPLAY_FIND\fR, \fBGG_SPLAY_LEFT\fR, \fBGG_SPLAY_RIGHT\fR, \fBGG_SPLAY_FOREACH\fR, \fBGG_SPLAY_INIT\fR, \fBGG_SPLAY_INSERT\fR, \fBGG_SPLAY_REMOVE\fR, \fBGG_RB_PROTOTYPE\fR, \fBGG_RB_GENERATE\fR, \fBGG_RB_ENTRY\fR, \fBGG_RB_HEAD\fR, \fBGG_RB_INITIALIZER\fR, \fBGG_RB_ROOT\fR, \fBGG_RB_EMPTY\fR, \fBGG_RB_NEXT\fR, \fBGG_RB_MIN\fR, \fBGG_RB_MAX\fR, \fBGG_RB_FIND\fR, \fBGG_RB_LEFT\fR, \fBGG_RB_RIGHT\fR, \fBGG_RB_PARENT\fR, \fBGG_RB_FOREACH\fR, \fBGG_RB_INIT\fR, \fBGG_RB_INSERT\fR, \fBGG_RB_REMOVE\fR : implementations of splay and red-black trees
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg-tree.h>
+
+GG_SPLAY_PROTOTYPE(NAME, TYPE, FIELD, CMP);
+
+GG_SPLAY_GENERATE(NAME, TYPE, FIELD, CMP);
+
+GG_SPLAY_ENTRY(TYPE);
+
+GG_SPLAY_HEAD(HEADNAME, TYPE);
+
+struct TYPE *
+GG_SPLAY_INITIALIZER(GG_SPLAY_HEAD *head);
+
+GG_SPLAY_ROOT(GG_SPLAY_HEAD *head);
+
+bool
+GG_SPLAY_EMPTY(GG_SPLAY_HEAD *head);
+
+struct TYPE *
+GG_SPLAY_NEXT(NAME, GG_SPLAY_HEAD *head, struct TYPE *elm);
+
+struct TYPE *
+GG_SPLAY_MIN(NAME, GG_SPLAY_HEAD *head);
+
+struct TYPE *
+GG_SPLAY_MAX(NAME, GG_SPLAY_HEAD *head);
+
+struct TYPE *
+GG_SPLAY_FIND(NAME, GG_SPLAY_HEAD *head, struct TYPE *elm);
+
+struct TYPE *
+GG_SPLAY_LEFT(struct TYPE *elm, GG_SPLAY_ENTRY NAME);
+
+struct TYPE *
+GG_SPLAY_RIGHT(struct TYPE *elm, GG_SPLAY_ENTRY NAME);
+
+GG_SPLAY_FOREACH(VARNAME, NAME, GG_SPLAY_HEAD *head);
+
+void
+GG_SPLAY_INIT(GG_SPLAY_HEAD *head);
+
+struct TYPE *
+GG_SPLAY_INSERT(NAME, GG_SPLAY_HEAD *head, struct TYPE *elm);
+
+struct TYPE *
+GG_SPLAY_REMOVE(NAME, GG_SPLAY_HEAD *head, struct TYPE *elm);
+
+GG_RB_PROTOTYPE(NAME, TYPE, FIELD, CMP);
+
+GG_RB_GENERATE(NAME, TYPE, FIELD, CMP);
+
+GG_RB_ENTRY(TYPE);
+
+GG_RB_HEAD(HEADNAME, TYPE);
+
+GG_RB_INITIALIZER(GG_RB_HEAD *head);
+
+struct TYPE *
+GG_RB_ROOT(GG_RB_HEAD *head);
+
+bool
+GG_RB_EMPTY(GG_RB_HEAD *head);
+
+struct TYPE *
+GG_RB_NEXT(NAME, GG_RB_HEAD *head, struct TYPE *elm);
+
+struct TYPE *
+GG_RB_MIN(NAME, GG_RB_HEAD *head);
+
+struct TYPE *
+GG_RB_MAX(NAME, GG_RB_HEAD *head);
+
+struct TYPE *
+GG_RB_FIND(NAME, GG_RB_HEAD *head, struct TYPE *elm);
+
+struct TYPE *
+GG_RB_LEFT(struct TYPE *elm, GG_RB_ENTRY NAME);
+
+struct TYPE *
+GG_RB_RIGHT(struct TYPE *elm, GG_RB_ENTRY NAME);
+
+struct TYPE *
+GG_RB_PARENT(struct TYPE *elm, GG_RB_ENTRY NAME);
+
+GG_RB_FOREACH(VARNAME, NAME, GG_RB_HEAD *head);
+
+void
+GG_RB_INIT(GG_RB_HEAD *head);
+
+struct TYPE *
+GG_RB_INSERT(NAME, GG_RB_HEAD *head, struct TYPE *elm);
+
+struct TYPE *
+GG_RB_REMOVE(NAME, GG_RB_HEAD *head, struct TYPE *elm);
+.fi
+
+.SH DESCRIPTION
+These macros define data structures for different types of trees: splay
+trees and red-black trees.
+
+In the macro definitions, \fITYPE\fR is the name tag of a user defined structure
+that must contain a field of type \fBGG_SPLAY_ENTRY\fR, or \fBGG_RB_ENTRY\fR, named
+\fIENTRYNAME\fR. The argument \fIHEADNAME\fR is the name tag of a user defined
+structure that must be declared using the macros \fBGG_SPLAY_HEAD\fR or
+\fBGG_RB_HEAD\fR. The argument \fINAME\fR has to be a unique name prefix for every
+tree that is defined.
+
+The function prototypes are declared with either \fBGG_SPLAY_PROTOTYPE\fR or
+\fBGG_RB_PROTOTYPE\fR. The function bodies are generated with either
+\fBGG_SPLAY_GENERATE\fR or \fBGG_RB_GENERATE\fR. See the examples below for further
+explanation of how these macros are used.
+.SH SPLAY TREES
+A splay tree is a self-organizing data structure.  Every operation on the
+tree causes a splay to happen.  The splay moves the requested node to the
+root of the tree and partly rebalances it.
+
+This has the benefit that request locality causes faster lookups as the
+requested nodes move to the top of the tree.  On the other hand, every
+lookup causes memory writes.
+
+The Balance Theorem bounds the total access time for m operations and n
+inserts on an initially empty tree as O((m + n)lg n).  The amortized cost
+for a sequence of m accesses to a splay tree is O(lg n).
+
+A splay tree is headed by a structure defined by the \fBSPLAY_HEAD\fR macro.
+A \fBGG_SPLAY_HEAD\fR structure is declared as follows:
+
+.nb
+.nf
+GG_SPLAY_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and struct
+\fITYPE\fR is the type of the elements to be inserted into the tree.
+
+The \fBGG_SPLAY_ENTRY\fR macro declares a structure that allows elements to be
+connected in the tree.
+
+In order to use the functions that manipulate the tree structure, their
+prototypes need to be declared with the \fBGG_SPLAY_PROTOTYPE\fR macro, where
+\fINAME\fR is a unique identifier for this particular tree.  The \fITYPE\fR
+argument is the type of the structure that is being managed by the tree.
+The \fIFIELD\fR argument is the name of the element defined by \fBGG_SPLAY_ENTRY\fR.
+
+The function bodies are generated with the \fBGG_SPLAY_GENERATE\fR macro. It
+takes the same arguments as the \fBGG_SPLAY_PROTOTYPE\fR macro, but should be
+used only once.
+
+Finally, the \fICMP\fR argument is the name of a function used to compare trees
+noded with each other.  The function takes two arguments of type struct
+\fITYPE *\fR.  If the first argument is smaller than the second, the function
+returns a value smaller than zero.  If they are equal, the function
+returns zero.  Otherwise, it should return a value greater than zero.
+The compare function defines the order of the tree elements.
+
+The \fBGG_SPLAY_INIT\fR macro initializes the tree referenced by head.
+
+The splay tree can also be initialized statically by using the
+\fBGG_SPLAY_INITIALIZER\fR macro like this:
+
+.nb
+.nf
+GG_SPLAY_HEAD(HEADNAME, TYPE) head = GG_SPLAY_INITIALIZER(&head);
+.fi
+
+The \fBGG_SPLAY_INSERT\fR macro inserts the new element elm into the tree.
+
+The \fBGG_SPLAY_REMOVE\fR macro removes the element elm from the tree pointed by
+head.
+
+The \fBGG_SPLAY_FIND\fR macro can be used to find a particular element in the
+tree.:
+
+.nb
+.nf
+struct TYPE find, *res;
+find.key = 30;
+res = GG_SPLAY_FIND(NAME, head, &find);
+.fi
+
+The \fBGG_SPLAY_ROOT\fR, \fBGG_SPLAY_MIN\fR, \fBGG_SPLAY_MAX\fR, and \fBGG_SPLAY_NEXT\fR
+macros can be used to traverse the tree:
+
+.nb
+.nf
+for (np = GG_SPLAY_MIN(NAME, &head); np != NULL; np = GG_SPLAY_NEXT(NAME, &head, np))
+.fi
+
+Or, for simplicity, one can use the \fBGG_SPLAY_FOREACH\fR macro:
+
+.nb
+.nf
+GG_SPLAY_FOREACH(np, NAME, head)
+.fi
+
+The \fBGG_SPLAY_EMPTY\fR macro should be used to check whether a splay tree is
+empty.
+.SH RED-BLACK TREES
+A red-black tree is a binary search tree with the node color as an extra
+attribute.  It fulfills a set of conditions:
+.IP 1 4
+every search path from the root to a leaf consists of the same
+number of black nodes,
+.IP 2 4
+each red node (except for the root) has a black parent,
+.IP 3 4
+each leaf node is black.
+.PP
+Every operation on a red-black tree is bounded as O(lg n).  The maximum
+height of a red-black tree is 2lg (n+1).
+
+A red-black tree is headed by a structure defined by the \fBGG_RB_HEAD\fR macro.
+A \fBGG_RB_HEAD\fR structure is declared as follows:
+
+.nb
+.nf
+GG_RB_HEAD(HEADNAME, TYPE) head;
+.fi
+
+where \fIHEADNAME\fR is the name of the structure to be defined, and struct
+\fITYPE\fR is the type of the elements to be inserted into the tree.
+
+The \fBGG_RB_ENTRY\fR macro declares a structure that allows elements to be
+connected in the tree.
+
+In order to use the functions that manipulate the tree structure, their
+prototypes need to be declared with the \fBGG_RB_PROTOTYPE\fR macro, where
+\fINAME\fR is a unique identifier for this particular tree. The \fITYPE\fR
+argument is the type of the structure that is being managed by the tree.
+The \fIFIELD\fR argument is the name of the element defined by \fBGG_RB_ENTRY\fR.
+
+The function bodies are generated with the \fBGG_RB_GENERATE\fR macro. It
+takes the same arguments as the \fBGG_RB_PROTOTYPE\fR macro, but should be
+used only once.
+
+Finally, the \fICMP\fR argument is the name of a function used to compare trees
+noded with each other.  The function takes two arguments of type struct
+\fITYPE *\fR. If the first argument is smaller than the second, the function
+returns a value smaller than zero. If they are equal, the function
+returns zero.  Otherwise, it should return a value greater than zero.
+The compare function defines the order of the tree elements.
+
+The \fBGG_RB_INIT\fR macro initializes the tree referenced by head.
+
+The redblack tree can also be initialized statically by using the
+\fBGG_RB_INITIALIZER\fR macro like this:
+
+.nb
+.nf
+GG_RB_HEAD(HEADNAME, TYPE) head = GG_RB_INITIALIZER(&head);
+.fi
+
+The \fBGG_RB_INSERT\fR macro inserts the new element elm into the tree.
+
+The \fBGG_RB_REMOVE\fR macro removes the element elm from the tree pointed by
+head.
+
+The \fBGG_RB_FIND\fR macro can be used to find a particular element in the tree.:
+
+.nb
+.nf
+struct TYPE find, *res;
+find.key = 30;
+res = GG_RB_FIND(NAME, head, &find);
+.fi
+
+The \fBGG_RB_ROOT\fR, \fBGG_RB_MIN\fR, \fBGG_RB_MAX\fR, and \fBGG_RB_NEXT\fR macros can be used to
+traverse the tree:
+
+.nb
+.nf
+for (np = RB_MIN(NAME, &head); np != NULL; np = RB_NEXT(NAME, &head, np))
+.fi
+
+Or, for simplicity, one can use the \fBRB_FOREACH\fR macro:
+
+.nb
+.nf
+GG_RB_FOREACH(np, NAME, head)
+.fi
+
+The \fBGG_RB_EMPTY\fR macro should be used to check whether a red-black tree is
+empty.
+.SH NOTES
+Trying to free a tree in the following way is a common error:
+
+.nb
+.nf
+GG_SPLAY_FOREACH(var, NAME, head) {
+        GG_SPLAY_REMOVE(NAME, head, var);
+        free(var);
+}
+free(head);
+.fi
+
+Since var is free'd, the \fBFOREACH\fR macro refers to a pointer that may
+have been reallocated already.  Proper code needs a second variable.:
+
+.nb
+.nf
+for (var = GG_SPLAY_MIN(NAME, head); var != NULL; var = nxt) {
+        nxt = GG_SPLAY_NEXT(NAME, head, var);
+        GG_SPLAY_REMOVE(NAME, head, var);
+        free(var);
+}
+.fi
+
+Both \fBGG_RB_INSERT\fR and \fBGG_SPLAY_INSERT\fR return NULL if the element was
+inserted in the tree successfully, otherwise they return a pointer to the
+element with the colliding key.
+
+Accordingly, \fBGG_RB_REMOVE\fR and \fBGG_SPLAY_REMOVE\fR return the pointer to the
+removed element, otherwise they return NULL to indicate an error.
+.SH SEE ALSO
+\f(CWgg-queue(3)\fR

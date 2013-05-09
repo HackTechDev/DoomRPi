@@ -1,0 +1,104 @@
+Direct mouse input
+~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-linux-mouse
+
+
+Synopsis
+--------
+
+::
+
+  input-linux-mouse: [<mousetype>] [,<file>] [,[b<bauds>][r<rts>][d<dtr>]]
+
+
+Description
+-----------
+
+
+This input opens a file (usually a device file or pipe) and reads
+mouse protocol data from it. 
+
+
+Options
+-------
+
+:p:`mousetype`
+    Indicates what type of mouse is attached.  The following
+    types are supported:
+
+    - ``ms``, ``Microsoft`` : Two button Microsoft compatible mice.
+
+    - ``ms3``, ``IntelliMouse``, ``mman+`` : Serial Intellimouse or
+      compatible. Supports four buttons for mice like the Logitech
+      MouseMan+.
+
+    - ``MouseSystems``, ``msc`` : MouseSystems compatible (used in
+      most 3-button mice).
+
+    - ``Logitech``, ``logi`` : 	Used in older Logitech serial mice.
+
+    - ``mm``, ``MMSeries`` : 	MM series mice.
+
+    - ``Sun`` :	Sun mice. The protocol is the same as 'msc' protocol
+      except it used only 3 bytes per packet.
+
+    - ``MouseMan``, ``mman`` : 	MouseMan protocol.
+
+    - ``BusMouse``, ``bm`` : Non-PS/2 busmice.
+
+    - ``LinuxUSB``, ``lnxusb`` : IMPS2 that doesn't choke on USB (no
+      init attempted).
+
+    - ``ps2``, ``PS/2`` : PS/2 mice (most non-serial mice use this
+      protocol)
+
+    - ``imps2``, ``IMPS/2`` : PS/2 IntelliMouse and compatible (not
+      USB, see lnxusb for that.)
+
+    - ``mmanps2``, ``MouseManPlusPS/2`` : PS/2 Logitech MouseMan+ and
+      compatible.
+
+    Most of the strings supported by GPM, SVGAlib and XFree can be
+    specified.  If you find one that isn't, please report.
+
+    The special value ``auto`` tells `input-linux-mouse` to read
+    `~/.ggi/input/linux-mouse`, and if that fails,
+    `$sysconfdir/ggi/input/linux-mouse`.  If none of the two files are
+    found, `input-linux-mouse` tries to auto-detect the mouse, and as
+    a last resort uses the mouse information specified in
+    `/etc/vga/libvga.config`.
+
+:p:`file`
+    The file to read mouse protocol data from; defaults to
+    `/dev/mouse`.
+
+:p:`baud`
+    Baud rate of mouse device.
+
+:p:`rts`
+    Turns off RTS if set to ``0``; turns RTS on if
+    set to a number greater than 0.
+
+:p:`dtr`
+    Turns off DTR if set to ``0``; turns DTR on if set
+    to a number greater than 0.
+
+
+Features
+--------
+
+- Generates evPtr* events.
+
+
+Files
+-----
+
+`~/.ggi/input/linux-mouse` and `$sysconfdir/ggi/input/linux-mouse`
+consists of the following entries::
+
+    mouse mousetype
+    mdev file
+
+where :p:`mousetype` and :p:`file` has the same semantics as the
+invocation options of the same names.

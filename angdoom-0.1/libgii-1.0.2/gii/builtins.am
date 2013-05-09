@@ -1,0 +1,112 @@
+filterdir=$(top_builddir)/filter
+inputdir=$(top_builddir)/input
+
+
+#
+# inputs
+#
+if BUILTIN_INPUT_NULL
+builtins_libs += ${inputdir}/null/libnull.la
+endif
+
+if BUILTIN_INPUT_FILE
+builtins_libs += ${inputdir}/file/libfile.la
+endif
+
+if BUILTIN_INPUT_IPAQ_TS
+builtins_libs += ${inputdir}/ipaq_touchscreen/libipaq_touchscreen.la
+endif
+
+if BUILTIN_INPUT_TCP
+builtins_libs += ${inputdir}/tcp/libtcp.la ${inputdir}/tcp/libtcpconv.la
+endif
+
+if BUILTIN_INPUT_ZAURUS_TS
+builtins_libs += ${inputdir}/touchscreen/libzaurus.la
+endif
+
+if BUILTIN_INPUT_STDIN
+builtins_libs += ${inputdir}/stdin/libstdin.la
+endif
+
+if BUILTIN_INPUT_DIRECTX
+builtins_libs += ${inputdir}/directx/libdxinput.la
+endif
+
+if BUILTIN_INPUT_KII
+builtins_libs += ${inputdir}/kii/libkii.la
+endif
+
+if BUILTIN_INPUT_COCOA
+builtins_libs += ${inputdir}/cocoa/libcocoa.la
+endif
+
+if BUILTIN_INPUT_QUARTZ
+builtins_libs += ${inputdir}/quartz/libquartz.la
+endif
+
+if BUILTIN_INPUT_X
+builtins_libs += ${inputdir}/x/libx.la
+endif
+
+if BUILTIN_INPUT_MOUSE
+builtins_libs += ${inputdir}/mouse/libmouse.la
+endif
+
+if BUILTIN_INPUT_LINUX_MOUSE
+builtins_libs += ${inputdir}/linux_mouse/liblinux_mouse.la
+endif
+
+if BUILTIN_INPUT_LINUX_KBD
+builtins_libs += ${inputdir}/linux_kbd/liblinux_kbd.la
+endif
+
+if BUILTIN_INPUT_LINUX_JOY
+builtins_libs += ${inputdir}/linux_joy/liblinux_joy.la
+endif
+
+if BUILTIN_INPUT_LINUX_EVDEV
+builtins_libs += ${inputdir}/linux_evdev/liblinux_evdev.la
+endif
+
+if BUILTIN_INPUT_SPACEORB
+builtins_libs += ${inputdir}/spaceorb/libspaceorb.la
+endif
+
+if BUILTIN_INPUT_VGL
+builtins_libs += ${inputdir}/vgl/libvgl.la
+endif
+
+if BUILTIN_INPUT_PCJOY
+builtins_libs += ${inputdir}/pcjoy/libpcjoy.la
+endif
+
+if BUILTIN_INPUT_LK201
+builtins_libs += ${inputdir}/lk201/liblk201.la
+endif
+
+
+
+#
+# filters
+#
+
+if BUILTIN_FILTER_MOUSE
+builtins_libs += ${filterdir}/mouse/libfiltermouse.la
+endif
+
+if BUILTIN_FILTER_KEYTRANS
+builtins_libs += ${filterdir}/keytrans/libkeytrans.la
+endif
+
+if BUILTIN_FILTER_SAVE
+builtins_libs += ${filterdir}/save/libsave.la
+endif
+
+if BUILTIN_FILTER_TCP
+if BUILTIN_INPUT_TCP
+builtins_libs += ${filterdir}/tcp/libfiltertcp.la
+else
+builtins_libs += ${filterdir}/tcp/libfiltertcp.la ${inputdir}/tcp/libtcpconv.la
+endif
+endif

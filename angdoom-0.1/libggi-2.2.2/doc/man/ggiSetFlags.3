@@ -1,0 +1,169 @@
+.TH "ggiSetFlags" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiSetFlags\fR, \fBggiGetFlags\fR, \fBggiAddFlags\fR, \fBggiRemoveFlags\fR : Set or get flags affecting operation on a visual
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiSetFlags(ggi_visual_t vis, ggi_flags flags);
+
+ggi_flags ggiGetFlags(ggi_visual_t vis);
+
+#define ggiAddFlags(vis,flags)  \e
+              ggiSetFlags((vis), ggiGetFlags((vis)) | (flags))
+
+#define ggiRemoveFlags(vis,flags) \e
+              ggiSetFlags((vis), ggiGetFlags((vis)) & ~(flags))
+.fi
+
+.SH DESCRIPTION
+\fBggiSetFlags\fR sets the specified flags (bitwise
+OR'd together) on a visual.
+
+\fBggiGetFlags\fR obtains the flags currently in effect.
+
+\fBggiAddFlags\fR and \fBggiRemoveFlags\fR are macros that set or unset the
+specified flags.
+
+Flags are used to alter a visual's underlying behavior.  All flags
+default to an unset value. Flags which are not supported by a given
+visual will remain unset even when an attempt is made to raise them.
+Thus, it is possible to tell by reading back the flags whether or not
+each of the flags is supported by the given visual.
+.RS
+\fBNote:\fR
+It is recommended to set the flags \fIbefore\fR setting a mode,
+i.e. right after \f(CWggiOpen(3)\fR.
+.RE
+.SH RETURN VALUE
+\fBggiSetFlags\fR, \fBggiAddFlags\fR, and \fBggiRemoveFlags\fR return \fB0\fR on
+success, a \f(CWggi-error(3)\fR code on failure.  This will only
+happen if the failure of a target to support the addition or
+removal of a flag will cause the target to behave in a way that
+the application is not expecting.  As of this writing there are no
+such cases.  On visuals where certain flags are unsupported but are
+inconsequential, these functions will return a successful return
+code, but will not actually set or clear the flag.
+
+\fBggiGetFlags\fR returns the current flags.  This can be used by the
+curious to check whether a flag is being silently ignored as per
+above.
+.SH SYNCHRONOUS AND ASYNCHRONOUS DRAWING MODES
+Some visuals allow different modes with regard to when the screen is
+updated and the actual drawing takes place.
+.IP \(bu 4
+In synchronous mode when the drawing command returns, it is already
+or will be executed very shortly. So the visible effect is that
+everything is drawn immediately.  (It is not guaranteed in the
+strict sense that it is already drawn when the function call
+returns, but almost.)  This is the default mode for all visuals.
+.IP \(bu 4
+The asynchronous mode does not guarantee that drawing commands are
+executed immediately, but is faster on many targets.  If the visual
+does not support asynchronous mode, attempting to set it has no
+effect.  Code written for asynchronous visuals will always perform
+correctly on synchronous visuals (but not vice-versa), so it is not
+necessary to adapt a program's behavior if this flag is not
+available.
+
+To make sure that all pending graphics operations are actually done
+and the screen is updated, you need to call \f(CWggiFlush(3)\fR.
+This call is not needed in synchronous mode.
+.PP
+.RS
+\fBImportant:\fR
+On some targets such as the X target there is no real synchronous
+mode, so LibGGI fakes one by periodically calling
+\f(CWggiFlush(3)\fR in the background.  This process can
+take about half the execution time of a program.  So using
+synchronous mode can \fIreally\fR slow things
+down.
+
+However, the synchronous mode is the default, because it is  what
+most programmers expect.
+.RE
+In either mode, all operations are guaranteed to be performed in the
+order in which they are called. Reordering is not done.
+
+GGI guarantees that the effects of drawing operations on the final
+state of the buffer are consistant with the order in which they were
+invoked, but as to what order the operations visibly appear during a
+flush, that is entirely up to the target.  You could draw a red
+square with the GPU (through the target), and then draw a green square
+inside it via software -- you will always end up with a red square
+inside a green square, but the user may see the red square appear first.
+
+When it comes to directbuffer, though, that is the problem that the
+TIDYBUF flag is meant to fix. Or at least, the TIDYBUF flag fixes a
+problem with the way GGI fixes the serialization problem.  The display
+is flushed entirely before the acquire completes, and then the db is
+flushed entirely before the db is released, so that is serialized.
+The TIDYBUF stuff lets you bypass this serialization for efficiency.
+
+So the recommendation for all graphics applications is to set the
+asynchronous mode.  It will be far more efficient on some platforms
+and will \fInever\fR be worse.
+
+Setting up asynchronous mode:
+
+.nb
+.nf
+ggiAddFlags(vis, GGIFLAG_ASYNC);      /* switches to asynchronous mode */
+ggiFlush(vis);                        /* updates the screen */
+ggiRemoveFlags(vis, GGIFLAG_ASYNC);   /* switches to synchronous mode */
+.fi
+
+.SH TIDY BUFFER MODE
+Some visuals allow applications to manage their own dirty regions when
+using the directbuffer.
+.IP \(bu 4
+In the default dirty-buffering mode, visuals which use backbuffers
+to render to a display system will refresh the entire screen when
+the resource lock is held and then released for the write frame's
+directbuffer.  This happens in both async and sync modes.  In
+syncronous modes this full-screen refresh may be performed at
+regular intervals.  This can be very inefficient, but it guarantees
+that naive applications will be rendered correctly even though
+they were not written with a backbuffered display in mind.
+
+These visuals may also perform dirty-region tracking, such that if
+the directbuffer is used, altered data may never reach the screen
+until the lock is released, because the visual does not know that a
+certain area of the backbuffer contains new (dirty) data.  Even
+explicitly calling \f(CWggiFlushRegion(3)\fR on the affected area may
+not cause the data to be sent to the screen.
+.IP \(bu 4
+In tidy-buffering mode, which is set by raising the flag
+GGIFLAG_TIDYBUF, visuals do not synchronize the screen at all when
+the write frame's directbuffer lock is held or upon its release.
+However, in this mode, \f(CWggiFlushRegion(3)\fR will always cause
+the requested region of the screen to be updated.
+
+Note that this means that, as long as the lock is held, affected
+regions may also have to be flushed (and thus, should be flushed)
+after normal drawing primitives are called.
+
+Before releasing the lock, applications should be sure to flush all
+affected regions, because the visual may revert to its default
+dirty-region management behavior after the lock is released.
+
+Do note, also, that in multi-frame displays \fBggiFlushRegion(3)\fR affects
+only the current write frame, so even though it is possible to use a
+directbuffer to alter a different frame, you must call
+\f(CWggiSetWriteFrame(3)\fR to tell the visual that you will be
+altering the frame.
+.PP
+The GGIFLAG_TIDYBUF flag is not available on all visuals, but it is
+safe to attempt to set it whether or not it is available.  Code
+written for the tidy-buffering mode will display correctly on visuals
+which do not have a tidy-buffering mode (but not vice-versa), so it is
+not necessary to adapt program behavior to its non-presence.
+
+It is recommended that, if an application must use directbuffer, the
+application should attempt to place the visual in tidy-buffered mode.
+Do note, though, that many applications that use the directbuffer do
+not actually need to do so and probably should not, as it reduces
+portability.
+.SH SEE ALSO
+\f(CWggiFlush(3)\fR, \f(CWggiFlushRegion(3)\fR

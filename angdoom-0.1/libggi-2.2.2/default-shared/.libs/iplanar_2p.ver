@@ -1,0 +1,3 @@
+{ global:
+GGIdl_iplanar_2p;
+local: *; };

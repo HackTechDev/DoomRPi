@@ -1,0 +1,2728 @@
+1999-12-25 15:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: xwin/input.c (1.23), x/input.c (1.16): When all available
+	X events are read we must check for events pending in the X
+	connection to prevent them from lagging behind there.
+
+1999-11-05 22:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.27): New mouse type
+	"lnxusb"/"LinuxUSB".
+
+1999-11-05 22:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/mouse/: input.c (1.20), mouse.h (1.6), packetparse.c
+	(1.19): Restructured packet parser so we can fall back to another
+	parser when the device can't be initialized. Currently used by
+	mmanps2 and imps2 parsers.  Changed button mask in parse_imps2()
+	from 0x07 to 0x0f.	 This allows four buttons as used by the
+	Linux USB-mouse driver, and hopefully it shouldn't break anything
+	for three-button mice.	Fixed fatal bug in parse_imps2() - We
+	should return 4, not 3.  Added new parser type "lnxusb" for
+	USB-mice under Linux. It uses the imps2 parser, but doesn't require
+	any initialization.
+
+1999-09-23 13:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* config.guess (1.4), config.sub (1.4): Updated from autoconf CVS.
+
+1999-09-06 00:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/file/input.c (1.5): Use ggCurTime() instead of
+	gettimeofday().
+
+1999-09-06 00:22  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: stdin/Makefile.am (1.11), file/Makefile.am (1.5): Link
+	with $(SELECTLIBS).
+
+1999-09-06 00:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acconfig.h (1.8): Added GG_CURTIME_DEFINED.
+
+1999-09-06 00:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/system.h.in (1.6): Added @GG_CURTIME@
+
+1999-09-06 00:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.11): Use ggCurTime() instead of gettimeofday(). 
+	Made it possible to compile without pipe() function.
+
+1999-09-06 00:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.22): Use ggCurTime() for timestamping.
+
+1999-09-06 00:17  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/Makefile.am (1.10): Link library with $(SELECTLIBS).  Upped
+	version number to 0.7 (nothing new yet, but there will be, so we
+	might as well keep the number in sync with LibGG and the package
+	name...)
+
+1999-09-06 00:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/misc.c (1.4): Fail if GG_CURTIME_DEFINED is not defined.
+
+1999-09-06 00:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/Makefile.am (1.17): Upped version number to 0.7 (new function
+	ggCurTime()).
+
+1999-09-06 00:14  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.61): Upped version number to 0.7.  Define
+	GG_CURTIME for substitution in ggi/system.h.in.  Check for pipe()
+	function.  Check for select() in -lwsock32.  New Makefile variable
+	$(SELECTLIBS).
+
+1999-09-06 00:11  Marcus Sundberg [marcus@ggi-project.org]
+
+	* m4/winfuncs.m4 (1.2): Changed AC_CHECK_FUNC --> AC_CHECK_WINFUNC.
+
+1999-09-02 02:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.60): Check for windows.h.  Ugly special-hack with
+	AC_C_BIGENDIAN for cross-compiling to mingw32.	Use
+	AC_CHECK_WINFUNCS to check for common functions.
+
+1999-09-02 02:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.11): Mingw32 only defines a subset of the common
+	signals - arm all signals with ifdefs and be done with it.
+
+1999-09-02 02:11  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/internal/gii.h (1.25), gii/gii.c (1.21): Moved
+	GII_EV_TIMESTAMP define to gii.c and added support for using
+	GetSystemTime().
+
+1999-09-02 02:10  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.12): libtool's "smart" checks doesn't work as usual. 
+	Just let deplibs_check_method be pass_all for mingw/cygwin targets.
+
+1999-09-02 01:56  Marcus Sundberg [marcus@ggi-project.org]
+
+	* m4/: Makefile.am (1.2), winfuncs.m4 (1.1): New macro
+	AC_CHECK_WINFUNCS. Same syntax as AC_CHECK_FUNCS, but
+	AC_CHECK_WINFUNCS will also find name-mangled functions prototyped
+	in windows.h (or files included by it).
+
+1999-08-31 00:49  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.11): Made deplibs_check_method default to 'pass_all'
+	as it should do.  Set need_lib_prefix=no and need_version=no on
+	OpenBSD and NetBSD.
+
+1999-08-31 00:47  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/plat.h (1.12): Define GG_SYMPREFIX on NetBSD.
+
+1999-08-30 19:45  Marcus Sundberg [marcus@ggi-project.org]
+
+	* m4/libtool.m4 (1.2), ltconfig (1.10), ltmain.sh (1.8): Updated
+	from libtool CVS.
+
+1999-08-30 19:38  Marcus Sundberg [marcus@ggi-project.org]
+
+	* config.guess (1.3), config.sub (1.3): Updated from autoconf CVS.
+
+1999-08-12 21:31  Steve Cheng [steve@ggi-project.org]
+
+	* doc/libgii-user.sgml (1.2): Updated pointers.
+
+1999-08-12 21:30  Steve Cheng [steve@ggi-project.org]
+
+	* doc/: libgii-api.sgml (1.10), man/giiOpen.3gii (1.5): Big fat
+	warning that says to use ggiEvent*() instead of LibGII when using
+	LibGGI.
+
+1999-07-01 21:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/keytrans/filter.c (1.6): Avoid C++ keywords.
+
+1999-07-01 00:36  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.10), gii/unix.c (1.10), input/spaceorb/input.c
+	(1.22): Avoid C++ keywords.
+
+1999-06-26 02:09  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/mouse/packetparse.c (1.18): Added 3 button support for MS
+	protocol, from Christoph Egger.
+
+1999-06-25 23:08  Steve Cheng [steve@ggi-project.org]
+
+	* doc/libgii-api.sgml (1.9): Fixed DocBook markup so that non-man
+	formats will have proper cross references.  Added documentation for
+	some targets (straight from targets.txt)
+
+1999-06-24 23:57  Andreas Beck [becka@ggi-project.org]
+
+	* input/mouse/packetparse.c (1.17): Added MS-mouse third button
+	patch.
+
+1999-06-22 00:53  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.15): libtool.m4 isn't here anymore.
+
+1999-06-19 01:46  Andreas Beck [becka@ggi-project.org]
+
+	* gg/conf.c (1.9), include/ggi/gg.h (1.18): Added
+	ggConfigExpandAlias . Fixed small bug with memory target
+	portability.
+
+1999-06-12 01:11  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/lk201/.cvsignore (1.1): Initial revision.
+
+1999-06-12 01:08  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/Makefile.am (1.5): Added lk201 to EXTRA_SUBDIRS.
+
+1999-06-12 01:08  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.38): Make 'modifiers' field use the
+	state _after_ the event in question.  Don't use C++ keywords in the
+	code.
+
+1999-06-12 01:07  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_mouse/input.c (1.26), pcjoy/input.c (1.12),
+	spaceorb/input.c (1.21): Don't use C++ keywords in the code.
+
+1999-06-12 01:06  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/lk201/input.c (1.2): Fixed the worst evilness. _PLEASE_ fix
+	the gcc-specific stuff ASAP!
+
+1999-06-11 22:17  Andreas Beck [becka@ggi-project.org]
+
+	* configure.in (1.59), doc/inputs.txt (1.6), input/lk201/EXPSYMS
+	(1.1), input/lk201/Makefile.am (1.1), input/lk201/input.c (1.1),
+	input/lk201/keysymShift.dat (1.1), input/lk201/keytable.dat (1.1),
+	input/lk201/lk201.h (1.1): Added lk201 serial terminal target
+	provided by John Weismiller.
+
+1999-06-08 02:35  Marcus Sundberg [marcus@ggi-project.org]
+
+	* .cvsignore (1.8): Added acinclude.m4
+
+1999-06-08 02:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* autogen.sh (1.4): Generate acinclude.m4 from m4/*.m4
+
+1999-06-08 02:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acconfig.h (1.7): Added HAVE_NANOSLEEP and HAVE_SCHED_YIELD to
+	work around autoheader brokenness.
+
+1999-06-08 02:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.14), configure.in (1.58): Added m4/ directory to
+	build system.
+
+1999-06-08 02:26  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acinclude.m4 (1.3), libtool.m4 (1.3): Moved to m4/ directory.
+
+1999-06-08 02:25  Marcus Sundberg [marcus@ggi-project.org]
+
+	* m4/: .cvsignore (1.1), Makefile.am (1.1), extrapaths.m4 (1.1),
+	libtool.m4 (1.1): New directory in which to put autoconf macros.
+
+1999-06-07 00:52  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.57): Check for nanosleep() in -lposix4 as well. 
+	Check for sched_yield() in -lposix4 as well.  Check for TIOCMSET in
+	termios.h as well.
+
+1999-06-07 00:52  Steve Cheng [steve@ggi-project.org]
+
+	* doc/: libgii-api.sgml (1.8), man/giiEventPoll.3gii (1.6): Added
+	info from Marcus about giiEventSelect().
+
+1999-06-07 00:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.56): Check for nanosleep() in -lrt as well.
+
+1999-06-06 22:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/gglock.c (1.2): Fixed stupid typo.
+
+1999-06-06 22:57  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/filter.c (1.19): Fixed a warning.
+
+1999-06-06 22:32  Steve Cheng [steve@ggi-project.org]
+
+	* doc/: libgii-api.sgml (1.7), libgii-user.sgml (1.1),
+	man/Makefile.am (1.4), man/giiEventPoll.3gii (1.5),
+	man/giiEventSelect.3gii (1.1), man/giiEventSend.3gii (1.3),
+	man/giiEventsQueued.3gii (1.1), man/giiInit.3gii (1.3),
+	man/giiOpen.3gii (1.4), man/giiPanic.3gii (1.3),
+	man/giiSetEventMask.3gii (1.4), man/libgii.7gii (1.1): Added some
+	new functions: giiEventSelect, giiEventsQueued SGML'ized the
+	env.txt file and some introductory text.
+
+1999-06-05 00:03  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.55), gg/Makefile.am (1.16), gg/gglock.c (1.1),
+	gg/gglock.h (1.1): Finally implemented our own mutexes. 
+	testandset() implementations for non-gcc compilers are very
+	welcome.
+
+1999-05-31 10:58  Andreas Beck [becka@ggi-project.org]
+
+	* filter/mouse/mouse (1.2): Fixed axis-swapping in acceleration
+	sample config line
+
+1999-05-30 22:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_mouse/input.c (1.25), spaceorb/input.c (1.20):
+	Support for systems which doesn't have TIOCMSET.
+
+1999-05-30 22:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/plat.h (1.11): Use dlopen() on cygwin until LibGG works with
+	LoadLibrary.
+
+1999-05-30 22:17  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/system.h.in (1.5): Cleaned up WIN32 related defines.
+
+1999-05-30 22:17  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gg.h (1.17): Removed broken WIN32 stuff.
+
+1999-05-30 22:16  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltmain.sh (1.7): Work around win32 brokenness.
+
+1999-05-30 22:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acconfig.h (1.6), configure.in (1.54): Check for TIOCMSET in
+	sys/ioctl.h.
+
+1999-05-30 15:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/: gg.h (1.16), gii-unix.h (1.2), gii.h (1.16),
+	internal/gii-dl.h (1.4), internal/gii.h (1.24),
+	internal/gii_debug.h (1.8): Made all headers C++ compatible.
+
+1999-05-30 15:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/system.h.in (1.4): Add __BEGIN_DECLS and __END_DECLS
+	macros in case they are not defined by the system.
+
+1999-05-30 13:13  Andreas Beck [becka@ggi-project.org]
+
+	* filter/mouse/: Makefile.am (1.8), filter.c (1.18), mouse (1.1):
+	Mouse filter now works.
+
+1999-05-30 00:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.53): Use AC_LIBTOOL_DLOPEN and
+	AC_LIBTOOL_WIN32_DLL.  AM_SYS_SYMBOL_UNDERSCORE does not exist
+	anymore.
+
+1999-05-30 00:55  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/filter.c (1.17): Disabled filter until it's
+	functional.
+
+1999-05-30 00:53  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/Makefile.am (1.7): Added -no-undefined and -lm.
+
+1999-05-30 00:47  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/: keytrans/Makefile.am (1.4), save/Makefile.am (1.7):
+	Added -no-undefined to makefiles.
+
+1999-05-30 00:43  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: fdselect/Makefile.am (1.3), file/Makefile.am (1.4),
+	linux_joy/Makefile.am (1.8), linux_kbd/Makefile.am (1.9),
+	linux_mouse/Makefile.am (1.8), null/Makefile.am (1.7),
+	pcjoy/Makefile.am (1.9), spaceorb/Makefile.am (1.8),
+	stdin/Makefile.am (1.10), x/Makefile.am (1.8), xwin/Makefile.am
+	(1.9): Added -no-undefined to makefiles.
+
+1999-05-30 00:40  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/internal/gii_debug.h (1.7): Declare exported
+	variables as IMPORTVAR.
+
+1999-05-30 00:37  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/internal/gii.h (1.23): Changed _BUILDING_LIBGII to
+	_INTERNAL_LIBGII.  Declare exported variables as IMPORTVAR.  Added
+	_giiAsyncNotify() prototype.
+
+1999-05-30 00:35  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/system.h.in (1.3): New macros EXPORTVAR and
+	IMPORTVAR.
+
+1999-05-30 00:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gii.h (1.15): Changed _BUILDING_LIBGII to
+	_INTERNAL_LIBGII.
+
+1999-05-30 00:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* config.guess (1.2), config.sub (1.2), libtool.m4 (1.2), ltconfig
+	(1.9), ltmain.sh (1.6): Updated from libtool CVS.
+
+1999-05-30 00:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/init.c (1.12): Declare exported variables as EXPORTVAR.
+
+1999-05-30 00:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.20): Call _giiAsyncNotify() when adding an event.
+
+1999-05-30 00:24  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/Makefile.am (1.9): Added -DBUILDING_LIBGII, -no-undefined and
+	-export-symbols.
+
+1999-05-30 00:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/EXPSYMS (1.2): Added exported variables.
+
+1999-05-30 00:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/Makefile.am (1.15): Added -DBUILDING_LIBGG, -no-undefined and
+	-export-symbols.
+
+1999-05-30 00:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/plat.h (1.10): Check for CYGWIN and MINGW defines without "32"
+	as well.
+
+1999-05-29 21:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/EXPSYMS (1.1), gii/EXPSYMS (1.1): Added list of exported
+	symbols.
+
+1999-05-28 23:25  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.9): Initialize maxfd properly in _giiUpdateCache().
+
+1999-05-26 00:14  Jon Taylor [taylorj@ggi-project.org]
+
+	* gii/gii.c (1.19): Minor spelling fix
+
+1999-05-25 23:16  Andreas Beck [becka@ggi-project.org]
+
+	* filter/mouse/filter.c (1.16): Restructured mouse filter.
+
+1999-05-24 01:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/conf.c (1.8): Testing for EOF is not good enough - we must
+	check for any read error.
+
+1999-05-23 19:43  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.18): Wrap some frequently called stuff in GIID2().
+
+1999-05-23 19:43  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/internal/gii_debug.h (1.6): New macros to support
+	different debug levels at compile time.
+
+1999-05-22 23:20  Andreas Beck [becka@ggi-project.org]
+
+	* filter/keytrans/: Makefile.am (1.3), filter.c (1.5), keytrans
+	(1.1): Added a stub configfile for keytrans filter
+
+1999-05-22 17:06  Andreas Beck [becka@ggi-project.org]
+
+	* filter/keytrans/filter.c (1.4): Umpf. Wrong config-filename.
+	Added Changelog entry.
+
+1999-05-22 17:04  Andreas Beck [becka@ggi-project.org]
+
+	* libgii.conf.in (1.13), filter/keytrans/filter.c (1.3), gg/conf.c
+	(1.7), gg/dlptlock.c (1.6), gii/init.c (1.11),
+	input/linux_mouse/input.c (1.24): Tiny fixes for potential buffer
+	length problems. Fixed up keytrans filter to work and read a
+	configfile.
+
+1999-05-20 21:07  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.17): Fixed possible deadlocks in _giiEvQueueAdd().
+
+1999-05-20 19:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.23): No need to append "/.ggi" to
+	ggGetUserDir() anymore.
+
+1999-05-20 19:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/misc.c (1.3): Append "/.ggi" to ggGetUserDir().
+
+1999-05-20 15:31  Andreas Beck [becka@ggi-project.org]
+
+	* configure.in (1.52), filter/Makefile.am (1.3),
+	filter/keytrans/Makefile.am (1.2), filter/keytrans/filter.c (1.2):
+	Made the keytrans filter compile. Untested yet.
+
+1999-05-20 14:04  Andreas Beck [becka@ggi-project.org]
+
+	* filter/keytrans/: .cvsignore (1.1), EXPSYMS (1.1), Makefile.am
+	(1.1), filter.c (1.1): Added key translation target. Not yet
+	working.
+
+1999-05-19 23:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.22): Don't try to set serial
+	parameters on named pipes.
+
+1999-05-19 08:46  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/mouse/packetparse.c (1.16): Don't print warning when read()
+	returns with EAGAIN.
+
+1999-05-19 08:46  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.21): Autodetection should now work
+	when the device is a symlink to /dev/gpmdata.
+
+1999-05-18 01:01  Steve Cheng [steve@ggi-project.org]
+
+	* doc/: libgii-api.sgml (1.6), man/giiEventPoll.3gii (1.4): Fixed
+	wrong prototype for giiEventPoll in documentation and an related
+	mistake.  Commented out DocBook banner.
+
+1999-05-17 08:37  Marcus Sundberg [marcus@ggi-project.org]
+
+	* NEWS (1.4): [no log message]
+
+1999-05-16 20:24  Marcus Sundberg [marcus@ggi-project.org]
+
+	* NEWS (1.3): Added in todays input-linux-kbd changes.
+
+1999-05-16 20:24  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/linkey.c (1.11): Fixed BackSpace/Delete mappings.
+	 Made PrintScreen work.  Added support for Win95 keyboards.
+
+1999-05-16 17:48  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/pcjoy/input.c (1.11): Synced with rest of LibGII.
+
+1999-05-16 17:48  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_joy/input.c (1.20), linux_kbd/input.c (1.37),
+	mouse/packetparse.c (1.15): Don't set ev->target in inputlibs -
+	_giiEventBlank() does that.
+
+1999-05-15 18:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/demo.c (1.11): Inputs need to be explicitly closed before
+	exiting a program.
+
+1999-05-15 18:25  Marcus Sundberg [marcus@ggi-project.org]
+
+	* INSTALL (1.5), README (1.4), doc/env.txt (1.6): Doc updates.
+
+1999-05-15 15:25  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/: libgii-api.sgml (1.5), man/Makefile.am (1.3),
+	man/giiEventPoll.3gii (1.3), man/giiGetSelectFdset.3gii (1.3),
+	man/giiOpen.3gii (1.3), man/giiSetEventMask.3gii (1.3): Removed
+	giiGetSelectFdset. Fixed typos.
+
+1999-05-14 18:24  Marcus Sundberg [marcus@ggi-project.org]
+
+	* INSTALL (1.4), README (1.3), doc/env.txt (1.5): Doc updates.
+
+1999-05-14 18:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* NEWS (1.2): Added news for 0.6.
+
+1999-05-14 18:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/inputs.txt (1.5): Removed reference to 'file' protocol for
+	input-linux-mouse.
+
+1999-05-14 18:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.51), gg/Makefile.am (1.14), gii/Makefile.am
+	(1.8): Upped version numbers to 0.6.
+
+1999-05-13 18:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/mouse/: input.c (1.19), mouse.h (1.5), packetparse.c
+	(1.14): We don't have to fail when writing the init sequence for
+	all mouse types.
+
+1999-05-13 18:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.20): Cleaned up setting/restoring of
+	serial parameters.  Don't free() inp->priv twice when opening
+	input-mouse fails.
+
+1999-05-12 23:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.36): When pressing dead<foo>+space we
+	should produce a <foo> sym.
+
+1999-05-11 21:39  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/dl.c (1.4): Make sure we don't pass NULL pointers as strings
+	to DPRINT.
+
+1999-05-10 22:30  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/mhub.c (1.6): Fixed a bug in the button remapping code.
+
+1999-05-10 22:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.19): The gpm repeater seems to be
+	named /dev/gpmdata, not /dev/gpm.  To be safe, simply match
+	/dev/gpm*.
+
+1999-05-09 18:39  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/inputs.txt (1.4): Updated info about input-linux-mouse and
+	fixed a small typo.
+
+1999-05-09 16:01  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/input.c (1.15), xwin/input.c (1.22): Casting structs
+	doesn't work on all compilers.
+
+1999-05-04 21:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.8): In giiEventSelect(): + select() on the FDs even
+	if we have a GII event.  + Only clear readfds once.  + Clear *mask
+	when returning because of no fds selectable.  + Properly handle
+	user passed/GII fds.
+
+1999-05-04 21:56  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.11): Added GGI_EBADFILE and GGI_ENOSPACE.
+
+1999-04-30 21:09  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.9): Call unregister_sighandler() in the right
+	place when we don't have any functions registered.  Added new
+	function ggCleanupForceExit(). It's primary use is for sublibs
+	which are linked to code that does atexit() or similiar.
+
+1999-04-30 21:09  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gg.h (1.15): Added new function ggCleanupForceExit().
+	It's primary use is for sublibs which are linked to code that does
+	atexit() or similiar.
+
+1999-04-30 21:08  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.50): Added check for _exit().
+
+1999-04-30 01:12  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.8): Fixed lame bug in previous commit.
+
+1999-04-30 01:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.7): Use sigaction() instead of signal() if it is
+	available.
+
+1999-04-30 00:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.49): We need to check for sigaction, but not for
+	sigprocmask.
+
+1999-04-23 18:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.7): Implemented locking of event queues and
+	interruption of     giiEventPoll() when giiEventSend() is called
+	from another thread.
+
+1999-04-22 22:26  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.16): Implemented GII_EV_TARGET_QUEUE.  Implemented
+	locking of event queues and interruption of   giiEventPoll() when
+	giiEventSend() is called from another thread.
+
+1999-04-22 22:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gii.h (1.14), include/ggi/internal/gii.h (1.22),
+	gii/init.c (1.10): Implemented locking of event queues and
+	interruption of       giiEventPoll() when giiEventSend() is called
+	from another thread.
+
+1999-04-22 22:16  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/events.h (1.24): Implemented GII_EV_TARGET_QUEUE.
+
+1999-04-21 22:37  Andreas Beck [becka@ggi-project.org]
+
+	* gii/gii.c (1.15), include/ggi/gii.h (1.13),
+	input/linux_joy/input.c (1.19): Fixed bug in linux_joy source, adde
+	DevInfoByNumber.
+
+1999-04-12 22:48  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/linkey.c (1.10): K_DCEDIL does not exist in older
+	kernels.
+
+1999-04-02 01:59  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.6): giiEventSelect(): now accepts NULL fd_sets like
+	select does.  giiEventSelect(): does not return fds which were not
+	reported readable
+
+1999-04-02 01:09  Marcus Sundberg [marcus@ggi-project.org]
+
+	* NEWS (1.1): Added list of user-visible changes.
+
+1999-04-01 14:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* libgii.conf.in (1.12): Use @gii_libdir@ instead of @prefix@/lib
+	in .root
+
+1999-04-01 14:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.48): The confdir now defaults to PREFIX/etc/ggi
+	instead of /etc/ggi.
+
+1999-04-01 14:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* INSTALL (1.3), README (1.2): Updated docs for the release.
+
+1999-04-01 03:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.13), configure.in (1.47), demos/Makefile.am
+	(1.15), doc/Makefile.am (1.2), doc/man/Makefile.am (1.2),
+	filter/Makefile.am (1.2), filter/mouse/Makefile.am (1.6),
+	filter/save/Makefile.am (1.6), gg/Makefile.am (1.13),
+	input/Makefile.am (1.4), input/fdselect/Makefile.am (1.2),
+	input/file/Makefile.am (1.3), input/linux_joy/Makefile.am (1.7),
+	input/linux_kbd/Makefile.am (1.8), input/linux_mouse/Makefile.am
+	(1.7), input/mouse/Makefile.am (1.8), input/null/Makefile.am (1.6),
+	input/pcjoy/Makefile.am (1.8), input/spaceorb/Makefile.am (1.7),
+	input/stdin/Makefile.am (1.9), input/x/Makefile.am (1.7),
+	input/xwin/Makefile.am (1.8): Added proper support for 'make dist'.
+
+1999-03-31 03:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.46), gg/Makefile.am (1.12), gii/Makefile.am
+	(1.7): Upped version numbers to 0.5.
+
+1999-03-31 02:42  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.8): Fixed Solaris bug and added some sane default
+	values.
+
+1999-03-31 00:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/x/xev.c (1.9): XK_dead_belowdot doesn't exist on all
+	systems.
+
+1999-03-31 00:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/Makefile.am (1.14): Make sure the linker finds LibGG.
+
+1999-03-28 18:22  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_kbd/input.c (1.35), mouse/packetparse.c (1.13):
+	Don't queue unwanted events.
+
+1999-03-28 00:47  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.7), ltmain.sh (1.5): Updated from current libtool
+	CVS.
+
+1999-03-28 00:46  Marcus Sundberg [marcus@ggi-project.org]
+
+	* libtool.m4 (1.1): Macro definitions from libtool, ship with
+	LibGII so developers and CVS users don't have to have latest
+	libtool version installed.
+
+1999-03-27 14:12  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/input.c (1.14), xwin/input.c (1.21): include string.h
+	for memset().
+
+1999-03-24 15:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gg.h (1.14): Removed Acquire/Release stuff.
+
+1999-03-24 15:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.10): Added GGI_EEXCLUSIVE.
+
+1999-03-23 21:10  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.20): Make sure priv->cursor is initialized
+	properly.  Fixed bug when setting inp->devinfo.
+
+1999-03-20 16:28  Andreas Beck [becka@ggi-project.org]
+
+	* demos/demo.c (1.10), filter/mouse/filter.c (1.15), gii/gii.c
+	(1.14), include/ggi/internal/gii.h (1.21), input/fdselect/input.c
+	(1.4), input/file/input.c (1.4), input/linux_joy/input.c (1.18),
+	input/linux_kbd/input.c (1.34), input/mouse/input.c (1.18),
+	input/pcjoy/input.c (1.10), input/spaceorb/input.c (1.19),
+	input/stdin/input.c (1.23), input/x/input.c (1.13),
+	input/xwin/input.c (1.19): Added devinfo querying.
+
+1999-03-18 00:43  Andreas Beck [becka@ggi-project.org]
+
+	* demos/filter.c (1.8), filter/mouse/filter.c (1.14),
+	filter/save/filter.c (1.10), gii/gii.c (1.13), gii/init.c (1.9),
+	include/ggi/gii.h (1.12), include/ggi/internal/gii.h (1.20),
+	input/mouse/input.c (1.17): Unified Filter/Input handling.
+
+1999-03-14 00:55  Andreas Beck [becka@ggi-project.org]
+
+	* demos/demo.c (1.9), filter/mouse/filter.c (1.13), gii/gii.c
+	(1.12), include/ggi/gii.h (1.11), include/ggi/internal/gii.h
+	(1.19), input/xwin/input.c (1.18): Prepared a few thing for filter
+	handling and devinfo querying.
+
+1999-03-11 23:59  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/: input.c (1.33), linkey.c (1.9): Added support
+	for dead keys.	Use cached sym and label instead of making syscalls
+	when sym is not a modifier (which may be locked).
+
+1999-03-11 23:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/input.c (1.12), xwin/input.c (1.17): Fixed dead keys to
+	handle repeat properly.
+
+1999-03-11 22:10  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/gg.h (1.13): Added resource stuff.
+
+1999-03-11 19:00  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/input.c (1.11), x/xev.c (1.8), x/xev.h (1.4),
+	xwin/input.c (1.16): Added support for dead keys.
+
+1999-03-11 18:42  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.11): Added _giiPeekEvent() and _giiDeleteEvent().
+	Removed _giiPushBackEvent().  Small optimization in _giiGetEvent().
+
+1999-03-11 18:36  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.13): Added dead keys.
+
+1999-03-11 00:08  Andreas Beck [becka@ggi-project.org]
+
+	* filter/mouse/filter.c (1.12): Mouse acceleration added to mouse
+	filter.
+
+1999-03-09 19:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.45), input/linux_kbd/input.c (1.32): Use sys/kd.h
+	and sys/vt.h instead of their linux/* counterparts if available.
+
+1999-03-09 18:35  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/conf.c (1.6): If .root is not found in a config file we use
+	the .root from the level above it.
+
+1999-03-07 00:51  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.31): Fixed LEDs to work when running
+	on our own console too.  Try to detect when we're a background
+	process on a tty, and fail instead of blocking infinitely.
+
+1999-03-06 12:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/fdselect/input.c (1.3): Fixed stupid bug
+
+1999-03-05 19:48  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/init.c (1.8): Fixed weird typos in comment...
+
+1999-03-05 19:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.18): Removed "file" pseudo-protocol
+	and improved the "auto" pseudo-protocol.  We now try to read first
+	~/.ggi/input/linux-mouse and then $gii_confdir/input/linux-mouse.
+
+1999-03-05 19:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.44): Added GIICONFDIR #define Added check for
+	readlink()
+
+1999-03-05 19:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/init.c (1.7), include/ggi/gii.h (1.10): New giiGetConfDir()
+	function.
+
+1999-03-05 19:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/Makefile.am (1.6): Added ${top_srcdir}/gg to include dirs for
+	plat.h
+
+1999-03-05 19:26  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acconfig.h (1.5): Added GIICONFDIR #define
+
+1999-03-05 06:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/mhub.1 (1.2): Added info about how to select the "default
+	device".
+
+1999-03-05 04:38  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/fdselect/input.c (1.2): Some minor cleanups.
+
+1999-03-05 01:29  Andreas Beck [becka@ggi-project.org]
+
+	* input/fdselect/: .cvsignore (1.1), EXPSYMS (1.1), Makefile.am
+	(1.1), input.c (1.1): Added preliminary fdselect target. Completely
+	untested. Don't include in build system yet !
+
+1999-03-02 03:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/plat.h (1.9): AM_SYS_SYMBOL_UNDERSCORE doesn't work on OpenBSD
+	- hardcode it.
+
+1999-03-02 02:06  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/: mouse/Makefile.am (1.5), save/Makefile.am (1.5): Always
+	link against gg when we link against gii.
+
+1999-03-02 01:57  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: file/Makefile.am (1.2), linux_joy/Makefile.am (1.6),
+	mouse/Makefile.am (1.7), pcjoy/Makefile.am (1.7),
+	spaceorb/Makefile.am (1.6), x/Makefile.am (1.6): Always link
+	against gg when we link against gii.
+
+1999-03-02 01:45  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/null/Makefile.am (1.5): Always link against gg when we link
+	against gii.
+
+1999-03-02 01:35  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.43): Rearranged some options so the important
+	ones are more visible.
+
+1999-03-02 01:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acinclude.m4 (1.2): Use $extra_includes in CPPFLAGS.
+
+1999-03-02 01:24  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.6): Default deplibs_check_method to 'pass_all'.
+
+1999-03-01 21:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.9): Added GGI_EFATAL
+
+1999-02-28 21:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/filter.c (1.7): Fixed warning on 64-bit systems.
+
+1999-02-25 21:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_kbd/Makefile.am (1.7), linux_mouse/Makefile.am
+	(1.6), stdin/Makefile.am (1.8), xwin/Makefile.am (1.7): Explicitly
+	link with LibGG when we use it.
+
+1999-02-25 21:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.12): Do 'include' subdir first, as the libs depend
+	on system.h.
+
+1999-02-25 16:00  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/parse.c (1.10), include/ggi/gg.h (1.12): First argument to
+	ggParseOptions() should be const char pointer.
+
+1999-02-25 15:59  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/dl.c (1.4): Fixed up error message when loading a module
+	fails.
+
+1999-02-24 23:36  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.10): Initialize ret->filters to NULL in
+	_giiInputAlloc().  Update the cache when calling giiJoinInputs()
+	with one arg == NULL too.
+
+1999-02-23 12:22  Andrew Apted [andrew@ggi-project.org]
+
+	* input/file/input.c (1.3): Made the timing "more exact" (if one
+	can say that :->).
+
+1999-02-22 21:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.42): [no log message]
+
+1999-02-22 21:22  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: file/input.c (1.2), linux_kbd/input.c (1.30),
+	linux_mouse/input.c (1.17), mouse/input.c (1.16), stdin/input.c
+	(1.22), xwin/input.c (1.15): Added proper devinfo reporting.
+
+1999-02-22 21:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/x/input.c (1.10): Fixed proper devinfo reporting.      
+	Fixed bug with pointer movement events.
+
+1999-02-22 21:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/events.h (1.23): Changed num_buttons and num_axes in
+	getdevinfo struct to uint32.
+
+1999-02-22 21:17  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.6): Catch more signals.
+
+1999-02-22 21:17  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.9): Match (event->any.target&0x100) instead of just
+	event->any.target when deciding if an inputlib should have a sent
+	event.
+
+1999-02-22 21:16  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.5): Handle errors (in particular EINTR) in select()
+	properly.
+
+1999-02-21 22:31  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.8), gii/init.c (1.6), gii/unix.c (1.4),
+	include/ggi/internal/gii-dl.h (1.3), include/ggi/internal/gii.h
+	(1.18): Implemented a special thread and async-signal safe queue,
+	in which events can be queued from signal handlers.  Optimized
+	event queue/dequeue operations a bit.  Changed _giiEventBlank() to
+	take a size argument.
+
+1999-02-21 22:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_joy/input.c (1.17), input/linux_kbd/input.c (1.29),
+	input/mouse/input.c (1.15), input/mouse/packetparse.c (1.12),
+	input/spaceorb/input.c (1.18), input/stdin/input.c (1.21),
+	input/x/input.c (1.9), input/xwin/input.c (1.14),
+	filter/mouse/filter.c (1.11): Updated for new _giiEventBlank().
+
+1999-02-21 22:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gii.h (1.9): Fixed up prototypes a bit.
+
+1999-02-21 22:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/events.h (1.22): Added GII_CMDFLAG_EXTERNAL.
+
+1999-02-21 22:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: dl.c (1.3), plat.h (1.8): Print error message when we can't
+	open a module.
+
+1999-02-21 22:12  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.41): Check for sigprocmask.
+
+1999-02-21 22:12  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/filter.c (1.6): Updated for new filter system.
+
+1999-02-20 20:44  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/env.txt (1.4), filter/mouse/filter.c (1.10),
+	filter/save/filter.c (1.9), gii/dl.c (1.3), gii/gii.c (1.7),
+	gii/init.c (1.5), include/ggi/gii.h (1.8),
+	include/ggi/internal/gii.h (1.17), input/linux_joy/input.c (1.16),
+	input/linux_kbd/input.c (1.28), input/linux_mouse/input.c (1.16),
+	input/mouse/packetparse.c (1.11), input/spaceorb/input.c (1.17):
+	Implemented new filter system.	Optimized inputlibs to make use of
+	the new "arg" argument to GIIpoll.  Support opening multiple input
+	sources with a single giiOpen() call.
+
+1999-02-20 20:42  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/parse.c (1.9), include/ggi/gg.h (1.11): Made first argument to
+	ggParseTarget() const char *.
+
+1999-02-20 20:40  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.13): Fixed a bug with relmouse handling.
+
+1999-02-20 20:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.40), libgii.conf.in (1.11), input/file/.cvsignore
+	(1.1), input/file/EXPSYMS (1.1), input/file/Makefile.am (1.1),
+	input/file/input.c (1.1): New inputlib which reads events saved by
+	filter-save.
+
+1999-02-20 20:30  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/internal/gii_debug.h (1.5): Don't put double colons
+	after "LibGII".
+
+1999-02-19 04:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/filter.c (1.9), filter/save/filter.c (1.8),
+	gii/gii.c (1.6), gii/unix.c (1.3), include/ggi/internal/gii.h
+	(1.16), input/linux_joy/input.c (1.15), input/linux_kbd/input.c
+	(1.27), input/linux_mouse/input.c (1.15), input/mouse/packetparse.c
+	(1.10), input/null/input.c (1.6), input/spaceorb/input.c (1.16),
+	input/stdin/input.c (1.20), input/x/input.c (1.8),
+	input/xwin/input.c (1.12): LibGII Optimizations: Pass fd_set with
+	readable fds to _giiPollall() so the inputlib doesn't have to
+	select() again.  Cache maxfd, fdset, curreventmask, targetcan and
+	flags for entire input chains so we don't have to re-generate them
+	all the time.
+
+1999-02-17 01:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/Makefile.am (1.6): Install gii-unix.h
+
+1999-02-17 01:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.5): Hopefully fixed to work out of the box on
+	FreeBSD.
+
+1999-02-17 01:00  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.11): Don't unlock the mutex before calling
+	exposefunc - not necessary anymore.
+
+1999-02-17 01:00  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.12): Changed GII_KM_RIGHT to 0x40 for
+	future expansions.
+
+1999-02-16 20:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/: input.c (1.26), linkey.c (1.8), linkey.h (1.5):
+	Made CapsLock, ScrollLock and NumLock LEDs work.  Made locked
+	modifiers and AltGr work.  Don't repeat modifier keys.	Hack to
+	tell left and right shift/control from eachother in spite of the
+	braindamaged Linux keyboard.
+
+1999-02-16 19:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/x/xev.c (1.7): Replaced broken toupper() with own code.
+	Support more modifiers.
+
+1999-02-15 20:36  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.10): We need to unlock the mutex before
+	calling exposefunc.  Use the label when checking for RELPTR_KEYS. 
+	Don't send PtrRelative events with no movement.
+
+1999-02-15 20:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/x/xev.c (1.6): Map XK_Multi_key ==> GIIK_Compose. Fixed
+	XK_KP_F3.
+
+1999-02-15 20:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.11): GIIK_PF* KVALs should be hex, not
+	decimal.
+
+1999-02-14 22:14  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/filter.c (1.8): Commited a bunch of keyboard
+	changes. Full docs for keyboard events will be in the next beta
+	release.
+
+1999-02-14 21:54  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/events.h (1.21), include/ggi/keyboard.h (1.10),
+	input/linux_joy/input.c (1.14), input/linux_kbd/input.c (1.25),
+	input/linux_kbd/linkey.c (1.7), input/linux_kbd/linkey.h (1.4),
+	input/spaceorb/input.c (1.15), input/stdin/input.c (1.19),
+	input/x/input.c (1.7), input/x/xev.c (1.5), input/x/xev.h (1.3),
+	input/xwin/input.c (1.9): Commited a bunch of keyboard changes.
+	Full docs for keyboard events will be in the next beta release.
+
+1999-02-13 23:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.39): Check for pthread stuff in -lc_r too as
+	that's what FreeBSD uses.
+
+1999-02-13 02:50  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.8): Don't undefine the cursor when we exit
+	rel-mouse mode.
+
+1999-02-11 01:35  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/input/xwin.h (1.4), input/xwin/input.c (1.7): Added
+	gglock member to the argument struct.
+
+1999-02-11 01:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.38): Some small fixes to ease cross-compiling.
+
+1999-02-11 01:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/dlptlock.c (1.5): Include <errno.h> for EBUSY.
+
+1999-02-07 04:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.4): Fixed bug when building symbol table on SunOS.
+
+1999-02-07 00:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/ptlock.c (1.9): Fixed warning on Digital Unix.
+
+1999-02-07 00:03  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/Makefile.am (1.11): Much nicer system to handle conditional
+	compiling of files. Thanks to Thomas Tanner for showing me this.
+
+1999-02-07 00:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.11): Added checks for correct versions of
+	autoconf/automake
+
+1999-02-07 00:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.37): Added checks for correct versions of
+	autoconf/automake Much nicer system to handle conditional compiling
+	of files. Thanks to Thomas Tanner for showing me this.
+
+1999-02-03 18:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.3): Made need_lib_prefix and need_version default to
+	"no".
+
+1999-02-03 17:15  Steve Cheng [steve@ggi-project.org]
+
+	* doc/libgii-api.sgml (1.4): Normalized to avoid OMITTAG troubles.
+
+1999-02-02 01:07  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/input/xwin.h (1.3), input/xwin/input.c (1.6): Added
+	new members to the arg struct: exposefunc and exposearg.  These can
+	be used to have a function called when we recieve expose events,
+	instead of generating GII expose events.
+
+1999-02-01 19:09  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acconfig.h (1.4), configure.in (1.36), gg/plat.h (1.7): Make use
+	of AM_SYS_SYMBOL_UNDERSCORE of the new libtool.
+
+1999-02-01 19:07  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltconfig (1.2), ltmain.sh (1.4), demos/Makefile.am (1.13),
+	filter/mouse/Makefile.am (1.4), filter/save/Makefile.am (1.4),
+	gii/Makefile.am (1.5), input/linux_joy/Makefile.am (1.5),
+	input/linux_kbd/Makefile.am (1.6), input/linux_mouse/Makefile.am
+	(1.5), input/mouse/Makefile.am (1.6), input/null/Makefile.am (1.4),
+	input/pcjoy/Makefile.am (1.6), input/spaceorb/Makefile.am (1.5),
+	input/stdin/Makefile.am (1.7), input/x/Makefile.am (1.5),
+	input/xwin/Makefile.am (1.6): Upgraded to current libtool and
+	changed Makefiles accordingly.	Now libgii.so get linked properly
+	into sublibs without any special hacks.
+
+1999-02-01 01:54  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/unix.c (1.2): In giiEventSelect(), properly handle the case
+	when the usersupplied fd_set contains an fd used by an input
+	source.
+
+1999-01-31 02:39  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/Makefile.am (1.4), gii/gii.c (1.5), gii/unix.c (1.1),
+	include/ggi/gii-unix.h (1.1), include/ggi/gii.h (1.7),
+	include/ggi/internal/gii.h (1.15): Replaced giiGetSelectFdset()
+	with giiEventSelect()
+
+1999-01-31 02:38  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.14): Set getselectfdset to NULL
+
+1999-01-30 06:49  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.24): Added GII_keyboard_flush_keys(),
+	which makes sure that after a console switch, there are no "stuck"
+	keys.  Fixed a little bug-let with the shift-state-keeping code.
+
+1999-01-30 05:14  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.23): Changes some DPRINT_* to
+	GIIDPRINT_*.  Pfah.
+
+1999-01-30 05:09  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/linkey.c (1.6): Removed the redefinition of
+	SHIFT_MODS etc. (and the C++ comments).
+
+1999-01-30 05:08  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/linkey.c (1.5): Made the translation of 0x7f
+	(^?), which Linux maps to backspace, become 0x08 (^H) to match
+	GIIUC_BackSpace.
+
+1999-01-30 05:06  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.22): Made the shift-state-keeping code
+	use the key LABEL, instead of the SYM, thus fixing the infamous
+	"SHIFT+ALT locks the keyboard" bug.  Made the console switching
+	code only activate on evKeyPress (prevents spurious switches). 
+	Made the console switching code clear the keydown buffer, since
+	after the switch back we don't know the true state of the keyboard.
+	 Made it show evKeyRepeat in the debugging logs (KEY-RP).
+
+1999-01-30 01:37  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/input.c (1.6), xwin/input.c (1.5): Hopefully fixed the
+	missing key-release bug.
+
+1999-01-29 23:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/Makefile.am (1.12), input/linux_mouse/input.c (1.13):
+	Portability fixes.
+
+1999-01-29 23:40  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/Makefile.am (1.4), xwin/Makefile.am (1.5): Added
+	X_EXTRA_LIBS when linking X stuff
+
+1999-01-29 23:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/env.txt (1.3), filter/mouse/filter.c (1.7),
+	filter/save/filter.c (1.7), gg/debug.c (1.4), gii/dl.c (1.2),
+	gii/gii.c (1.4), gii/init.c (1.4), include/ggi/gg.h (1.10),
+	include/ggi/internal/gii_debug.h (1.4), input/linux_joy/input.c
+	(1.13), input/linux_kbd/input.c (1.21), input/linux_mouse/input.c
+	(1.12), input/mouse/input.c (1.14), input/mouse/packetparse.c
+	(1.9), input/null/input.c (1.5), input/pcjoy/input.c (1.9),
+	input/spaceorb/input.c (1.14), input/stdin/input.c (1.18),
+	input/x/input.c (1.5), input/xwin/input.c (1.4): Fixed the DPRINT
+	stuff for non-GCC compilers.  Changed DPRINT* into GIIDPRINT* and
+	GGIDPRINT respectively.
+
+1999-01-29 20:09  Andreas Beck [becka@ggi-project.org]
+
+	* gii/gii.c (1.3): Small fixes.
+
+1999-01-26 23:45  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.35): Fixed detection of Linux joystick driver.
+
+1999-01-26 16:16  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/ptlock.c (1.8): Include errno.h for EBUSY
+
+1999-01-26 16:07  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.34): Removed -Wstrict-prototypes
+
+1999-01-24 22:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.20): Disabled vtswitching code.
+
+1999-01-24 21:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/: env.txt (1.2), inputs.txt (1.3): Added linux-kbd inputlib
+	info
+
+1999-01-24 04:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.19): Make sure
+	priv->queue_expose_event is initalized
+
+1999-01-24 04:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/input/Makefile.am (1.2), include/ggi/input/lin_kbd.h
+	(1.1), input/linux_kbd/input.c (1.18): Merged in vtswitching code
+	from LibGGI.  Use SIGUNUSED for vtswitching instead of SIGUSR1 and
+	SIGUSR2.
+
+1999-01-18 08:14  Andrew Apted [andrew@ggi-project.org]
+
+	* gg/parse.c (1.8): Allowed option values in ggParseOption to be
+	quoted (with ") and have escapes (using \) (but no special escapes
+	like \n yet).
+
+1999-01-10 07:09  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.11): Now trys opening the device
+	file O_RDONLY if O_RDWR fails.
+
+1999-01-06 14:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/x/input.c (1.4): Don't send {0,0} motion events.  Fixed to
+	work when the WM uses interactive placement.
+
+1999-01-06 12:14  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/: .cvsignore (1.1), man/.cvsignore (1.1): Initial checkin
+
+1999-01-01 21:46  Steve Cheng [steve@ggi-project.org]
+
+	* doc/libgii-api.sgml (1.3): Documented some more structures
+
+1999-01-01 19:17  Steve Cheng [steve@ggi-project.org]
+
+	* doc/man/ggiRemoveEventMask.3gii (1.2): Oops! GII, not GGI
+
+1999-01-01 19:15  Steve Cheng [steve@ggi-project.org]
+
+	* doc/man/: giiEventPoll.3gii (1.2), giiEventRead.3gii (1.2),
+	giiEventSend.3gii (1.2), giiGetSelectFdset.3gii (1.2), giiInit.3gii
+	(1.2), giiOpen.3gii (1.2), giiPanic.3gii (1.2),
+	giiSetEventMask.3gii (1.2), ggiRemoveEventMask.3gii (1.1): Fixed up
+	manpages
+
+1998-12-24 22:45  Steve Cheng [steve@ggi-project.org]
+
+	* doc/libgii-api.sgml (1.2): Added comment about outdated section.
+
+1998-12-24 03:53  Marcus Sundberg [marcus@ggi-project.org]
+
+	* README (1.1), doc/env.txt (1.1), doc/inputs.txt (1.2): Updated
+	docs
+
+1998-12-24 03:16  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/Makefile.am (1.11): Added mhub.1
+
+1998-12-24 03:06  Steve Cheng [steve@ggi-project.org]
+
+	* demos/mhub.1 (1.1): Manpage for mhub.
+
+1998-12-24 02:03  Marcus Sundberg [marcus@ggi-project.org]
+
+	* INSTALL (1.2): Minor fix
+
+1998-12-24 01:35  Andreas Beck [becka@ggi-project.org]
+
+	* INSTALL (1.1): More installation instructions
+
+1998-12-24 00:08  Marcus Sundberg [marcus@ggi-project.org]
+
+	* INSTALL.autoconf (1.1): Added generic docs on building autoconf
+	packages
+
+1998-12-23 22:31  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.10), configure.in (1.33), doc/Makefile.am (1.1),
+	doc/giiAddEventMask.3gii (1.2), doc/giiClose.3gii (1.2),
+	doc/giiEventPoll.3gii (1.2), doc/giiEventRead.3gii (1.2),
+	doc/giiEventSend.3gii (1.2), doc/giiExit.3gii (1.2),
+	doc/giiGetEventMask.3gii (1.2), doc/giiGetSelectFdset.3gii (1.2),
+	doc/giiInit.3gii (1.2), doc/giiJoinInputs.3gii (1.2),
+	doc/giiOpen.3gii (1.2), doc/giiPanic.3gii (1.2),
+	doc/giiRemoveEventMask.3gii (1.2), doc/giiSetEventMask.3gii (1.2),
+	doc/man/Makefile.am (1.1), doc/man/giiAddEventMask.3gii (1.1),
+	doc/man/giiClose.3gii (1.1), doc/man/giiEventPoll.3gii (1.1),
+	doc/man/giiEventRead.3gii (1.1), doc/man/giiEventSend.3gii (1.1),
+	doc/man/giiExit.3gii (1.1), doc/man/giiGetEventMask.3gii (1.1),
+	doc/man/giiGetSelectFdset.3gii (1.1), doc/man/giiInit.3gii (1.1),
+	doc/man/giiJoinInputs.3gii (1.1), doc/man/giiOpen.3gii (1.1),
+	doc/man/giiPanic.3gii (1.1), doc/man/giiRemoveEventMask.3gii (1.1),
+	doc/man/giiSetEventMask.3gii (1.1): Added installation of man-pages
+
+1998-12-23 20:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.32): Quickfixed the dynpthreads detection. Fix
+	for real after the release.
+
+1998-12-23 17:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* aclocal.m4 (1.20), config.h.in (1.10), configure (1.37): Cleaning
+	up files for the release.
+
+1998-12-23 17:57  Marcus Sundberg [marcus@ggi-project.org]
+
+	* .cvsignore (1.7), Makefile.in (1.30), demos/.cvsignore (1.6),
+	demos/Makefile.in (1.21), filter/.cvsignore (1.3),
+	filter/Makefile.in (1.11), filter/mouse/.cvsignore (1.3),
+	filter/mouse/Makefile.in (1.11), filter/save/.cvsignore (1.3),
+	filter/save/Makefile.in (1.11), gg/.cvsignore (1.3), gg/Makefile.in
+	(1.25), gii/.cvsignore (1.1), gii/Makefile.in (1.5),
+	include/.cvsignore (1.3), include/Makefile.in (1.23),
+	include/ggi/.cvsignore (1.3), include/ggi/Makefile.in (1.23),
+	include/ggi/input/.cvsignore (1.3), include/ggi/input/Makefile.in
+	(1.7), include/ggi/internal/.cvsignore (1.3),
+	include/ggi/internal/Makefile.in (1.22), input/.cvsignore (1.3),
+	input/Makefile.in (1.26), input/linux_joy/.cvsignore (1.3),
+	input/linux_joy/Makefile.in (1.19), input/linux_kbd/.cvsignore
+	(1.3), input/linux_kbd/Makefile.in (1.20),
+	input/linux_mouse/.cvsignore (1.3), input/linux_mouse/Makefile.in
+	(1.12), input/mouse/.cvsignore (1.3), input/mouse/Makefile.in
+	(1.19), input/null/.cvsignore (1.3), input/null/Makefile.in (1.21),
+	input/pcjoy/.cvsignore (1.3), input/pcjoy/Makefile.in (1.23),
+	input/spaceorb/.cvsignore (1.3), input/spaceorb/Makefile.in (1.19),
+	input/stdin/.cvsignore (1.4), input/stdin/Makefile.in (1.26),
+	input/x/.cvsignore (1.3), input/x/Makefile.in (1.13),
+	input/xwin/.cvsignore (1.3), input/xwin/Makefile.in (1.8): Cleaning
+	up files for the release
+
+1998-12-23 06:56  Steve Cheng [steve@ggi-project.org]
+
+	* doc/: giiAddEventMask.3gii (1.1), giiClose.3gii (1.1),
+	giiEventPoll.3gii (1.1), giiEventRead.3gii (1.1), giiEventSend.3gii
+	(1.1), giiExit.3gii (1.1), giiGetEventMask.3gii (1.1),
+	giiGetSelectFdset.3gii (1.1), giiInit.3gii (1.1),
+	giiJoinInputs.3gii (1.1), giiOpen.3gii (1.1), giiPanic.3gii (1.1),
+	giiRemoveEventMask.3gii (1.1), giiSetEventMask.3gii (1.1),
+	libgii-api.sgml (1.1): Added Andy's ascii 'manpages'', sgml'ized.
+
+1998-12-20 23:34  Marcus Sundberg [marcus@ggi-project.org]
+
+	* acinclude.m4 (1.1): Initial checkin
+
+1998-12-20 02:04  Andreas Beck [becka@ggi-project.org]
+
+	* demos/demo.c (1.8): Fixed a bad example of giiJoin usage.
+
+1998-12-19 20:51  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure (1.36), configure.in (1.31): Check for mutextype was
+	broken when pthread.h was not found
+
+1998-12-19 17:26  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure (1.35), configure.in (1.30): Added missing check for
+	sys/ioctl.h
+
+1998-12-19 17:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure (1.34), configure.in (1.29): Build linux-mouse on
+	non-linux systems too if supported.
+
+1998-12-19 16:53  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.10): Portability fix
+
+1998-12-18 22:40  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure (1.33), configure.in (1.28): Removed -Werror flag
+
+1998-12-18 00:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure (1.32), configure.in (1.27): Enabled disabling of
+	inputlibs
+
+1998-12-17 05:42  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.17): Added IGNBRK to the termios
+	iflags -- hopefully will prevent spurious signals from crashing
+	programs.
+
+1998-12-17 03:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.29), acconfig.h (1.3), aclocal.m4 (1.19),
+	config.h.in (1.9), configure (1.31), configure.in (1.26),
+	demos/Makefile.am (1.10), demos/Makefile.in (1.20),
+	filter/Makefile.in (1.10), filter/mouse/Makefile.am (1.3),
+	filter/mouse/Makefile.in (1.10), filter/save/Makefile.am (1.3),
+	filter/save/Makefile.in (1.10), gg/Makefile.am (1.10),
+	gg/Makefile.in (1.24), gii/Makefile.am (1.3), gii/Makefile.in
+	(1.4), gii/init.c (1.3), include/Makefile.in (1.22),
+	include/ggi/Makefile.in (1.22), include/ggi/input/Makefile.in
+	(1.6), include/ggi/internal/Makefile.in (1.21), input/Makefile.in
+	(1.25), input/linux_joy/Makefile.am (1.4),
+	input/linux_joy/Makefile.in (1.18), input/linux_kbd/Makefile.am
+	(1.5), input/linux_kbd/Makefile.in (1.19),
+	input/linux_mouse/Makefile.am (1.4), input/linux_mouse/Makefile.in
+	(1.11), input/mouse/Makefile.am (1.5), input/mouse/Makefile.in
+	(1.18), input/null/Makefile.am (1.3), input/null/Makefile.in
+	(1.20), input/pcjoy/Makefile.am (1.5), input/pcjoy/Makefile.in
+	(1.22), input/spaceorb/Makefile.am (1.4),
+	input/spaceorb/Makefile.in (1.18), input/stdin/Makefile.am (1.6),
+	input/stdin/Makefile.in (1.25), input/x/Makefile.am (1.3),
+	input/x/Makefile.in (1.12), input/xwin/Makefile.am (1.4),
+	input/xwin/Makefile.in (1.7): Started adding code to disable
+	individual sublibs (incomplete).  Added better code for choosing
+	which mutex implementation to use.  Added  
+	--with-extra-includes=DIR and  --with-extra-libs=DIR flags.
+
+1998-12-17 03:09  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.5): Finally fixed cleanup_function() (I hope...)
+
+1998-12-17 03:08  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/memdebug.c (1.1): Moved memdebug stuff into LibGG
+
+1998-12-16 18:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/cleanup.c (1.4): "Optimized" the previous fix ;)
+
+1998-12-16 01:27  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.16): Made the close function abort if
+	kk == NULL.
+
+1998-12-16 01:26  Andrew Apted [andrew@ggi-project.org]
+
+	* gg/cleanup.c (1.3): Fixed a NULL dereference.
+
+1998-12-15 04:07  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/init.c (1.2): Handle errors more gracefully
+
+1998-12-15 04:06  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/Makefile.am (1.9): We can not have per-program INCLUDES
+
+1998-12-15 04:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/filter.c (1.6), filter/save/filter.c (1.6),
+	input/spaceorb/input.c (1.13), input/stdin/input.c (1.17): Fixed
+	warnings
+
+1998-12-15 04:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: cleanup.c (1.2), dlptlock.c (1.4), init.c (1.4): Handle
+	errors more gracefully.
+
+1998-12-15 04:03  Marcus Sundberg [marcus@ggi-project.org]
+
+	* ltmain.sh (1.3): For now, set a dummy version string on sublibs.
+
+1998-12-13 23:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/Makefile.am (1.9), gg/Makefile.in (1.23), gg/cleanup.c (1.1),
+	gg/init.c (1.3), gg/plat.h (1.6), include/ggi/gg.h (1.9),
+	input/linux_kbd/input.c (1.15), input/stdin/input.c (1.16): Added
+	gg(Un)RegisterCleanup() functions.
+
+1998-12-12 22:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.28), acconfig.h (1.2), config.h.in (1.8),
+	configure (1.30), configure.in (1.25), demos/Makefile.in (1.19),
+	filter/Makefile.in (1.9), filter/mouse/Makefile.in (1.9),
+	filter/save/Makefile.in (1.9), gg/Makefile.am (1.8), gg/Makefile.in
+	(1.22), gg/intlock.c (1.7), gg/misc.c (1.2), gg/plat.h (1.5),
+	gii/Makefile.in (1.3), include/Makefile.in (1.21),
+	include/ggi/Makefile.in (1.21), include/ggi/gg.h (1.8),
+	include/ggi/system.h.in (1.2), include/ggi/input/Makefile.in (1.5),
+	include/ggi/internal/Makefile.in (1.20), input/Makefile.in (1.24),
+	input/linux_joy/Makefile.in (1.17), input/linux_kbd/Makefile.in
+	(1.18), input/linux_mouse/Makefile.in (1.10),
+	input/mouse/Makefile.in (1.17), input/null/Makefile.in (1.19),
+	input/pcjoy/Makefile.in (1.21), input/spaceorb/Makefile.in (1.17),
+	input/stdin/Makefile.in (1.24), input/stdin/input.c (1.15),
+	input/x/Makefile.in (1.11), input/xwin/Makefile.in (1.6): Added
+	ggUSleep function
+
+1998-12-11 21:44  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/gii.c (1.2): Fixed a warning
+
+1998-12-11 21:44  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: dlptlock.c (1.3), parse.c (1.7), ptlock.c (1.7): Fixed some
+	warnings
+
+1998-12-09 06:03  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: Makefile.am (1.7), Makefile.in (1.21): Added version to
+	LibGG
+
+1998-12-09 05:52  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/: Makefile.am (1.2), Makefile.in (1.2): Corrected path to
+	-lgg
+
+1998-12-09 04:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.9), Makefile.in (1.27), demos/Makefile.am (1.8),
+	demos/Makefile.in (1.18): Minor fixes
+
+1998-12-08 23:25  Marcus Sundberg [marcus@ggi-project.org]
+
+	* .version (1.2), Makefile.am (1.8), Makefile.in (1.26), aclocal.m4
+	(1.18), config.h.in (1.7), configure (1.29), configure.in (1.24),
+	ltmain.sh (1.2), demos/Makefile.am (1.7), demos/Makefile.in (1.17),
+	demos/demo.c (1.7), demos/filter.c (1.5), demos/mhub.c (1.5),
+	demos/xsendbut.c (1.2), filter/Makefile.in (1.8),
+	filter/mouse/Makefile.am (1.2), filter/mouse/Makefile.in (1.8),
+	filter/save/Makefile.am (1.2), filter/save/Makefile.in (1.8),
+	gg/Makefile.am (1.6), gg/Makefile.in (1.20), gii/Makefile.am (1.1),
+	gii/Makefile.in (1.1), include/Makefile.in (1.20),
+	include/ggi/Makefile.in (1.20), include/ggi/input/Makefile.in
+	(1.4), include/ggi/internal/Makefile.in (1.19), input/Makefile.in
+	(1.23), input/linux_joy/Makefile.am (1.3),
+	input/linux_joy/Makefile.in (1.16), input/linux_kbd/Makefile.am
+	(1.4), input/linux_kbd/Makefile.in (1.17),
+	input/linux_mouse/Makefile.am (1.3), input/linux_mouse/Makefile.in
+	(1.9), input/mouse/Makefile.am (1.4), input/mouse/Makefile.in
+	(1.16), input/null/Makefile.am (1.2), input/null/Makefile.in
+	(1.18), input/pcjoy/Makefile.am (1.4), input/pcjoy/Makefile.in
+	(1.20), input/spaceorb/Makefile.am (1.3),
+	input/spaceorb/Makefile.in (1.16), input/stdin/Makefile.am (1.5),
+	input/stdin/Makefile.in (1.23), input/x/Makefile.am (1.2),
+	input/x/Makefile.in (1.10), input/xwin/Makefile.am (1.3),
+	input/xwin/Makefile.in (1.5): Properly autoconf demos. Fixed
+	libtool to work more like we want it.
+
+1998-12-08 22:36  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: dlptlock.c (1.2), init.c (1.2), intlock.c (1.6), ptlock.c
+	(1.6): Namespace cleanup. Use the gg* functions for dynamic
+	loading.
+
+1998-12-08 22:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/dl.c (1.1), gii/gii.c (1.1), dl.c (1.8), gii.c (1.31), init.c
+	(1.7): Moved to new location
+
+1998-12-08 22:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii/init.c (1.1): Moved to new location and cleaned up giiInit()
+	a bit
+
+1998-12-08 22:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.3): Added some DPRINTs
+
+1998-12-08 22:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/stdin/input.c (1.14): Only use termios stuff if available
+
+1998-12-08 22:16  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/.cvsignore (1.2), input/mouse/.cvsignore (1.2),
+	input/null/.cvsignore (1.2), input/pcjoy/.cvsignore (1.2),
+	input/stdin/.cvsignore (1.3), input/x/.cvsignore (1.2),
+	input/xwin/.cvsignore (1.2), .cvsignore (1.6), demos/.cvsignore
+	(1.5), filter/.cvsignore (1.2), filter/mouse/.cvsignore (1.2),
+	filter/save/.cvsignore (1.2), gg/.cvsignore (1.2),
+	include/.cvsignore (1.2), include/ggi/.cvsignore (1.2),
+	include/ggi/input/.cvsignore (1.2), include/ggi/internal/.cvsignore
+	(1.2), input/linux_joy/.cvsignore (1.2), input/linux_kbd/.cvsignore
+	(1.2), input/linux_mouse/.cvsignore (1.2),
+	input/spaceorb/.cvsignore (1.2): Removed cvsignore files. Just
+	build outside the sourcedir.
+
+1998-12-08 22:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.8): Added GGI_ENOTALLOC errorcode
+
+1998-12-08 22:14  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gg.h (1.7): Added ggInit and ggExit prototypes
+
+1998-12-06 05:58  Andrew Apted [andrew@ggi-project.org]
+
+	* gg/parse.c (1.6): Implemented an experimental feature:
+	-showconfig.  Doesn't look very nice yet.
+
+1998-12-06 05:57  Andrew Apted [andrew@ggi-project.org]
+
+	* input/stdin/input.c (1.13): Added the `-noraw' and `-ansikey'
+	options, and implemented setting the stdin FD into non-canonical
+	mode, and also implemented parsing of ANSI key sequences.
+
+1998-12-05 12:52  Andreas Beck [becka@ggi-project.org]
+
+	* .cvsignore (1.5): added cvsignore
+
+1998-12-05 12:49  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/input/.cvsignore (1.1): added cvsignore
+
+1998-12-03 00:16  Andreas Beck [becka@ggi-project.org]
+
+	* input/xwin/.cvsignore (1.1): Added .cvsignore ...
+
+1998-12-03 00:15  Andreas Beck [becka@ggi-project.org]
+
+	* configure (1.28), configure.in (1.23), init.c (1.6),
+	gg/Makefile.am (1.5), gg/Makefile.in (1.19), gg/dlptlock.c (1.1),
+	gg/init.c (1.1), gg/intlock.c (1.5), gg/ptlock.c (1.5): Added
+	dlopen pthread locking.  Updated a few demos.  Fixed some
+	compilation warnings Added make test
+
+1998-11-30 06:31  Andrew Apted [andrew@ggi-project.org]
+
+	* input/spaceorb/input.c (1.12): Fixed the button field, which now
+	starts at 1 instead of 0.
+
+1998-11-29 13:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* filter/mouse/filter.c (1.5), filter/save/filter.c (1.5),
+	input/pcjoy/input.c (1.8): Don't export random symbols.
+
+1998-11-28 23:46  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_joy/input.c (1.12): Fixed the buttons, which now
+	start at *1* not *0*.
+
+1998-11-28 20:38  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.in (1.25), aclocal.m4 (1.17), configure (1.27),
+	demos/Makefile.in (1.16), filter/Makefile.in (1.7),
+	filter/mouse/Makefile.in (1.7), filter/save/Makefile.in (1.7),
+	gg/Makefile.in (1.18), include/Makefile.in (1.19),
+	include/ggi/Makefile.in (1.19), include/ggi/input/Makefile.in
+	(1.3), include/ggi/internal/Makefile.in (1.18), input/Makefile.in
+	(1.22), input/linux_joy/Makefile.in (1.15),
+	input/linux_kbd/Makefile.in (1.16), input/linux_mouse/Makefile.in
+	(1.8), input/mouse/Makefile.in (1.15), input/null/Makefile.in
+	(1.17), input/pcjoy/Makefile.in (1.19), input/spaceorb/Makefile.in
+	(1.15), input/stdin/Makefile.in (1.22), input/x/Makefile.in (1.9),
+	input/xwin/Makefile.in (1.4): Recommited Makefile set
+
+1998-11-28 12:23  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.30): Fixed very slight bug.
+
+1998-11-28 03:56  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.9): Make sure we fail if protocol is
+	'file' and we doesn't find any files.  Removed trunc_to_word()
+
+1998-11-28 03:50  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/parse.c (1.5): Strip of trailing whitespace and/or comment
+
+1998-11-27 22:50  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.8): Implemented the parsing of the
+	{Set,Clear,Leave}{RTS,DTR} mouse options in the libvga.config file,
+	which is vital for getting dual-mode mice (like mine *grin*)
+	working properly.
+
+1998-11-27 22:48  Andrew Apted [andrew@ggi-project.org]
+
+	* gg/parse.c (1.4): Made ggGetFileOpt() return not just a word in
+	**results, but the whole rest of the line.  This allows linux_mouse
+	to parse the {Set,Leave,Clear}{RTS,DTR} things in the libvga.config
+	file.
+
+1998-11-26 01:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/x/input.c (1.3): Added autorepeat fix and cleaned up the
+	code a bit
+
+1998-11-26 00:55  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.9), input/linux_kbd/linkey.c (1.4):
+	Changed GIIK_Remove -> GIIK_Delete
+
+1998-11-25 20:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* doc/inputs.txt (1.1): Started documenting inputlibs
+
+1998-11-25 02:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/input.c (1.7): Added 'file' "protocol"
+
+1998-11-25 02:01  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gg.h (1.6): Added new functions
+
+1998-11-25 02:00  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.7): Added GGI_ENOTFOUND
+
+1998-11-25 02:00  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: Makefile.am (1.4), misc.c (1.1), parse.c (1.3): Added
+	ggGetUserDir and ggGetFileOpt
+
+1998-11-24 19:47  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.24), demos/Makefile.in (1.15), filter/Makefile.in
+	(1.6), filter/mouse/Makefile.in (1.6), filter/save/Makefile.in
+	(1.6), gg/Makefile.in (1.17), include/Makefile.in (1.18),
+	include/ggi/Makefile.in (1.18), include/ggi/internal/Makefile.in
+	(1.17), input/Makefile.in (1.21), input/linux_joy/Makefile.in
+	(1.14), input/linux_kbd/Makefile.in (1.15),
+	input/linux_mouse/Makefile.in (1.7), input/mouse/Makefile.in
+	(1.14), input/null/Makefile.in (1.16), input/pcjoy/Makefile.in
+	(1.18), input/spaceorb/Makefile.in (1.14), input/stdin/Makefile.in
+	(1.21), input/x/Makefile.in (1.8): [no log message]
+
+1998-11-23 21:21  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/: Makefile.am (1.2), Makefile.in (1.3): Fixed typo
+
+1998-11-23 20:04  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/events.h (1.20): Fixed Steffens email
+
+1998-11-23 03:35  Marcus Sundberg [marcus@ggi-project.org]
+
+	* libgii.conf.in (1.10): Added xwin inputlib
+
+1998-11-23 03:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/input.c (1.2): Hack to transform X autorepeating into
+	evKeyRepeat events.
+
+1998-11-23 03:25  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/xwin/Makefile.in (1.2): Synced with Makefile.am
+
+1998-11-23 03:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/input/: Makefile.in (1.2), xwin.h (1.2): Added
+	GII_CMDCODE_XWINSETPARAM
+
+1998-11-23 03:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.6): Added new error codes
+
+1998-11-23 03:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/events.h (1.19): Use a welldefined scheme for
+	GII_CMDCODE_* instead of hiding magic values all over the file.
+
+1998-11-23 02:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.29): Only send events to their recipients
+
+1998-11-22 16:04  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.28), include/ggi/internal/gii.h (1.14),
+	input/linux_mouse/input.c (1.6), input/null/input.c (1.4),
+	input/pcjoy/input.c (1.7): Added flags to gii_input. HASPOLLED.
+
+1998-11-22 05:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.23), aclocal.m4 (1.16), demos/Makefile.in (1.14),
+	filter/Makefile.in (1.5), filter/mouse/Makefile.in (1.5),
+	filter/save/Makefile.in (1.5), gg/Makefile.in (1.16),
+	include/Makefile.in (1.17), include/ggi/Makefile.in (1.17),
+	include/ggi/internal/Makefile.in (1.16), input/Makefile.in (1.20),
+	input/linux_joy/Makefile.in (1.13), input/linux_kbd/Makefile.in
+	(1.14), input/linux_mouse/Makefile.in (1.6),
+	input/mouse/Makefile.in (1.13), input/null/Makefile.in (1.15),
+	input/pcjoy/Makefile.in (1.17), input/spaceorb/Makefile.in (1.13),
+	input/stdin/Makefile.in (1.20), input/x/Makefile.in (1.7): Update
+
+1998-11-22 05:17  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure (1.26), configure.in (1.22), include/ggi/Makefile.am
+	(1.5), include/ggi/input/Makefile.am (1.1),
+	include/ggi/input/Makefile.in (1.1), include/ggi/input/xwin.h
+	(1.1), input/xwin/EXPSYMS (1.1), input/xwin/Makefile.am (1.1),
+	input/xwin/Makefile.in (1.1), input/xwin/input.c (1.1): Initial
+	checkin of Xwin inputlib
+
+1998-11-22 00:55  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.22), dl.c (1.7), init.c (1.5), demos/Makefile.am
+	(1.6), demos/Makefile.in (1.13), demos/demo.c (1.6), demos/filter.c
+	(1.4), filter/Makefile.in (1.4), filter/mouse/Makefile.in (1.4),
+	filter/save/Makefile.in (1.4), gg/Makefile.in (1.15), gg/conf.c
+	(1.5), gg/debug.c (1.3), gg/dl.c (1.2), gg/plat.h (1.4),
+	include/Makefile.in (1.16), include/ggi/Makefile.in (1.16),
+	include/ggi/gg.h (1.5), include/ggi/internal/Makefile.am (1.3),
+	include/ggi/internal/Makefile.in (1.15), include/ggi/internal/gg.h
+	(1.2), input/Makefile.in (1.19), input/linux_joy/Makefile.in
+	(1.12), input/linux_kbd/Makefile.in (1.13),
+	input/linux_kbd/linkey.c (1.3), input/linux_kbd/linkey.h (1.3),
+	input/linux_mouse/Makefile.in (1.5), input/mouse/Makefile.in
+	(1.12), input/null/Makefile.in (1.14), input/pcjoy/Makefile.in
+	(1.16), input/spaceorb/Makefile.in (1.12), input/stdin/Makefile.in
+	(1.19), input/x/Makefile.in (1.6): Some cleanups and removal of
+	evilness
+
+1998-11-21 21:35  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.in (1.21), aclocal.m4 (1.15), configure (1.25), dl.c
+	(1.6), gii.c (1.27), demos/Makefile.in (1.12), filter/Makefile.in
+	(1.3), filter/mouse/Makefile.in (1.3), filter/save/Makefile.in
+	(1.3), gg/Makefile.am (1.3), gg/Makefile.in (1.14), gg/conf.c
+	(1.4), gg/dl.c (1.1), include/Makefile.in (1.15),
+	include/ggi/Makefile.in (1.15), include/ggi/gg.h (1.4),
+	include/ggi/internal/Makefile.am (1.2),
+	include/ggi/internal/Makefile.in (1.14), include/ggi/internal/gg.h
+	(1.1), include/ggi/internal/gii.h (1.13), input/Makefile.in (1.18),
+	input/linux_joy/Makefile.in (1.11), input/linux_kbd/Makefile.in
+	(1.12), input/linux_mouse/Makefile.in (1.4),
+	input/mouse/Makefile.in (1.11), input/null/Makefile.in (1.13),
+	input/pcjoy/Makefile.in (1.15), input/spaceorb/Makefile.in (1.11),
+	input/stdin/Makefile.in (1.18), input/x/Makefile.in (1.5): Added
+	Mentalguys generic loading patch.
+
+1998-11-19 02:44  Marcus Sundberg [marcus@ggi-project.org]
+
+	* missing (1.2): Replaced with non-GPLed version
+
+1998-11-19 01:59  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/plat.h (1.3), include/ggi/errors.h (1.5), include/ggi/events.h
+	(1.18), include/ggi/gg.h (1.3), include/ggi/gii.h (1.6),
+	include/ggi/keyboard.h (1.8), include/ggi/internal/gii-dl.h (1.2),
+	include/ggi/internal/gii.h (1.12), include/ggi/internal/gii_debug.h
+	(1.3), input/linux_kbd/linkey.h (1.2), input/mouse/mouse.h (1.4),
+	input/x/xev.h (1.2): License change
+
+1998-11-19 01:47  Marcus Sundberg [marcus@ggi-project.org]
+
+	* dl.c (1.5), gii.c (1.26), init.c (1.4), filter/mouse/filter.c
+	(1.4), filter/save/filter.c (1.4), gg/conf.c (1.3), gg/debug.c
+	(1.2), gg/intlock.c (1.4), gg/parse.c (1.2), gg/ptlock.c (1.4),
+	input/linux_joy/input.c (1.11), input/linux_kbd/input.c (1.14),
+	input/linux_kbd/linkey.c (1.2), input/linux_mouse/input.c (1.5),
+	input/mouse/input.c (1.13), input/mouse/packetparse.c (1.8),
+	input/null/input.c (1.3), input/pcjoy/input.c (1.6),
+	input/spaceorb/input.c (1.11), input/stdin/input.c (1.12),
+	input/x/input.c (1.2), input/x/xev.c (1.4): License change
+
+1998-11-19 00:04  Andreas Beck [becka@ggi-project.org]
+
+	* filter/mouse/filter.c (1.3): Fixed small bug in configure. Better
+	default for mouse filter.
+
+1998-11-16 03:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_mouse/input.c (1.4), mouse/input.c (1.12),
+	mouse/mouse.h (1.3), mouse/packetparse.c (1.7): Added support for
+	sending init-strings to mice. Added serial IntelliMouse/MouseMan+
+	(works fine) and PS/2 IntelliMouse (untested) support.
+
+1998-11-15 21:02  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/mhub.c (1.4): Workaround for weird open() behaviour. Now
+	multiple outputs should work better.
+
+1998-11-15 17:28  Andreas Beck [becka@ggi-project.org]
+
+	* demos/.cvsignore (1.4): cvsignore fixes.
+
+1998-11-14 23:19  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.25), demos/demo.c (1.5), demos/filter.c (1.3),
+	filter/mouse/filter.c (1.2), filter/save/filter.c (1.3): Slight
+	fixes to GII. Added GGI_FILTER*. Changed GGI_INPUT to GGI-INPUT*
+
+1998-11-14 09:09  Andrew Apted [andrew@ggi-project.org]
+
+	* gii.c (1.24): Fixed giiEventSend() and another occurrance of
+	"inp->GIIxxx(curr, ...)".
+
+1998-11-13 17:35  Andreas Beck [becka@ggi-project.org]
+
+	* demos/filter.c (1.2), filter/save/filter.c (1.2): Filter-save
+	works now.
+
+1998-11-13 13:40  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.20), aclocal.m4 (1.14), configure (1.24),
+	filter/Makefile.in (1.2), filter/mouse/Makefile.in (1.2),
+	filter/save/Makefile.in (1.2), gg/Makefile.in (1.13),
+	include/Makefile.in (1.14), include/ggi/Makefile.in (1.14),
+	include/ggi/internal/Makefile.in (1.13), input/Makefile.in (1.17),
+	input/linux_joy/Makefile.in (1.10), input/linux_kbd/Makefile.in
+	(1.11), input/linux_mouse/Makefile.in (1.3),
+	input/mouse/Makefile.in (1.10), input/null/Makefile.in (1.12),
+	input/pcjoy/Makefile.in (1.14), input/spaceorb/Makefile.in (1.10),
+	input/stdin/Makefile.in (1.17), input/x/Makefile.in (1.4): Update
+
+1998-11-13 12:26  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.23): Fixed dropping of events at giiJoin().
+
+1998-11-13 05:02  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/events.h (1.17): Changed size of MAX_CMD_DATA thingy
+	to (248-sizeof(nodata)) instead of (255-sizeof(nodata)) -- the
+	latter was (quite inexplicably) being rounded up to 256 and thus no
+	longer fitting into the 8 bit `size' field.
+
+1998-11-13 05:00  Andrew Apted [andrew@ggi-project.org]
+
+	* gii.c (1.22): Set ev.any.error to something reasonable in
+	_evEventBlank().
+
+1998-11-13 04:57  Andrew Apted [andrew@ggi-project.org]
+
+	* input/: spaceorb/input.c (1.10), linux_joy/input.c (1.10):
+	Implemented the GII_xxx_sendevent functions.
+
+1998-11-13 03:24  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/mhub.c (1.3):  -  ""  -
+
+1998-11-13 03:10  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/mhub.c (1.2): Fixed ugly help message
+
+1998-11-13 03:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/: Makefile.am (1.5), Makefile.in (1.11), mhub.c (1.1),
+	xsendbut.c (1.1): Initial checking of mhub and xsendbut
+
+1998-11-13 01:58  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.am (1.7), Makefile.in (1.19), configure (1.23),
+	configure.in (1.21), libgii.conf.in (1.9), demos/.cvsignore (1.3),
+	demos/Makefile.am (1.4), demos/Makefile.in (1.10), demos/filter.c
+	(1.1), filter/.cvsignore (1.1), filter/Makefile.am (1.1),
+	filter/Makefile.in (1.1), filter/mouse/.cvsignore (1.1),
+	filter/mouse/EXPSYMS (1.1), filter/mouse/Makefile.am (1.1),
+	filter/mouse/Makefile.in (1.1), filter/mouse/filter.c (1.1),
+	filter/save/.cvsignore (1.1), filter/save/EXPSYMS (1.1),
+	filter/save/Makefile.am (1.1), filter/save/Makefile.in (1.1),
+	filter/save/filter.c (1.1), gg/Makefile.in (1.12),
+	include/Makefile.in (1.13), include/ggi/Makefile.in (1.13),
+	include/ggi/internal/Makefile.in (1.12), input/Makefile.in (1.16),
+	input/linux_joy/Makefile.in (1.9), input/linux_kbd/Makefile.in
+	(1.10), input/linux_mouse/Makefile.in (1.2),
+	input/mouse/Makefile.in (1.9), input/null/Makefile.in (1.11),
+	input/pcjoy/Makefile.in (1.13), input/spaceorb/Makefile.in (1.9),
+	input/stdin/Makefile.in (1.16), input/x/Makefile.in (1.3): LibGII
+	filter support.
+
+1998-11-12 17:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.20), configure (1.22), libgii.conf.in (1.8):
+	Don't hardcode path to inputlibs
+
+1998-11-12 00:43  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.21), include/ggi/events.h (1.16),
+	input/linux_joy/input.c (1.9), input/spaceorb/input.c (1.9): Some
+	input fixes.
+
+1998-11-11 21:11  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/Makefile.am (1.3): Removed -ldl !!!
+
+1998-11-11 04:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: mouse/packetparse.c (1.6), linux_mouse/input.c (1.3):
+	Added support for PS/2 MouseMan+
+
+1998-11-11 04:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.20): Added possibility to call giiOpen(NULL)
+
+1998-11-11 01:49  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.in (1.18), aclocal.m4 (1.13), configure (1.21),
+	demos/Makefile.in (1.9), gg/Makefile.in (1.11), include/Makefile.in
+	(1.12), include/ggi/Makefile.in (1.12),
+	include/ggi/internal/Makefile.in (1.11), input/Makefile.in (1.15),
+	input/linux_joy/Makefile.in (1.8), input/linux_kbd/Makefile.in
+	(1.9), input/linux_mouse/.cvsignore (1.1),
+	input/linux_mouse/Makefile.in (1.1), input/mouse/Makefile.in (1.8),
+	input/mouse/packetparse.c (1.5), input/null/Makefile.in (1.10),
+	input/pcjoy/Makefile.in (1.12), input/spaceorb/Makefile.in (1.8),
+	input/stdin/Makefile.in (1.15), input/x/.cvsignore (1.1),
+	input/x/Makefile.in (1.2), input/x/xev.c (1.3): Big bunch of mouse
+	fixes and such ...
+
+1998-11-11 01:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: x/xev.c (1.2), mouse/packetparse.c (1.4): Keeping up with
+	the mouse button changes
+
+1998-11-10 23:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.19), configure (1.20): Added -g flag
+
+1998-11-10 23:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.19): Fixed bug with input sources not created with
+	giiOpen()
+
+1998-11-10 22:51  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/events.h (1.15): Clarified mouse button mapping.
+
+1998-11-10 20:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.17), aclocal.m4 (1.12), config.h.in (1.6),
+	configure (1.19), demos/Makefile.in (1.8), gg/Makefile.in (1.10),
+	include/Makefile.in (1.11), include/ggi/Makefile.in (1.11),
+	include/ggi/internal/Makefile.in (1.10), input/Makefile.in (1.14),
+	input/linux_joy/Makefile.in (1.7), input/linux_kbd/Makefile.in
+	(1.8), input/mouse/Makefile.in (1.7), input/null/Makefile.in (1.9),
+	input/pcjoy/Makefile.in (1.11), input/spaceorb/Makefile.in (1.7),
+	input/stdin/Makefile.in (1.14): Update
+
+1998-11-10 20:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/mouse/packetparse.c (1.3): Use _giiEventBlank() before
+	sending events
+
+1998-11-10 20:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* libgii.conf.in (1.7), configure.in (1.18), input/x/EXPSYMS (1.1),
+	input/x/Makefile.am (1.1), input/x/Makefile.in (1.1),
+	input/x/input.c (1.1), input/x/xev.c (1.1), input/x/xev.h (1.1):
+	Added X inputlib
+
+1998-11-10 08:51  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.7): Renamed GII_CODE_NIL to
+	GII_BUTTON_NIL to match the change in key events.
+
+1998-11-10 01:43  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.13): Fixed stupid bug introduced by
+	myself
+
+1998-11-09 23:50  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/: Makefile.am (1.3), Makefile.in (1.7), input.c
+	(1.12), linkey.c (1.1), linkey.h (1.1): Moved key translating code
+	here.
+
+1998-11-09 22:54  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.16), aclocal.m4 (1.11), configure (1.18),
+	configure.in (1.17), demos/Makefile.in (1.7), gg/Makefile.in (1.9),
+	include/Makefile.in (1.10), include/ggi/Makefile.in (1.10),
+	include/ggi/internal/Makefile.in (1.9), input/Makefile.in (1.13),
+	input/linux_joy/Makefile.in (1.6), input/linux_kbd/Makefile.in
+	(1.6), input/mouse/Makefile.in (1.6), input/null/Makefile.in (1.8),
+	input/pcjoy/Makefile.in (1.10), input/spaceorb/Makefile.in (1.6),
+	input/stdin/Makefile.in (1.13): Use AM_MAINTAINER_MODE so we don't
+	confuse mortals too much.
+
+1998-11-09 16:30  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.11): Fixed to handle EOF. Some minor
+	cleanups.
+
+1998-11-09 16:30  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/mouse/packetparse.c (1.2): Fixed stupid bug in
+	GII_mouse_poll
+
+1998-11-09 02:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.15), config.h.in (1.5), configure (1.17),
+	demos/Makefile.in (1.6), gg/Makefile.in (1.8), include/Makefile.in
+	(1.9), input/Makefile.in (1.12), input/linux_joy/Makefile.in (1.5),
+	input/linux_kbd/Makefile.in (1.5), input/mouse/mouse.h (1.2),
+	input/null/Makefile.in (1.7), input/pcjoy/Makefile.in (1.9),
+	input/spaceorb/Makefile.in (1.5), input/stdin/Makefile.in (1.12):
+	Dummy commit
+
+1998-11-09 02:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_mouse/EXPSYMS (1.1), linux_mouse/Makefile.am (1.2),
+	linux_mouse/input.c (1.2), mouse/Makefile.am (1.3),
+	mouse/Makefile.in (1.5), mouse/input.c (1.11), mouse/mouse.h (1.1),
+	mouse/packetparse.c (1.1): Split mouse into mouse and linux_mouse
+
+1998-11-09 01:59  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: spaceorb/input.c (1.8), linux_joy/input.c (1.8): Added
+	missing includes
+
+1998-11-09 01:57  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/: Makefile.in (1.9), gii.h (1.5),
+	internal/Makefile.in (1.8), internal/gii.h (1.11): Some minor
+	updates
+
+1998-11-09 01:57  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.4): Added some errorcodes
+
+1998-11-09 01:56  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/intlock.c (1.3): Added missing return statement
+
+1998-11-09 01:55  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.18): Just some minor updates
+
+1998-11-09 01:54  Marcus Sundberg [marcus@ggi-project.org]
+
+	* libgii.conf.in (1.6): Split mouse into mouse and linux_mouse and
+	added aliases
+
+1998-11-09 01:54  Marcus Sundberg [marcus@ggi-project.org]
+
+	* configure.in (1.16): Split mouse into mouse and linux_mouse
+
+1998-11-08 13:40  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.17): Close lib when initfunction fails
+
+1998-11-08 08:56  Andrew Apted [andrew@ggi-project.org]
+
+	* libgii.conf.in (1.5): Removed the hitherto unused
+	`input-joystick' entry.
+
+1998-11-08 05:50  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/events.h (1.14): Changed the 16 bit `padding' field
+	of COMMON_DATA to `error', for error values in replied events.
+
+1998-11-08 05:48  Andrew Apted [andrew@ggi-project.org]
+
+	* gii.c (1.16), input/linux_kbd/input.c (1.10), input/mouse/input.c
+	(1.10), input/stdin/input.c (1.11), input/spaceorb/input.c (1.7),
+	input/linux_joy/input.c (1.7): Made sure everything uses
+	_giiEventBlank(), and removed the EV_TIMESTAMP()'s which is done by
+	_giiEventBlank.
+
+1998-11-08 02:45  Stefan Mars [mars@lysator.liu.se]
+
+	* Makefile.in (1.14): Fix for AM_PROG_LIBTOOL problem
+
+1998-11-08 02:44  Stefan Mars [mars@lysator.liu.se]
+
+	* gg/ptlock.c (1.3): Corrected minor variable bug that prevented
+	compiling.
+
+1998-11-08 01:14  Stefan Mars [mars@lysator.liu.se]
+
+	* configure.in (1.15), configure (1.16): Fixed _stupid_ spelling
+	error.
+
+1998-11-07 17:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/linux_mouse/: Makefile.am (1.1), input.c (1.1): Moved old
+	mouse-driver here
+
+1998-11-07 15:17  Andreas Beck [becka@ggi-project.org]
+
+	* input/: linux_kbd/input.c (1.9), mouse/input.c (1.9): Fixes due
+	to GII_ prefix addition.
+
+1998-11-07 15:13  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.15), include/ggi/internal/gii.h (1.10): Slight namespace
+	fixes
+
+1998-11-07 09:09  Andrew Apted [andrew@ggi-project.org]
+
+	* input/: mouse/input.c (1.8), linux_kbd/input.c (1.8): Implemented
+	getdevinfo events (sent at GIIdlinit time).  No mechanism for
+	proggies to explicitly retrieve them yet.
+
+1998-11-06 02:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.13), aclocal.m4 (1.10), configure (1.15): No
+	idea...
+
+1998-11-06 02:29  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/: linux_joy/input.c (1.6), linux_kbd/input.c (1.7),
+	mouse/input.c (1.7), spaceorb/input.c (1.6): Removed _gii_malloc
+	and plugged some memory leaks.
+
+1998-11-06 02:28  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.3): Added GGI_ENODEVICE
+
+1998-11-06 02:27  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.14), dl.c (1.4), include/ggi/internal/gii.h (1.9): Added
+	_giiCloseDL and removed _gii_malloc.
+
+1998-11-05 15:53  Andrew Apted [andrew@ggi-project.org]
+
+	* input/: spaceorb/input.c (1.5), linux_joy/input.c (1.5):
+	Implemented some support for getdevinfo and getvalinfo events (at
+	least filling them out).  Lacks the mechanism to explicitly
+	retrieve this info.
+
+1998-11-05 15:47  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/events.h (1.13): Changed max_axis to num_axes, and
+	max_button to num_buttons.  Added GII_PT_TORQUE.
+
+1998-11-05 03:56  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.12), aclocal.m4 (1.9), config.h.in (1.4),
+	configure (1.14), configure.in (1.14), demos/Makefile.in (1.5),
+	gg/Makefile.in (1.7), gg/gsysdef.h (1.2), gg/gsysinc.h (1.2),
+	gg/gsystd.h (1.2), include/Makefile.in (1.8),
+	include/ggi/Makefile.am (1.4), include/ggi/Makefile.in (1.8),
+	include/ggi/system.h.in (1.1), include/ggi/internal/Makefile.in
+	(1.7), input/Makefile.in (1.11), input/linux_joy/Makefile.in (1.4),
+	input/linux_kbd/Makefile.in (1.4), input/mouse/Makefile.in (1.4),
+	input/null/Makefile.in (1.6), input/pcjoy/Makefile.in (1.8),
+	input/spaceorb/Makefile.in (1.4), input/stdin/Makefile.in (1.11):
+	Imported system.h generation from KGI Added check for endianness
+
+1998-11-05 02:56  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/events.h (1.12): Changed the SI_* things in valinfo
+	to signed (sint32).
+
+1998-11-05 02:53  Andrew Apted [andrew@ggi-project.org]
+
+	* gii.c (1.13): In giiClose(), moved the test for NULL _above_ the
+	destroyQueue thingy.
+
+1998-11-05 02:43  Andrew Apted [andrew@ggi-project.org]
+
+	* input/mouse/input.c (1.6): Fix for an API change: (button in
+	pbutton events).
+
+1998-11-04 21:08  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/events.h (1.11), input/stdin/input.c (1.10): Final
+	fixup for devinfo events.
+
+1998-11-04 01:10  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.in (1.11), aclocal.m4 (1.8), configure (1.13), dl.c
+	(1.3), gii.c (1.12), include/ggi/events.h (1.10): O.K. - I broke
+	it, so I fix it ... Sorry.
+
+1998-11-03 23:59  Andreas Beck [becka@ggi-project.org]
+
+	* gg/.cvsignore (1.1), include/.cvsignore (1.1),
+	include/ggi/.cvsignore (1.1), include/ggi/internal/.cvsignore
+	(1.1), input/linux_joy/.cvsignore (1.1), input/linux_kbd/.cvsignore
+	(1.1), input/mouse/.cvsignore (1.1), input/spaceorb/.cvsignore
+	(1.1): Added a few .cvcsignores ... Now I see much clearer.
+
+1998-11-03 23:55  Andreas Beck [becka@ggi-project.org]
+
+	* .cvsignore (1.4): Small .cvsignore change
+
+1998-11-03 19:12  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/events.h (1.9): Fixed a typo.
+
+1998-11-03 15:04  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/events.h (1.8), input/linux_kbd/input.c (1.6),
+	input/mouse/input.c (1.5): Fixed a few bugs and dependencies with
+	the new events.h.
+
+1998-11-03 14:55  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/events.h (1.7): Cleared up events.h. Break binary
+	compatibility !!
+
+1998-11-03 12:40  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/input.c (1.5): Stopped using the TIOCLINUX(6)
+	call to get the shift state, and now we keep track of it ourselves.
+
+1998-11-03 12:37  Andrew Apted [andrew@ggi-project.org]
+
+	* gii.c (1.11), include/ggi/internal/gii.h (1.8): Implemented
+	_gii_malloc.
+
+1998-11-02 02:41  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: conf.c (1.2), intlock.c (1.2), ptlock.c (1.2): Prefixed
+	error codes with 'E'
+
+1998-11-02 02:38  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.10), aclocal.m4 (1.7), config.h.in (1.3),
+	configure (1.12), configure.in (1.13), demos/Makefile.in (1.4),
+	include/Makefile.in (1.7), include/ggi/Makefile.in (1.7),
+	include/ggi/internal/Makefile.in (1.6), input/Makefile.in (1.10),
+	input/linux_joy/Makefile.in (1.3), input/linux_kbd/Makefile.in
+	(1.3), input/mouse/Makefile.in (1.3), input/null/Makefile.in (1.5),
+	input/pcjoy/Makefile.in (1.7), input/spaceorb/Makefile.in (1.3),
+	input/stdin/Makefile.in (1.10): Updated
+
+1998-11-02 02:37  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/errors.h (1.2): Prefixed error codes with 'E'
+
+1998-11-02 01:20  Marcus Sundberg [marcus@ggi-project.org]
+
+	* include/ggi/gg.h (1.2): Moved mutex code to LibGG
+
+1998-11-02 01:19  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gii.c (1.10): Fixed EINTR for the case when we don't have any
+	polled drivers
+
+1998-11-02 01:18  Marcus Sundberg [marcus@ggi-project.org]
+
+	* init.c (1.3): Use GGI_DEBUG and GGI_DEBUGSYNC until the debugging
+	mess is fixed
+
+1998-11-02 00:58  Marcus Sundberg [marcus@ggi-project.org]
+
+	* gg/: Makefile.am (1.2), Makefile.in (1.6), intlock.c (1.1),
+	plat.h (1.2), ptlock.c (1.1): Moved mutex stuff from LibGGI to
+	LibGG
+
+1998-11-01 20:10  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.9), include/ggi/internal/gii.h (1.7),
+	input/linux_joy/input.c (1.4), input/linux_kbd/input.c (1.4),
+	input/mouse/input.c (1.4), input/null/input.c (1.2),
+	input/pcjoy/input.c (1.5), input/spaceorb/input.c (1.4),
+	input/stdin/input.c (1.9): Added argptr stuff to LibGII. Fixed some
+	bugs there, too.
+
+1998-10-30 06:17  Andrew Apted [andrew@ggi-project.org]
+
+	* input/: linux_joy/input.c (1.3), linux_kbd/input.c (1.3): Small
+	fixes to the debugging info.
+
+1998-10-29 22:37  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/events.h (1.6): Fixed some Legal issues, started GII
+	device identification stuff.
+
+1998-10-29 14:33  Marcus Sundberg [marcus@ggi-project.org]
+
+	* mkinstalldirs (1.2): Fixed permissions for created directories
+
+1998-10-29 13:02  Andrew Apted [andrew@ggi-project.org]
+
+	* input/: linux_joy/EXPSYMS (1.2), linux_joy/input.c (1.2),
+	linux_kbd/EXPSYMS (1.2), linux_kbd/input.c (1.2), mouse/EXPSYMS
+	(1.2), mouse/input.c (1.3), spaceorb/EXPSYMS (1.2),
+	spaceorb/input.c (1.3): Implemented the inp->GIIclose functions.
+
+1998-10-29 07:56  Andrew Apted [andrew@ggi-project.org]
+
+	* input/spaceorb/input.c (1.2): Bumped up the axis values to -32767
+	.. +32767.
+
+1998-10-29 00:59  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.in (1.9), aclocal.m4 (1.6), config.h.in (1.2), configure
+	(1.11), configure.in (1.12), demos/Makefile.in (1.3), demos/demo.c
+	(1.4), gg/Makefile.in (1.5), include/Makefile.in (1.6),
+	include/ggi/Makefile.in (1.6), include/ggi/internal/Makefile.in
+	(1.5), input/Makefile.in (1.9), input/linux_joy/Makefile.am (1.2),
+	input/linux_joy/Makefile.in (1.2), input/linux_kbd/Makefile.am
+	(1.2), input/linux_kbd/Makefile.in (1.2), input/mouse/Makefile.am
+	(1.2), input/mouse/Makefile.in (1.2), input/null/Makefile.in (1.4),
+	input/pcjoy/Makefile.in (1.6), input/spaceorb/Makefile.am (1.2),
+	input/spaceorb/Makefile.in (1.2), input/stdin/Makefile.in (1.9):
+	ARGH. Fixed a big bunch of stupid bugs ...
+
+1998-10-27 12:52  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.6): Added `GIIK_PNumber' for `#' on
+	telephones.  LibGII on PhoneOS coming to a store near you ! :->
+
+1998-10-27 06:27  Andrew Apted [andrew@ggi-project.org]
+
+	* input/spaceorb/: EXPSYMS (1.1), Makefile.am (1.1), Makefile.in
+	(1.1), input.c (1.1): Initial check-in of the `spaceorb' GII
+	target.
+
+1998-10-27 06:23  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_joy/: Makefile.am (1.1), Makefile.in (1.1), input.c
+	(1.1): Initial check-in of the `linux_joy' GII target.
+
+1998-10-27 06:21  Andrew Apted [andrew@ggi-project.org]
+
+	* configure.in (1.11): Added linux_joy and spaceorb.
+
+1998-10-27 01:56  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_joy/EXPSYMS (1.1): Initial check-in.
+
+1998-10-27 01:34  Andrew Apted [andrew@ggi-project.org]
+
+	* input/mouse/input.c (1.2): Removed some crud.
+
+1998-10-26 12:53  Andrew Apted [andrew@ggi-project.org]
+
+	* input/mouse/: EXPSYMS (1.1), Makefile.am (1.1), Makefile.in
+	(1.1), input.c (1.1): Initial check-in of the mouse `target' of
+	LibGII.
+
+1998-10-26 12:51  Andrew Apted [andrew@ggi-project.org]
+
+	* input/linux_kbd/: EXPSYMS (1.1), Makefile.am (1.1), Makefile.in
+	(1.1), input.c (1.1): Initial check-in of linux_kbd `target' of
+	LibGII.
+
+1998-10-26 12:45  Andrew Apted [andrew@ggi-project.org]
+
+	* configure.in (1.10), libgii.conf.in (1.4), input/stdin/input.c
+	(1.8): conf: Added stuff for linux_kbd and mouse.  stdin: minor
+	stuff.
+
+1998-10-26 12:40  Andrew Apted [andrew@ggi-project.org]
+
+	* gii.c (1.8), include/ggi/internal/gii.h (1.6): Minor stuff.
+
+1998-10-26 05:11  Andrew Apted [andrew@ggi-project.org]
+
+	* include/ggi/events.h (1.5), include/ggi/keyboard.h (1.5),
+	input/pcjoy/input.c (1.4), input/stdin/input.c (1.7): Another big
+	keyboard.h change.  Moved the KT_FN things that were in-between F20
+	and F21 into KT_SPEC.  Moved KT_CUR into KT_SPEC too.  Removed all
+	KT_DEAD, KT_ASCII, STICKY and LOCKED things.  Renamed all key
+	defines to 'Mmmm' style.  Improved the modifier handling (removed
+	the stupid left/right distinction for ev.key.sym and
+	ev.key.effect).  Removed the `normal', `sticky' and `locked' fields
+	from MODIFIER_DATA (LibGGI/GII can just fool the application with
+	the appropriate events).  Removed some cruft from events.h that was
+	never used.
+
+1998-10-25 21:23  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.6), Makefile.in (1.8), configure (1.10),
+	configure.in (1.9), demos/Makefile.in (1.2), gg/Makefile.in (1.4),
+	include/Makefile.in (1.5), include/ggi/Makefile.in (1.5),
+	include/ggi/internal/Makefile.in (1.4), input/Makefile.in (1.8),
+	input/null/Makefile.in (1.3), input/pcjoy/Makefile.in (1.5),
+	input/stdin/Makefile.in (1.8): Add -ldl to LibGII if necessary
+
+1998-10-25 12:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* .cvsignore (1.3), config.h.in (1.1): Added config.h.in
+
+1998-10-25 12:13  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.in (1.7), aclocal.m4 (1.5), configure (1.9),
+	configure.in (1.8), gg/Makefile.in (1.3), include/Makefile.in
+	(1.4), include/ggi/Makefile.in (1.4),
+	include/ggi/internal/Makefile.in (1.3), input/Makefile.in (1.7),
+	input/null/Makefile.in (1.2), input/pcjoy/Makefile.in (1.4),
+	input/stdin/Makefile.in (1.7): Fixed a bug in configure.in
+
+1998-10-25 12:05  Marcus Sundberg [marcus@ggi-project.org]
+
+	* demos/: .cvsignore (1.2), Makefile.in (1.1): Added Makefile.in
+
+1998-10-24 21:18  Andreas Beck [becka@ggi-project.org]
+
+	* configure (1.8), configure.in (1.7), gii.c (1.7), libgii.conf.in
+	(1.3), demos/demo.c (1.3), input/null/.cvsignore (1.1),
+	input/null/EXPSYMS (1.1), input/null/Makefile.am (1.1),
+	input/null/Makefile.in (1.1), input/null/input.c (1.1): Added null
+	input lib.
+
+1998-10-24 20:23  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.in (1.6), aclocal.m4 (1.4), configure (1.7),
+	configure.in (1.6), libgii.conf.in (1.2), demos/demo.c (1.2),
+	gg/Makefile.in (1.2), include/Makefile.in (1.3),
+	include/ggi/Makefile.in (1.3), include/ggi/internal/Makefile.in
+	(1.2), input/Makefile.in (1.6), input/pcjoy/Makefile.in (1.3),
+	input/stdin/Makefile.in (1.6): Minor fix to installation of LibGII.
+
+1998-10-24 06:03  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.5), Makefile.in (1.5), acconfig.h (1.1),
+	aclocal.m4 (1.3), autogen.sh (1.3), conf.c (1.2), configure (1.6),
+	configure.in (1.5), debug.c (1.2), dl.c (1.2), gii.c (1.6), init.c
+	(1.2), libgii.conf.in (1.1), gg/Makefile.am (1.1), gg/Makefile.in
+	(1.1), gg/conf.c (1.1), gg/debug.c (1.1), gg/gsysdef.h (1.1),
+	gg/gsysinc.h (1.1), gg/gsystd.h (1.1), gg/parse.c (1.1), gg/plat.h
+	(1.1), include/Makefile.in (1.2), include/ggi/Makefile.am (1.3),
+	include/ggi/Makefile.in (1.2), include/ggi/errors.h (1.1),
+	include/ggi/events.h (1.4), include/ggi/gg.h (1.1),
+	include/ggi/gii.h (1.4), include/ggi/gii_source.h (1.4),
+	include/ggi/keyboard.h (1.4), include/ggi/internal/Makefile.am
+	(1.1), include/ggi/internal/Makefile.in (1.1),
+	include/ggi/internal/gii-dl.h (1.1), include/ggi/internal/gii.h
+	(1.5), include/ggi/internal/gii_debug.h (1.2), input/Makefile.am
+	(1.3), input/Makefile.in (1.5), input/pcjoy/Makefile.am (1.3),
+	input/pcjoy/Makefile.in (1.2), input/pcjoy/input.c (1.3),
+	input/stdin/Makefile.am (1.4), input/stdin/Makefile.in (1.5),
+	input/stdin/input.c (1.6): Added LibGG into the LibGII tree, and
+	made LibGII and LibGGI use it Big cleanup of includes Made it
+	possible to build LibGGI without installing LibGII
+
+1998-10-22 23:33  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/keyboard.h (1.3): Added ARKlogic chipsets for
+	detection. Changed keyboard.h.
+
+1998-10-22 20:01  Andreas Beck [becka@ggi-project.org]
+
+	* include/Makefile.in (1.1), include/ggi/Makefile.in (1.1),
+	input/pcjoy/Makefile.in (1.1): Added Missing Makefile.ins
+
+1998-10-21 23:52  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.5): Added shmdemo event backpath ... ugly but works ... 
+	Fixed typo in libgii/gii.c
+
+1998-10-20 01:00  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.4), include/ggi/events.h (1.3), include/ggi/gii.h (1.3),
+	include/ggi/gii_source.h (1.3): Added SendEvent. Fixed Shmdemo.
+	Working on cube support ...
+
+1998-10-19 22:21  Andreas Beck [becka@ggi-project.org]
+
+	* gii.c (1.3), include/ggi/events.h (1.2), include/ggi/gii.h (1.2),
+	include/ggi/gii_source.h (1.2), include/ggi/keyboard.h (1.2),
+	include/ggi/internal/gii.h (1.4), input/pcjoy/input.c (1.2),
+	input/stdin/input.c (1.5): Namespace fixes ...
+
+1998-10-18 18:50  Andreas Beck [becka@ggi-project.org]
+
+	* include/ggi/: Makefile.am (1.2), events.h (1.1), keyboard.h
+	(1.1): Moved a few files over.
+
+1998-10-18 15:33  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.am (1.4), Makefile.in (1.4), autogen.sh (1.2), configure
+	(1.5), configure.in (1.4), demos/Makefile.am (1.2),
+	include/Makefile.am (1.1), include/ggi/Makefile.am (1.1),
+	input/Makefile.in (1.4), input/pcjoy/Makefile.am (1.2),
+	input/stdin/Makefile.am (1.3), input/stdin/Makefile.in (1.4):
+	LibGII installation corrected.
+
+1998-10-17 15:37  Andreas Beck [becka@ggi-project.org]
+
+	* configure (1.4), configure.in (1.3), include/ggi/gii_source.h
+	(1.1), include/ggi/internal/gii.h (1.3), input/Makefile.am (1.2),
+	input/Makefile.in (1.3), input/pcjoy/.cvsignore (1.1),
+	input/pcjoy/EXPSYMS (1.1), input/pcjoy/Makefile.am (1.1),
+	input/pcjoy/input.c (1.1), input/stdin/EXPSYMS (1.2),
+	input/stdin/input.c (1.4): Separated gii_source.h out, so "clued"
+	things like LibGGI can add their own sources without knowing
+	internal/*
+
+1998-10-17 14:33  Andreas Beck [becka@ggi-project.org]
+
+	* .cvsignore (1.2), autogen.sh (1.1), demos/.cvsignore (1.1),
+	input/.cvsignore (1.1), input/stdin/.cvsignore (1.2): Beautified
+	CVS output a bit ...
+
+1998-10-17 14:27  Andreas Beck [becka@ggi-project.org]
+
+	* demos/: Makefile.am (1.1), demo.c (1.1): Uh - forgot to add some
+	files.
+
+1998-10-17 14:26  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.am (1.3), Makefile.in (1.3), configure (1.3),
+	configure.in (1.2), include/ggi/internal/gii.h (1.2),
+	input/stdin/Makefile.am (1.2), input/stdin/Makefile.in (1.3),
+	input/stdin/input.c (1.3): Updated LibGII. Compiles now.
+
+1998-10-17 00:46  Andreas Beck [becka@ggi-project.org]
+
+	* Makefile.am (1.2), Makefile.in (1.2), aclocal.m4 (1.2), conf.c
+	(1.1), configure (1.2), debug.c (1.1), dl.c (1.1), gii.c (1.2),
+	init.c (1.1), include/ggi/gii.h (1.1), include/ggi/internal/gii.h
+	(1.1), include/ggi/internal/gii_debug.h (1.1), input/Makefile.in
+	(1.2), input/stdin/Makefile.in (1.2), input/stdin/input.c (1.2):
+	Worked on separating LibGII. Understanding automake might help ...
+
+1998-10-15 03:32  Marcus Sundberg [marcus@ggi-project.org]
+
+	* .cvsignore (1.1): Initial checkin
+
+1998-10-15 03:15  Marcus Sundberg [marcus@ggi-project.org]
+
+	* input/stdin/.cvsignore (1.1), .version (1.1): Initial checkin
+
+1998-10-15 03:12  Marcus Sundberg [marcus@ggi-project.org]
+
+	* Makefile.am (1.1), Makefile.in (1.1), aclocal.m4 (1.1),
+	config.guess (1.1), config.sub (1.1), configure (1.1), configure.in
+	(1.1), gii.c (1.1), install-sh (1.1), ltconfig (1.1), ltmain.sh
+	(1.1), missing (1.1), mkinstalldirs (1.1), input/Makefile.am (1.1),
+	input/Makefile.in (1.1), input/stdin/EXPSYMS (1.1),
+	input/stdin/Makefile.am (1.1), input/stdin/Makefile.in (1.1),
+	input/stdin/input.c (1.1): Initial checkin of libgii and
+	automake/libtool testbed

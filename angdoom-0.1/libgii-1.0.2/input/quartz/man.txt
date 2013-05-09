@@ -1,0 +1,28 @@
+MacOSX Quartz/Carbon Input
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-quartz
+
+
+Synopsis
+--------
+
+::
+
+  input-quartz
+
+
+Description
+-----------
+
+input-quartz, a native input library for MacOSX. It uses the
+quartz/carbon API. It is used by display-quartz(7) and not
+standalone usable.
+
+MacOSX 10.2.8 (Jaguar) or newer is required.
+
+
+Features
+--------
+
+- Generates evPtr* and evKey* events.

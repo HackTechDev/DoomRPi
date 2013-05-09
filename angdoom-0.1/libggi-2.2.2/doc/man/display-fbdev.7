@@ -1,0 +1,61 @@
+.TH "display-fbdev" 7 "2003-04-02" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-fbdev\fR : Display using Linux kernel framebuffer devices
+.SH SYNOPSIS
+.nb
+.nf
+display-fbdev: [ [-noinput] | [ [-nokbd] | [-nomouse] ] ] [-novt]
+               [-physz=<sizex>,<sizey>[dpi]] [<framebuffer>]
+.fi
+
+.SH DESCRIPTION
+Uses the Linux \fB/dev/fb*\fR devices to do fullscreen
+graphics.
+
+When using a regular fbdev driver, \fB/etc/fb.modes\fR is used to
+determine the available modes for the device.  Driver timings and
+resolutions can be automatically obtained when running under KGIcon.
+.SH OPTIONS
+.TP
+\fIframebuffer\fR
+The filename of the framebuffer target to use.  The default is to
+get it from the \fBFRAMEBUFFER\fR environment, or the framebuffer
+associated with the current console if that is unset.
+
+.TP
+\f(CW-nokbd\fR
+Do not open any libraries for keyboard input.
+
+.TP
+\f(CW-nomouse\fR
+Do not open any libraries for mouse input.
+
+.TP
+\f(CW-noinput\fR
+Same as both \f(CW-nokbd\fR and \f(CW-nomouse\fR.
+
+.TP
+\f(CW-novt\fR
+Disable virtual console support.
+
+.TP
+\f(CW-physz=<sizex>,<sizey>[dpi]\fR
+This option will provide a physical screen size for applications
+which wish to remain resolution independent.
+\fIsizex\fR,:p:\fBsizey\fR are the x,y size of the screen in
+millimeters, unless the optional \f(CWdpi\fR string is affixed, in
+which case, they represent resolution in dots-per-inch.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer always available.
+.IP \(bu 4
+Accelerated when using KGIcon or matroxfb.
+.IP \(bu 4
+Multiple frames.
+.IP \(bu 4
+Panning.
+.PP
+.SH SEE ALSO
+\f(CWfb.modes(5)\fR

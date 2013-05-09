@@ -1,0 +1,80 @@
+.TH "ggCurTime" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggCurTime\fR, \fBggUSleep\fR, \fBggUSlumber\fR : Portable Time Routines
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+int ggCurTime(struct timeval *tv);
+
+int ggUSleep(int32_t usecs);
+
+void ggUSlumber(int32_t usecs);
+.fi
+
+.SH DESCRIPTION
+\fBggCurTime\fR fills the timeval structure pointed to by \fItv\fR with 
+the current time to the best precision available on the executing platform.
+
+\fBggUSleep\fR sleeps for at least \fIusecs\fR microseconds, to the best 
+precision available on the executing platform, but may be woken up by
+a signal or other unspecified condition.  It is not guaranteed that
+ggUSleep will wake up prematurely for any specific reason.  It is mainly
+useful for points where the main objective is to avoid using CPU 
+resources, not to perform accurate timing.
+
+\fBggUSlumber\fR does the same thing as \fBggUSleep\fR, but is guaranteed not to
+return until the allotted time has elapsed.  It is slightly less efficient
+than ggUSleep with reguard to CPU utilization.
+
+All times represent wall-clock (real, versus processor) times.
+
+The above routines are often simple macros rather than functions, and 
+as such should not be used by reference.
+
+The above functions are threadsafe, but are not guaranteed to be safe 
+to use in a thread that may be cancelled during their execution.
+They are also not guaranteed to be safe to use in special contexts such 
+as LibGG task handlers, signal handlers and asyncronous procedure calls.
+.SH RETURN VALUE
+\fBggCurTime\fR returns \fBGGI_OK\fR on success, or a negative value on
+failure. On Windows, this function will never report a failure.  On
+platforms where \f(CWgettimeofday(2)\fR is used, the error code is the
+one returned by \fBgettimeofday\fR.
+
+\fBggUSleep\fR returns \fBGGI_OK\fR when the alloted time interval has
+elapsed, or a non-zero value if the sleep was interrupted. On
+platforms where \f(CWusleep(3)\fR is used, the error code is the one
+return by \fBusleep\fR.
+.SH EXAMPLE
+A demonstration on how to measure a framerate.
+
+.nb
+.nf
+struct timeval start, stop, diff;
+long time_of_frame = 1;
+int framerate;
+
+...
+
+ggCurTime(&start);
+
+/* do something here, i.e. render and display a frame */
+
+ggCurTime(&stop);
+diff.tv_sec = stop_tv.tv_sec - start_tv.tv_sec;
+diff.tv_usec = stop_tv.tv_usec - start_tv.tv_usec;
+
+if (diff.tv_usec < 0) {
+        diff.tv_usec += 1000000;
+        diff.tv_sec--;
+}
+time_of_frame = diff.tv_sec * 1000 + diff.tv_usec / 1000;
+if (time_of_frame == 0)
+        time_of_frame = 1;      /* CPU too fast? */
+printf("framerate: %i\en", 1000 / time_of_framerate);
+.fi
+
+.SH SEE ALSO
+\f(CWgettimeofday(2)\fR, \f(CWusleep(3)\fR

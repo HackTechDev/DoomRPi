@@ -1,0 +1,115 @@
+.TH "ggiCheckMode" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiCheckMode\fR, \fBggiCheckTextMode\fR, \fBggiCheckGraphMode\fR, \fBggiCheckSimpleMode\fR : Check or negotiate a text/graphics mode on a visual
+.SH SYNOPSIS
+.nb
+.nf
+int ggiCheckMode(ggi_visual_t visual, ggi_mode *tm);
+
+
+int ggiCheckTextMode(ggi_visual_t visual, int cols, int rows,
+                     int vcols, int vrows, int fontx, int fonty,
+                     ggi_graphtype type, ggi_mode *suggested_mode);
+
+int ggiCheckGraphMode(ggi_visual_t visual, int x, int y,
+                      int xv, int yv, ggi_graphtype type,
+                      ggi_mode *suggested_mode);
+
+int ggiCheckSimpleMode(ggi_visual_t visual, int xsize, int ysize,
+                       int frames, ggi_graphtype type, ggi_mode *md);
+.fi
+
+.SH DESCRIPTION
+\fBggiCheckMode\fR checks whether or not the given mode will work on the
+visual.  If it does not work, it will modify the values of passed
+\fBggi_mode(3)\fR structure so that the mode works.  This mode negotiation
+allows the application to discover modes that are both supported by
+the visual and suitable to the application.
+
+\fBggiCheckTextMode\fR checks whether the text mode with the given visible
+and virtual dimensions and the font size is supported.
+
+\fBggiCheckGraphMode\fR checks whether the graphics mode with the given
+visible and virtual dimensions and type is supported.
+
+\fBggiCheckSimpleMode\fR checks whether the graphics mode with the given
+visible dimensions, type, and number of buffers is supported.  This is
+used in lieu of \fBggiCheckGraphMode\fR if multiple buffering is desired.
+
+For \fBggiCheckTextMode\fR, \fBggiCheckGraphMode\fR and \fBggiCheckSimpleMode\fR,
+\fIsuggested_mode\fR is either \fBNULL\fR or a pointer to a \fBggi_mode(3)\fR
+which will be filled in with the negotiated mode parameters.
+.SH RETURN VALUE
+For \fBggiCheckTextMode\fR and \fBggiCheckGraphMode\fR, a return of \fB0\fR means
+that the corresponding set mode call for this mode would
+succeed. Otherwise, the mode given cannot be set. In this case,
+\fIsuggested_mode\fR is changed to the suggested mode.
+
+If the only modifications made to the structure is replacing
+\fBGGI_AUTO\fR or \fBGT_AUTO\fR value, the functions return success.
+.SH RULES FOR MODE NEGOTIATION
+First, if \fBGGI_AUTO\fR (or \fBGT_AUTO\fR for the graphtype) is specified for
+any of the members of \fItm\fR, these are filled in with the
+recommended values.  The values could be to a maximum, preferred, or
+\fBGGI_DEFMODE\fR resolution, and will be compatible with any other
+constraints.
+
+An application that does not care about a specific parameter should
+always specify \fBGGI_AUTO\fR or \fBGT_AUTO\fR for it.
+
+The resulting mode is guaranteed to be valid; if not, the application
+can assume that it cannot set any mode on the given visual and give
+up.
+
+The suggested mode is derived as follows:
+.IP 1 4
+Resolutions are always adjusted \fIup\fR. If you want the next lower,
+start out at 1x1 (or somewhere else reasonable) and jump up the
+ladder.
+
+Only if the maximum resolution would be exceeded, resolutions are
+adjusted \fIdown\fR to the maximum.
+
+The above applies to visible and virtual size. If there is
+interference between them, the visible size is satisfied first if
+possible, then the virtual size.
+
+The adjustment of one value do not normally affect other
+values. For example, if (visible) 320x100 (virtual 320x200) is
+requested, the visible size may be adjusted to 320x200, but virtual
+size will be left alone. Of course, if the virtual size becomes
+less than visible size, then it will be adjusted as well.
+.IP 2 4
+Font sizes are handled the other way round: they are adjusted
+\fIdown\fR except when there is nothing below.
+.IP 3 4
+A specific graphtype is changed only if the card does not support
+it \fIat all\fR.  If the maximum resolution is exceeded, then that is
+adjusted down and not the graphtype. This assumes, that if you
+request true-color, you really want that and not so badly the
+resolution you requested. If this is not the case, you can still
+retry with another graphtype or \fBGT_AUTO\fR.
+
+If graphtype is changed, it is adjusted in ascending order if
+possible: e.g. 1->4->8->15->16->24/32 bit. So you always get a mode
+which can do more than you requested. Only when no better modes are
+available, the type is adjusted down.
+.PP
+.SH EXAMPLES
+Try a 320x200x8 mode:
+
+.nb
+.nf
+ggi_mode sug_mode;
+err = ggiCheckGraphMode(vis, 320, 200, GGI_AUTO, GGI_AUTO, GT_8BIT, 
+                      &sug_mode);
+if(err) {
+      /* Check if returned mode is ok... */
+}
+else {
+      ggiSetMode(vis, &sug_mode);
+}
+.fi
+
+.SH SEE ALSO
+\f(CWggiOpen(3)\fR, \f(CWggiSetMode(3)\fR, \f(CWggi_mode(3)\fR

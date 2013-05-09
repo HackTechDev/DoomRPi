@@ -1,0 +1,80 @@
+.TH "ggParseOptions" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggParseOptions\fR : Option parsing
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+char *ggParseOptions(const char *str, gg_option *optlist, int count, int flag);
+.fi
+
+.SH DESCRIPTION
+\fBggParseOptions\fR parses a string \fIstr\fR of options in LibGG's option 
+format and places the results in the ".name" members of the \fIoptlist\fR.  
+The parameter \fIcount\fR specifies the length of optlist.  The parameter
+\fIflags\fR is a bitwise or of values that alter behavior, the only
+one defined at this time being GG_PARSEOPTS_ALLOW_UNKNOWN, which, if
+present, will cause ggParseOptions to ignore options found in the string
+for which there are no matching entries in optlist (normally this 
+generates a failure and a warning message).
+
+The normal LibGG option format is defined as follows:
+
+A colon or whitespace is the separator between options.
+
+Option names consist of any character except parenthesis, colons, 
+whitespace characters, the equals sign ('=') and the NULL ('0') 
+character.
+
+Option values may consist of any character except the NULL character,
+however in order to include colons, whitespace characters, 
+or parenthesis, the option must be quoted.  Option values that begin 
+with a single or double quote are considered to be quoted, and must
+end with the same quote character with which they began.  The quotes are 
+not considered to be part of the option value.  In order to include the
+quote character in use in  a quoted option value it must be escaped by 
+a backslash ('') character.  Backslashes always escape, even in 
+unquoted values, and so must always be escaped with a backslash in
+order to be included.
+
+Named options begin with a dash (\fB-\fR) character followed by an option
+name and may be boolean (present or not) or may contain an equal sign 
+to assign the option a string value (everything following the equal sign
+up to the next forbidden character as described above.)  Matching is 
+case sensitive, but options can be abbreviated right down to a single 
+letter as long as the name remains unique among the entries in 
+\fIoptlist\fR and the GG_PARSEOPTS_ALLOW_UNKNOWN flag is not used.
+
+Unnamed options do not (duh) have a name field and are positionally
+mapped to entries in \fIoptlist\fR.  Unnamed options are processed after 
+the first option field not starting with a dash is encountered, and 
+occupy the rest of the option string.  They are assigned to any 
+unnamed-eligible options (see below) in the order they appear in 
+optlist, but if any were previously discovered in named form they 
+forfeit their position in that order.
+
+Options that are eligible to be used in an unnamed fashion must have a 
+colon or dash prefixed to their optname in the \fIoptlist\fR when 
+\fBggParseOptions\fR is invoked.  Unnamed options may appear as named 
+options as well.  \fBggParseOptions\fR will alter the first character in 
+the corresponding optname entry in \fIoptlist\fR to a colon or to a 
+dash depending on whether the option was present in unnamed or named 
+form, respectively.  Thus the caller can determine whether the option
+was presented in named or unnamed form.
+
+Options that appear in boolean form will have the first character
+in their result changed to "y".  This can be distinguished from
+an explicit value of "y" because no NULL terminator is appended to
+the "y".
+
+Options that are not found are left unaltered in \fIoptlist\fR.
+
+Option names and values in \fIstr\fR are limited in length to 
+GG_MAX_OPTION_NAME and GG_MAX_OPTION_RESULT bytes, respectively, including 
+one byte for a terminating NULL character.
+.SH RETURN VALUE
+\fBggParseOptions\fR returns the position in \fIstr\fR after the last character
+of a valid option string, or \fBNULL\fR if \fIstr\fR was determined not to be
+a valid option string.  Even on failure, the contents of \fIoptlist\fR 
+may have been altered.

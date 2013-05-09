@@ -1,0 +1,39 @@
+.TH "gg-types" 3 "2005-07-29" "libgg-1.0.x" GGI
+.SH NAME
+\fBgg-types\fR : Portable types defined by libGG
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+.fi
+
+.SH DESCRIPTION
+LibGG defines a few portable types used by other GGI libraries.
+Application writers may use these types to avoid having to handle
+os/platform specific types directly.
+
+The following types are defined:
+.IP \(bu 4
+\fBsint8\fR: 8 bits signed integer
+.IP \(bu 4
+\fBuint8\fR: 8 bits unsigned integer
+.IP \(bu 4
+\fBsint16\fR
+.IP \(bu 4
+\fBuint16\fR
+.IP \(bu 4
+\fBsint32\fR
+.IP \(bu 4
+\fBuint32\fR
+.IP \(bu 4
+\fBsint64\fR
+.IP \(bu 4
+\fBuint64\fR
+.IP \(bu 4
+\fBggi_sint\fR: native signed integer
+.IP \(bu 4
+\fBggi_uint\fR: native unsigned integer
+.PP
+.SH NOTE
+These types are now obsoleted by C99 types, and support for them is
+provided for backward compatibility only.

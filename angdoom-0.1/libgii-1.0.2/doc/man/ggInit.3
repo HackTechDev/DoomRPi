@@ -1,0 +1,97 @@
+.TH "ggInit" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggInit\fR, \fBggExit\fR : Initialize and uninitialize LibGG
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+int ggInit();
+
+int ggExit();
+.fi
+
+.SH DESCRIPTION
+\fBggInit\fR initializes LibGG for use, allocates resources, examines
+the runtime environment for options, and performs initializations 
+necessary to provide the LibGG API.  This function must be called 
+by the application (or by proxy by another library used by the 
+application) and must return successfully before using any other 
+LibGG function; otherwise the results of invoking LibGG API functions 
+will be undefined.
+
+\fBggInit\fR allows multiple invocations.  Unless \fBggExit\fR is called 
+as described below, subsequent calls to \fBggInit\fR will do nothing 
+other than increment a reference counter which LibGG uses to keep 
+track of how many times it has been initialized.  This allows using
+multiple libraries which call \fBggInit\fR together without conflict.
+
+\fBggExit\fR decrements the reference counter which \fBggInit\fR increments.
+Until this counter indicates that \fBggExit\fR has been called as many
+times as \fBggInit\fR it will do nothing else.
+
+That is, to free resources used by LibGG, \fBggExit\fR must be called as
+many times as \fBggInit\fR has been called beforehand (including any
+calls made by libraries that depend on LibGG.)  After \fBggExit\fR returns
+\fB0\fR, indicating LibGG is deinitialized, \fBggInit\fR may be called again 
+to reinitialize LibGG.
+
+When \fBggExit\fR determines that it has been called as many times as
+\fBggInit\fR it performs the following actions (order is not guaranteed.)  
+Any tasks scheduled with \fBggAddTask(3)\fR are canceled (no task handlers
+will be called after \fBggExit\fR returns.)  Any cleanup handlers 
+registered with \fBggRegisterCleanup(3)\fR are invoked (no cleanup handlers
+will be called after \fBggExit\fR returns.)  If any cleanup handlers 
+invoked \fBggCleanupForceExit(3)\fR, the current process will be terminated
+before \fBggExit\fR returns.  Otherwise, all resources used by LibGG
+are released for use by the application or operating system before 
+\fBggExit\fR returns.  After the "last" \fBggExit\fR is so invoked, any GG 
+functions (including \fBggExit\fR and \fBggInit\fR) invoked will result 
+in undefined, and probably undesirable, behavior.  After \fBggExit\fR 
+returns \fB0\fR, it is again safe to invoke \fBggInit\fR.
+
+\fBggInit\fR and \fBggExit\fR are threadsafe functions with a few small 
+exceptions.  First, do not call \fBggInit\fR at the same time from two 
+threads unless LibGG is already initialized.  This is easily 
+avoided by calling \fBggInit\fR once before threads that might call 
+it are started.  Secondly, it is illegal to call \fBggExit\fR after 
+the "last" \fBggExit\fR is invoked (note specifically, "invoked," not
+"has returned").  Naturally you must prevent threads from doing 
+so, which is easy if you never call \fBggExit\fR more times than
+\fBggInit\fR.  Finally, it is not safe to cancel a thread while
+it is calling either of the two functions.
+
+\fBggInit\fR and \fBggExit\fR are not guaranteed to be safe to call in any
+special context, such as a signal handler or asyncronous procedure call.
+They are not safe to use in LibGG task handlers.
+
+Note that, if \fBggInit\fR is used in a library (like LibGII or LibGGI) 
+and the application also calls \fBggInit\fR itself, cleanup handlers 
+installed by \fBggRegisterCleanup(3)\fR may not execute when expected.  See 
+the \fBggRegisterCleanup(3)\fR manpage for more detail on this subject.
+The same applies to cancelation of tasks scheduled with \fBggAddTask(3)\fR.  
+See the \fBggAddTask(3)\fR manpage for more detail on that subject.
+.SH RETURN VALUE
+\fBggInit\fR returns:
+.IP \(bu 4
+\fBGGI_OK\fR on success;
+.IP \(bu 4
+\fBGGI_EARGINVAL\fR if the \fIGG_OPTS\fR variable is defined but the options
+could not be parsed correctly;
+.IP \(bu 4
+\fBGGI_EUNKNOWN\fR if the global libgg lock could not be created.
+.PP
+\fBggExit\fR returns:
+.IP \(bu 4
+\fBGGI_OK\fR when LibGG has been completely, successfully, deinitialized;
+.IP \(bu 4
+\fB>0\fR the number of \fIopen\fR \fBggInit\fR calls, if there has been more than
+one call to \fBggInit\fR.  As \fBggInit\fR and \fBggExit\fR must be used in
+properly nested pairs, for example, the first \fBggExit\fR after two
+\fBgiiInit(3)\fRs will return \fB1\fR;
+.IP \(bu 4
+\fBGGI_ENOTALLOC\fR if \fBggExit\fR has been invoked more times than
+\fBggInit\fR has.
+.PP
+.SH SEE ALSO
+\f(CWgg-error(3)\fR

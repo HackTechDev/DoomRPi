@@ -1,0 +1,6 @@
+SUBDIRS = mach64
+
+DIST_SUBDIRS = mach64
+
+MAINTAINERCLEANFILES = Makefile.in
+

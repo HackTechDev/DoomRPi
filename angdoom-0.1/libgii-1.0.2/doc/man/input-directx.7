@@ -1,0 +1,58 @@
+.TH "input-directx" 7 "2005-07-31" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-directx\fR : Win32 DirectX input
+.SH SYSNOPSIS
+.nb
+.nf
+input-directx
+.fi
+
+.SH DESCRIPTION
+Used for Win32 DirectX port of libGGI.  This target cannot be used
+without the DirectX display target, which loads this automatically.
+
+DirectX 7 is required.
+.SH FEATURES
+.IP \(bu 4
+Generates evPtr* events, but not evPtrRelative by default. Use:
+
+.nb
+.nf
+ggiAddEventMask(vis, emPtrRelative);
+.fi
+
+to get them.
+.IP \(bu 4
+Generates evKey* events. Key repeat messages are generated at
+the keyboard rate and keyboard delay specified in the keyboard
+control panel by emulating what Windows does.
+
+Dead keys work almost as expected (see the Bugs section below).
+.IP \(bu 4
+Game controllers with absolute axes. The DirectX Point-Of-View (POV)
+control type is mapped to an axis (indicating the current direction
+of the POV control) and a button indicating if the POV control is
+currently in that direction or if it is centered with no direction
+at all. The long name of the POV axis is \f(CWPOV x (btn y)\fR where
+\f(CWbtn y\fR indicates what button is connected to \f(CWPOV x\fR.
+.PP
+.SH BUGS
+.IP \(bu 4
+When using relative pointer motion \f(CWevPtrRelative\fR, suming up the
+values from the correct (albeit unknown) starting point is not
+equivalent to using absolute pointer motion \f(CWevPtrAbsolute\fR. Use
+absolute pointer motion (the default) if you want to keep in sync
+with the on screen cursor.
+.IP \(bu 4
+When pressing a dead key, the next key should sometimes not emit
+an emulated key press for the dead key. E.g. a dead tilde (~) followed
+by a cursor key should not emit an emulated tilde. It should try to
+combine the dead tilde with the key following the cursor key (e.g. n,
+to make a ntilde), in order to match what Windows does.
+.IP \(bu 4
+The system keyboard device always reports 256 keys, which is obviously
+not always correct.
+.IP \(bu 4
+It is not possible to not open game controllers, which wastes system
+resources should the application not be interested into them.
+.PP

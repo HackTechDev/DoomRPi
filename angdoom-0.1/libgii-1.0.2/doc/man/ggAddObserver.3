@@ -1,0 +1,102 @@
+.TH "ggAddObserver" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggAddObserver\fR, \fBggDelObserver\fR, \fBggNotifyObservers\fR, \fBggClearPublisher\fR : Simple observer framework
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+typedef int (ggfunc_observer_update)(void *arg, int flag, void *data);
+
+struct gg_observer {
+      ggfunc_observer_update     *update;
+      void                       *arg;
+      GG_LIST_ENTRY(gg_observer) _others;
+};
+
+struct gg_publisher {
+      GG_LIST_HEAD(gg_observer_list,  gg_observer)  observers;
+};
+
+#define INIT_PUBLISHER(pub) GG_LIST_INIT(&((pub)->observers))
+
+struct gg_observer * ggAddObserver(struct gg_publisher *,
+                                   ggfunc_observer_update *, void *);
+
+void ggDelObserver(struct gg_observer *);
+
+void ggNotifyObservers(struct gg_publisher *, int, void *);
+
+void ggClearPublisher(struct gg_publisher *);
+.fi
+
+.SH DESCRIPTION
+The observer pattern is very useful and commonly found in many
+software packages, even if not explicitly called that way.  The
+problem is that every different software will often use a particular
+implementation of this pattern, depending on a specific use-case.  So
+usually everybody prefers to roll its own.  LibGG observers are
+defined as part of the forth-coming api infrastructure, as
+light-weight cooperation model between libraries. The model is very
+simple:
+
+\fBstruct gg_publisher\fR defines a channel on which observers can be
+registered. An observer is simply an opaque value and a callback
+receiving that value as first argument, a flag, and an opaque
+channel-specific message.  The idea is that if you known the
+observable you're listening on, you know the semantics behind the flag
+and message.  When the observable is triggered, all observers'
+callbacks will be fired.
+
+\fBggAddObserver\fR registers a new observer on a publisher.
+
+\fBggDelObserver\fR unregisters the given observer from its publisher and frees it.
+
+\fBggNotifyObservers\fR triggers all observers update functions for that
+publisher. The flag and message will be given to the observers' update
+callbacks. An observer \*fBmust not*\fR call \fBggDelObserver\fR on itself in
+the update function to unregister. Instead it must return a non-zero
+value.
+.TP
+\fBggClearPublisher\fR frees all observers registered on the publisher.
+If at least one is left, then there is probably a logical error in
+the observer code, since it must already have been notified somehow
+of the publisher going down, and unregistered all callbacks before.
+
+.PP
+.SH RETURN VALUES
+\fBggAddObserver\fR returns a newly constructed observer hook. Normally, the
+caller will keep a reference to it to call if he needs to call
+\fBggDelObserver\fR later.
+.SH EXAMPLE
+.nb
+.nf
+#include <ggi/gg.h>
+#include <stdio.h>
+
+int update(void* o, int f, void *d) {
+    printf("update called for observer %p, flag=%i, data=%p\en", o, f ,d);
+    if (o == 1) {
+       return 1; /* unregister */
+    }
+    return 0;
+}
+
+int main() {
+    struct gg_publisher pub;
+    struct gg_observer *o1, *o2;
+
+    INIT_PUBLISHER(&pub);
+
+    o1 = ggAddObserver(&pub, update, (void*)1);
+    o2 = ggAddObserver(&pub, update, (void*)2);
+
+    ggNotifyObservers(&pub, 0, NULL);
+    ggNotifyObservers(&pub, 1, NULL);
+    
+    ggClearPublisher(&pub);
+
+    return 0;
+}
+.fi
+

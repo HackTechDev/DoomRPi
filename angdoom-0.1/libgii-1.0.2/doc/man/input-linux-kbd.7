@@ -1,0 +1,29 @@
+.TH "input-linux-kbd" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBinput-linux-kbd\fR : Linux console keyboard input
+.SH SYNOPSIS
+.nb
+.nf
+input-linux-kbd: [<device>]
+.fi
+
+.SH DESCRIPTION
+\fBinput-linux-kbd\fR puts the Linux console
+into mediumraw mode and reads keyboard events from it.
+.SH OPTIONS
+.TP
+\fIdevice\fR
+Names the tty to open; the default is \fB/dev/tty\fR.
+
+.PP
+.SH ENVIRONMENT VARIABLES
+.TP
+\fBGII_CTRLALT_VTSWITCH\fR
+If set, the key combination to switch VTs is
+\f(CWCtrl-Alt-Fn\fR. Otherwise \f(CWAlt-Fn\fR is used.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+Generates evKey* events.
+.PP

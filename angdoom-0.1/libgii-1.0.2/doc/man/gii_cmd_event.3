@@ -1,0 +1,52 @@
+.TH "gii_cmd_event" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_cmd_event\fR, \fBgii_cmd_nodata_event\fR : LibGII commands and information events
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef struct {
+
+    COMMON_DATA;
+
+    uint32_t  code;
+
+} gii_cmd_nodata_event;
+
+#define GII_CMD_DATA_MAX  (248-sizeof(gii_cmd_nodata_event))
+
+typedef struct gii_cmd_event {
+
+    COMMON_DATA;
+
+    uint32_t  code;
+    uint8_t   data[GII_CMD_DATA_MAX];
+
+} gii_cmd_event;
+.fi
+
+.SH DESCRIPTION
+These are used internally either to the application or the kernel. The
+same event is used for both Command and Information events.
+.SH GENERATED EVENTS
+\fBgii_cmd_event\fR is the basic structure for \fBevCommand\fR and
+\fBevInformation\fR events.  It may need to be casted to some other
+structure (depending on \fBcode\fR) to access the data.
+.SH STRUCTURE MEMBERS
+.TP
+\fBcode\fR
+The command or request code.
+
+.TP
+\fBdata\fR
+Provides raw access to the device and/or command specific
+data. The recipient must not store references to the data. If the
+data information is needed afterwards, copy it!
+
+.PP
+.SH DEVICE INFORMATION
+One use of \fBevCommand\fR is to convey some capabilities of a GII device,
+via the \fBGII_CMDCODE_GETDEVINFO\fR command code.
+.SH SEE ALSO
+\f(CWgii_event(3)\fR, \f(CWgii_cmddata_getdevinfo(3)\fR

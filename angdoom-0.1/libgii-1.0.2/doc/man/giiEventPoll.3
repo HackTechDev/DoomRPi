@@ -1,0 +1,85 @@
+.TH "giiEventPoll" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiEventPoll\fR, \fBgiiEventSelect\fR, \fBgiiEventsQueued\fR, \fBgiiEventRead\fR : Wait for and receive events
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+gii_event_mask giiEventPoll(gii_input_t inp, gii_event_mask mask,
+                            struct timeval *t);
+
+int giiEventSelect(gii_input_t inp, gii_event_mask *mask, int n,
+                   fd_set *readfds, fd_set *writefds, fd_set *exceptfds,
+                   struct timeval *timeout);
+
+int giiEventsQueued(gii_input_t inp, gii_event_mask mask);
+
+int giiEventRead(gii_input_t inp, gii_event *ev, gii_event_mask mask);
+.fi
+
+.SH DESCRIPTION
+\fBgiiEventPoll\fR waits for specific events to become available on an
+input. This call somewhat resembles the Unix \f(CWselect(2)\fR call,
+but only for LibGII events and is more portable.  The function returns
+after an event matching the given event mask is available or after the
+amount of time specified by \fIt\fR has elapsed, whichever occurs
+first.  If \fIt\fR is \fBNULL\fR, there is no timeout.
+
+The timeout value on return is updated to the time that would have
+been remaining. So make sure to re-setup this value when calling
+\fBgiiEventPoll\fR in a loop.
+
+\fBgiiEventSelect\fR is the combination of \fBgiiEventPoll\fR and
+\f(CWselect(2)\fR allowing to wait for both LibGII events and arbitrary
+file descriptors in any of the three states.  However, this function
+is \fBnot\fR available if the operating system does not support the
+\f(CWselect(2)\fR call, not even as a stub.
+
+\fBgiiEventsQueued\fR returns the number of events matching the specified
+event mask that are currently queued in the input.
+
+\fBgiiEventRead\fR blocks for and transfers an event from the given input
+to the location pointed to by \fIev\fR. The event with the earliest
+timestamp that matches the given mask is returned to the application.
+.SH RETURN VALUE
+\fBgiiEventPoll\fR returns a mask of available events (constrained by the
+given mask).  It is \fB0\fR if no events are available.  On error, an
+negative \f(CWgii-error(3)\fR code is returned.
+
+\fBgiiEventSelect\fR returns the same values as \f(CWselect(2)\fR.  Unlike
+other LibGGI/LibGII functions, it also uses \fBerrno\fR. It will update
+the timeout regardless of whether or not the system call does so.
+
+\fBgiiEventsQueued\fR returns the number of events.
+
+\fBgiiEventRead\fR returns the size of event on success, and \fB0\fR on error.
+.SH EXAMPLES
+This is one of the various ways of coding an event-polling loop:
+
+.nb
+.nf
+for(;;) {
+    tv.tv_sec = 0;
+    tv.tv_usec = 100; /* change to 0 for non-blocking behaviour */
+
+    ggiEventPoll(vis, emAll, &tv);
+    n = ggiEventsQueued(vis, emAll);
+
+    /* Process events in one gulp, when available */
+    while(n--) {
+        ggiEventRead(vis, &ggievent, emAll);
+        switch(ggievent.any.type) {
+            /* ... */
+        }
+    }
+
+    /* Do other stuff */
+}
+.fi
+
+.RS
+\fBNote:\fR
+This code uses the LibGGI functions and types instead of the
+LibGII ones, since the former is the more common case.
+.RE

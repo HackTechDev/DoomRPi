@@ -1,0 +1,54 @@
+.TH "ggiParseMode" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiParseMode\fR, \fBggiPrintMode\fR, \fBggiSPrintMode\fR, \fBggiFPrintMode\fR : Parse and print formatted strings specifying modes
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+
+int ggiParseMode(const char *s, ggi_mode *m);
+
+#define ggiPrintMode(m) ggiFPrintMode(stdout,(m))
+
+int ggiSPrintMode(char *s, const ggi_mode *m);
+int ggiFPrintMode(FILE *s, const ggi_mode *m);
+.fi
+
+.SH DESCRIPTION
+\fBggiParseMode\fR parses a string into a \fBggi_mode(3)\fR.
+
+The \fBggi*PrintMode\fR functions print all the members of \fBggi_mode(3)\fR in a
+human-readable form.  \fBggiSPrintMode\fR outputs to a preallocated string
+buffer, \fBggiFPrintMode\fR outputs to a stdio \fBFILE\fR, and \fBggiPrintMode\fR
+outputs to standard output.  These functions correspond to
+\f(CWsprintf(3)\fR, \f(CWfprintf(3)\fR and \f(CWprintf(3)\fR
+respectively.
+
+The format of the string used by these functions is exactly the same
+as the one used in the \fBGGI_DEFMODE\fR environment variable described in
+\f(CWlibggi(7)\fR.
+
+The string returned by both \fBggiSPrintMode\fR and \fBggiFPrintMode\fR
+does \fInot\fR contain a trailing newline.
+.SH RETURN VALUE
+\fBggiParseMode\fR returns:
+.TP
+\fB0\fR
+on success, i.e. the string was correct.
+However, errors involving \fBGT_*\fR, position
+information, or mismatched brackets do not make it fail;
+these errors are simply ignored.
+
+.TP
+\fB<0\fR
+if there is text that can not be parsed.
+This text is printed to stderr.
+All parameters parsed so far are written into \fIm\fR.
+
+.PP
+So \fIm\fR contains all parameters that have been successfully
+parsed. For most applications there will be no need for testing
+\fBggiParseMode\fR for failure.
+.SH SEE ALSO
+\f(CWlibggi(7)\fR, \f(CWggi-error(3)\fR

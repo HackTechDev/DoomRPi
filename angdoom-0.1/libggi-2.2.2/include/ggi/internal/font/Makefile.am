@@ -1,0 +1,4 @@
+EXTRA_DIST = 8x8
+
+MAINTAINERCLEANFILES = Makefile.in
+

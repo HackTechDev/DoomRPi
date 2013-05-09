@@ -1,0 +1,142 @@
+.TH "giiOpen" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiOpen\fR, \fBgiiJoinInputs\fR, \fBgiiSplitInputs\fR, \fBgiiClose\fR : Open, join, split and close inputs
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+gii_input_t giiOpen(const char * input, ...);
+
+gii_input_t giiJoinInputs(gii_input_t inp, gii_input_t inp2);
+
+int giiSplitInputs(gii_input_t inp, gii_input_t *newhand,
+                   uint32_t origin, uint32_t flags);
+
+int giiClose(gii_input_t inp);
+.fi
+
+.SH DESCRIPTION
+\fBgiiOpen\fR opens an input. This function is given the name of an input
+driver to load. Passing \fBNULL\fR here results in an auto-select
+mechanism, which currently means examining the contents of
+\fBGII_INPUT\fR.
+
+The optional arguments are a \fBNULL\fR-terminated list of pointers, which
+are used to give additional information to the targets.  Currently
+only the first pointer is specified: \fBvoid *\fR \fIargptr\fR, a pointer
+to a library-specific struct. It is used to pass parameters that are
+not easily transferable in textual form.
+
+Parameters which can be represented in text format are usually
+transfered in the \fIinput\fR parameter, in the format:
+\f(CWlibrary_name:arguments\fR
+
+\fBgiiJoinInputs\fR joins two inputs into one. From a programmers' point
+of view, this closes both \fIinp\fR and \fIinp2\fR and opens an new
+input that combines both inputs into one. That is, after
+\fBgiiJoinInputs\fR has completed, there is no need to \fBgiiClose\fR \fIinp\fR
+and \fIinp2\fR any more. When cleaning up, you need to close the
+returned input instead. See the example for details. However the
+inputs are not actually closed or reopened internally. That is, you
+will not get any startup-events or similar the driver generates,
+though pending events of both old inputs are transferred to the newly
+created input.
+
+\fBgiiSplitInputs\fR splits one of the inputs from a group of joined
+inputs and returns the handle. The parameter \fIorigin\fR can be used
+to choose which input to detach (use \fBGGI_EV_ORIGIN_NONE\fR to match any
+input.)  The detached handle is returned in newhand. Note, though,
+that if the detached input is the same one given in \fIinp\fR, then the
+handle returned in \fInewhand\fR will be that of the rest of the joined
+inputs instead.  You can tell whether this happened by checking the
+return code.  Events queued in the joined input for the newly split
+input are not transferred automatically.  You must drain them out
+yourself. The parameter \fIflags\fR is reserved for future use and
+should be set to 0.
+
+\fBgiiClose\fR releases and destroys an open input and its associated
+internal control structures. This will put back input streams to their
+default modes, etc.
+.RS
+\fBImportant:\fR
+If you want to handle input while also using LibGGI, using LibGII
+functions such as \fBgiiOpen\fR is almost certainly \fBnot\fR what you
+want.  Use LibGGI functions such as \f(CWggiEventRead(3)\fR with
+the LibGGI visual instead.
+.RE
+.SH RETURN VALUE
+\fBgiiOpen\fR and \fBgiiJoinInputs\fR return the opened or joined input, or \fBNULL\fR
+for error.  The \fBgii_input_t\fR type is opaque to the programmer and can
+only be used through GII functions.
+
+\fBgiiClose\fR returns \fBGGI_OK\fR (== 0) on success, otherwise an
+\f(CWgii-error(3)\fR code.
+
+\fBgiiSplitInputs\fR returns \fB0\fR for normal success, or \fB1\fR
+if the input which was split off was the same as the one passed in
+\fIinp\fR (in which case, \fInewhand\fR may contain a handle to a joined
+set of visuals.)  Otherwise, it returns an \f(CWgii-error(3)\fR code.
+.SH EXAMPLES
+GII input management:
+
+.nb
+.nf
+gii_input_t inp, inp2, inp3;
+
+/* Initialize the GII library. This must be called before any other
+ * GII function. */
+if (giiInit() != 0) exit(1);
+
+/* Open the nulldevice for testing ... */
+if ((inp=giiOpen("input-null",NULL)) == NULL) {
+    giiExit();
+    exit(1);
+}
+
+/* Open stdin for testing ... */
+if ((inp2=giiOpen("input-stdin",NULL)) == NULL) {
+    giiExit();
+    exit(1);
+}
+
+/* Open evdev for testing ... */
+if ((inp3=giiOpen("input-linux-evdev",NULL)) == NULL) {
+    giiExit();
+    exit(1);
+}
+
+/* Now join them. Note the usage of _i_n_p_=_giiJoin(inp,inp2);
+ * This is the recommended way to do this. */
+inp=giiJoinInputs(inp,inp2);
+
+/* Note that this mends inp2 into inp. That is you may not call
+   giiClose(inp2) - this happens together with giiClose(inp) ! */
+
+/* Join another */
+inp=giiJoinInputs(inp,inp3);
+
+/* ... do the real work here ... */
+
+/* Split one of them back out of the join. */
+res = ggiSplitInputs(inp, &inp2, GII_EV_ORIGIN_NONE, 0);
+if (res == 1) {
+    gii_input_t tmp;
+    tmp = imp2;
+    imp2 = imp1;
+    imp1 = tmp;
+}
+else if (res < 0) fprintf(stderr, "Failed to split inputs\en");
+
+/* Close the single input */
+giiClose(inp2);
+
+/* Close the joined input */
+giiClose(inp);
+
+/* Now close down LibGII. */
+giiExit();
+.fi
+
+.SH SEE ALSO
+\f(CWgiiInit(3)\fR

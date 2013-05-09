@@ -1,0 +1,236 @@
+.TH "ggLockCreate" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggLockCreate\fR, \fBggLockDestroy\fR, \fBggLock\fR, \fBggUnlock\fR, \fBggTryLock\fR : Lowest common denominator locking facilities
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+void *ggLockCreate(void);
+
+int ggLockDestroy(void *lock);
+
+void ggLock(void *lock);
+
+void ggUnlock(void *lock);
+
+int ggTryLock(void *lock);
+.fi
+
+.SH DESCRIPTION
+These functions allow sensitive resource protection to prevent 
+simultaneous or interleaved access to resources.  For developers
+accustomed to POSIX-like threading environments it is important to 
+differentiate a gglock from a "mutex".  A gglock fills \*fBboth*\fR 
+the role of a "mutex" and a "condition" (a.k.a. an "event" or 
+"waitqueue") through a simplified API, and as such there is no
+such thing as a gglock "owner".  A LibGG lock is just locked or 
+unlocked, it does not matter by what or when as long as the application 
+takes care never to create a deadlock that never gets broken.
+
+The locking mechanisms are fully functional even in single-threaded, 
+uninterrupted-flow-of-control environments.   They must still be used 
+as described below even in these environments; They are never reduced 
+to non-operations.
+
+The locking mechanisms are threadsafe, and are also safe to call from
+inside LibGG task handlers.  However, they are not safe to use in
+a thread that may be cancelled during their execution, and they are
+not guaranteed to be safe to use in any special context other than
+a LibGG task, such as a signal handler or asyncronous procedure call.
+
+Though the LibGG API does provide ample functionality for threaded
+environments, do note that LibGG does not itself define any sort of 
+threading support, and does not require or guarantee that threads 
+are available.  As such, if the aim of an application developer
+is to remain as portable as possible, they should keep in mind
+that when coding for both environments, there are only two situations
+where locks are appropriate to use.  These two situations are 
+described in the examples below.
+
+Cleanup handlers created with \f(CWggRegisterCleanup(3)\fR should not 
+call any of these functions.
+
+LibGG must be compiled with threading support if multiple threads 
+that call any of these functions are to be used in the program.
+When LibGG is compiled with threading support, the \fBggLock\fR, \fBggUnlock\fR, 
+and \fBggTryLock\fR functions are guaranteed memory barriers for the 
+purpose of multiprocessor data access synchronization.  (When LibGG 
+is not compiled with threading support, it does not matter, since 
+separate threads should not be using these functions in the first 
+place.)
+
+\fBggLockCreate\fR creates a new lock.  The new lock is initially unlocked.
+
+\fBggLockDestroy\fR destroys a \fIlock\fR, and should only be called when
+\fIlock\fR is unlocked, otherwise the results are undefined and probably
+undesirable.
+
+\fBggLock\fR will lock the \fIlock\fR and return immediately, but only
+if the \fIlock\fR is unlocked.  If the \fIlock\fR is locked, \fBggLock\fR will
+not return until the \fIlock\fR gets unlocked by a later call to 
+\fBggUnlock\fR.  In either case \fIlock\fR will be locked when \fBggLock\fR returns.  
+\fBggLock\fR is "atomic," such that only one waiting call to \fBggLock\fR will 
+return (or one call to \fBggTryLock\fR will return successfully) each 
+time \fIlock\fR is unlocked.  Order is \*fBnot*\fR guaranteed by LibGG -- 
+if two calls to \fBggLock\fR are made at different times on the same 
+\fIlock\fR, either one may return when the \fIlock\fR is unlocked 
+regardless of which call was made first.  (It is even possible 
+for a call to \fBggTryLock\fR to grab the \fIlock\fR right after it is 
+unlocked, even though a call to \fBggLock\fR was already waiting on the 
+\fIlock\fR.)
+
+\fBggTryLock\fR attempts to lock the \fIlock\fR, but unlike \fBggLock\fR it
+always returns immediately whether or not the \fIlock\fR was locked 
+to begin with.  The return value indicates whether the \fIlock\fR was 
+locked at the time \fBggTryLock\fR was invoked.  In either case \fIlock\fR 
+will be locked when \fBggTryLock\fR returns.
+
+\fBggUnlock\fR unlocks the \fIlock\fR.  If any calls to \fBggLock\fR or \fBggTryLock\fR
+are subsequently invoked, or have previously been invoked on 
+the \fIlock\fR, one of the calls will lock \fIlock\fR and return.
+As noted above, which \fBggLock\fR call returns is not specified by LibGG
+and any observed behavior should not be relied upon.  Immediacy is 
+also \*fBnot*\fR guaranteed; a waiting call to \fBggLock\fR may take some time 
+to return.  \fBggUnlock\fR may be called, successfully, even if \fIlock\fR 
+is already unlocked, in which case, nothing will happen (other than
+a memory barrier.)
+
+In all the above functions, where required, the \fIlock\fR parameter 
+\*fBmust*\fR be a valid lock, or the results are undefined, may contradict 
+what is written here, and, in general, bad and unexpected things might
+happen to you and your entire extended family.  The functions do 
+\*fBnot*\fR validate the \fIlock\fR; It is the responsibility of the calling 
+code to ensure it is valid before it is used.
+
+Remember, locking is a complicated issue (at least, when coding for
+multiple environments) and should be a last resort.
+.SH RETURN VALUE
+\fBggLockCreate\fR returns a non-NULL opaque pointer to a mutex, hiding 
+its internal implementation.  On failure, ggLockCreate returns \fBNULL\fR.
+
+\fBggTryLock\fR returns \fBGGI_OK\fR if the lock was unlocked, or \fBGGI_EBUSY\fR
+if the lock was already locked.
+
+\fBggLockDestroy\fR returns \fBGGI_OK\fR on success or \fBGGI_EBUSY\fR if the lock
+is locked.
+.SH EXAMPLES
+One use of gglocks is to protect a critical section, for example access
+to a global variable, such that the critical section is never entered
+by more than one thread when a function is called in a multi-threaded
+environment.  It is important for developers working in a single-threaded
+environment to consider the needs of multi-threaded environments when 
+they provide a function for use by others.
+
+.nb
+.nf
+static int foo = 0;
+static gglock *l;
+
+void increment_foo(void) {
+    ggLock(l);
+    foo++;
+    ggUnlock(l);
+}
+.fi
+
+In the above example, it is assumed that gglock is initialized using
+\fBggLockCreate\fR before any calls to increment_foo are made.  Also note that
+in the above example, when writing for maximum portability, increment_foo 
+should not be called directly or indirectly by a task handler which was
+registered via ggAddTask because a deadlock may result (unless it is 
+somehow known that increment_foo is not being executed by any code outside 
+the task handler.)
+
+Another use of gglocks is to delay or skip execution of a task handler
+registered with \fBggAddTask(3)\fR.  It is important for developers working 
+in a multi-threaded environment to consider this when they use tasks,
+because in single-threaded environments tasks interrupt the flow of control
+and may in fact themselves be immune to interruption.  As such they 
+cannot wait for a locked lock to become unlocked -- that would create
+a deadlock.
+
+.nb
+.nf
+static gglock *t, *l, *s;
+int misscnt = 0;
+
+void do_foo (void) {
+       ggLock(t);              /* prevent reentry            */
+       ggLock(l);              /* keep task out              */
+       do_something();
+       ggUnlock(l);            /* task OK to run again       */
+       if (!ggTryLock(s)) {    /* run task if it was missed  */
+               if (misscnt) while (misscnt--) do_something_else();
+               ggUnlock(s);
+       }
+       ggUnlock(t);            /* end of critical section    */
+}
+
+/* This is called at intervals by the LibGG scheduler */
+static int task_handler(struct gg_task *task) {
+      int do_one;
+
+      /* We know the main application never locks s and l at the
+       * same time.  We also know it never locks either of the 
+       * two more than once (e.g. from more than one thread.)
+       */
+
+      if (!ggTryLock(s)) {
+             /* Tell the main application to run our code for us
+              * in case we get locked out and cannot run it ourselves.
+              */
+             misscnt++;
+             ggUnlock(s);
+             if (ggTryLock(l)) return; /* We got locked out. */
+      } else {
+             /* The main application is currently running old missed
+              * tasks.  But it is using misscnt, so we can't just ask
+              * it to do one more.
+              *
+              * If this is a threaded environment, we may spin here for
+              * while in the rare case that the main application
+              * unlocked s and locked l between the above ggTryLock(s)
+              * and the below ggLock(l).  However we will get control
+              * back eventually.
+              *
+              * In a non-threaded environment, the below ggLock cannot 
+              * wedge, because the main application is stuck inside the 
+              * section where s is locked, so we know l is unlocked.
+              */
+             ggLock(l);
+             do_something_else();
+             ggUnlock(l);
+             return;
+      }
+
+      /* now we know it is safe to run do_something_else() as 
+       * do_something() cannot be run until we unlock l.
+       * However, in threaded environments, the main application may 
+       * have just started running do_something_else() for us already.
+       * If so, we are done, since we already incremented misscnt.
+       * Otherwise we must run it ourselves, and decrement misscnt
+       * so it won't get run an extra time when we unlock s.
+       */
+      if (ggTryLock(s)) return;
+      if (misscnt) while (misscnt--) do_something_else();
+      ggUnlock(s);
+      ggUnlock(l);
+}
+.fi
+
+In the above example, the lock t prevents reentry into the dofoo
+subroutine the same as the last example.  The lock l prevents 
+do_something_else() from being called while do_something() is running.  
+The lock s is being used to protect the misscnt variable and also
+acts as a memory barrier to guarantee that the value seen in misscnt
+is up-to-date.   The code in function dofoo will run do_something_else() 
+after do_something() if the task happened while do_something() was 
+running.  The above code will work in multi-threaded-single-processor, 
+multi-threaded-multi-processor, and single-threaded environments.
+.RS
+\fBNote:\fR
+The above code assumes do_something_else() is reentrant.
+.RE
+.SH SEE ALSO
+\f(CWpthread_mutex_init(3)\fR

@@ -1,0 +1,25 @@
+.TH "ggGetUserDir" 3 "2005-08-26" "libgg-1.0.x" GGI
+.SH NAME
+\fBggGetUserDir\fR : Get user home directory
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gg.h>
+
+const char * ggGetUserDir(void);
+.fi
+
+.SH DESCRIPTION
+\fBggGetUserDir\fR returns a path to the home directory of the user executing
+an application, whatever it may be on a given system.  For example, on 
+unix systems it will be the contents of the \fBHOME\fR environment variable.
+If no user home exists, a suitable temporary directory is found.
+
+\fBggGetUserDir\fR is threadsafe, but is not guaranteed to be safe 
+to use in a thread that may be cancelled during its execution.
+It is also not guaranteed to be safe to use in special contexts such 
+as LibGG task handlers, signal handlers and asyncronous procedure calls.
+.SH RETURN VALUE
+\fBggGetUserDir\fR returns a NULL-terminated string holding the path the
+the current user home directory.  This string may be a reference to
+memory belonging to OS facilities, and \*fBmust not*\fR be freed or altered.

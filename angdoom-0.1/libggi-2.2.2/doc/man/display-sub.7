@@ -1,0 +1,47 @@
+.TH "display-sub" 7 "2005-01-16" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-sub\fR : Make a child visual that is a window to the parent
+.SH SYNOPSIS
+.nb
+.nf
+display-sub: <target-spec>
+.fi
+
+.SH DESCRIPTION
+Creates a "child" visual within a "parent". This can be thought of as
+a window and the \fBdisplay-sub\fR target is intended for simple windowing
+systems.
+
+No textual arguments, since this target can only be used by
+applications. \fIargptr\fR must contain the parent visual.
+
+The sub target behaves a bit special with respect to (i.e. abuses the
+semantics of :) the \f(CWggiSetMode(3)\fR call. It uses the "visible"
+size for the top left corner position of the window within the visual,
+and the "virtual" size for window width and height.  Note, that
+moving/resizing the window does \fInot\fR cause any drawing action.  You
+have to perform those yourself. All it does for you is providing a
+virtual visual within an existing one, which is convenient to allow
+for window system canvases to be about any GGI program.
+.RS
+\fBImportant:\fR
+It is possible to have (\fB0\fR, \fB0\fR) as upper, left corner. But
+beware, \fB0\fR means \fBGGI_AUTO\fR and therefore it may get overridden by
+\fBGGI_DEFMODE\fR environment variable. In this case, you may get
+unintended results.
+.RE
+.SH OPTIONS
+.TP
+\fItarget-spec\fR
+Specifies the target which to draw on (the \fIparent\fR target).  This
+defaults to automatic selection (just like using
+\f(CWggiOpen(NULL)\fR when \fBGGI_DISPLAY\fR is not set).
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer not supported.
+.IP \(bu 4
+Accelerated to the point of the parent. Calls are mapped through
+with modified clipping and coordinates.
+.PP

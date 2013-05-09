@@ -1,0 +1,32 @@
+.TH "display-palemu" 7 "2003-04-02" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-palemu\fR : Emulate palettized modes on visuals of other mode schemes
+.SH SYNOPSIS
+.nb
+.nf
+display-palemu: [-parent=<mode>] <target-spec>
+.fi
+
+.SH DESCRIPTION
+Emulates palettized modes (\fBGT_PALETTE\fR) on another target which can
+only do truecolor/greyscale/text modes or palettized modes of higher
+depth.
+.SH OPTIONS
+.TP
+\f(CW-parent=<mode>\fR
+Force the parent target to use a specific mode, specified as a standard 
+LibGGI mode string (see \f(CWlibggi(7)\fR).
+
+.TP
+\fItarget-spec\fR
+Specifies the target which to draw on (the \fIparent\fR target).  This
+defaults to automatic selection (just like using
+\f(CWggiOpen(NULL)\fR when \fBGGI_DISPLAY\fR is not set).
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer never supported.
+.IP \(bu 4
+Unaccelerated.
+.PP

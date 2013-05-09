@@ -1,0 +1,3 @@
+{ global:
+GGIdl_linear_24;
+local: *; };

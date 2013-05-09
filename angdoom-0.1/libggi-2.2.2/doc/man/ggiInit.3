@@ -1,0 +1,64 @@
+.TH "ggiInit" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiInit\fR, \fBggiExit\fR : Initialize and uninitialize LibGGI
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiInit(void);
+
+int ggiExit(void);
+.fi
+
+.SH DESCRIPTION
+\fBggiInit\fR initializes the library. This function must be called before
+using other LibGGI functions; otherwise the results will be undefined.
+
+\fBggiExit\fR uninitializes the library (after being initialized by
+\fBggiInit\fR) and automatically cleans up if necessary.  This should be
+called after an application finished using the library.  If any GGI
+functions are called after the library has been uninitialized, the
+results will be undefined.
+
+\fBggiInit\fR allows multiple invocations.  A reference count is
+maintained, and to completely uninitialize the library, \fBggiExit\fR must
+be called as many times as \fBggiInit\fR has been called beforehand.
+.SH RETURN VALUE
+\fBggiInit\fR returns \fB0\fR for OK, otherwise a \f(CWggi-error(3)\fR code.
+
+\fBggiExit\fR returns:
+.TP
+\fB0\fR
+after successfully cleaning up,
+
+.TP
+\fB>0\fR
+the number of 'open' \fBggiInit\fR calls, if there has been more than
+one call to \fBggiInit\fR.  As \fBggiInit\fR and \fBggiExit\fR must be used in
+properly nested pairs, e.g. the first \fBggiExit\fR after two
+\fBggiInit\fR's will return \fB1\fR.
+
+.TP
+\fB<0\fR
+\f(CWggi-error(3)\fR, especially if more \fBggiExit\fR calls have been done than
+\fBggiInit\fR calls.
+
+.PP
+.SH EXAMPLES
+Initialize and uninitialize LibGGI:
+
+.nb
+.nf
+if (ggiInit() < 0) {
+    fprintf(stderr, "Cannot initialize LibGGI!\en");
+    exit(1);
+}
+
+/* Do some LibGGI stuff */
+
+ggiExit();
+.fi
+
+.SH SEE ALSO
+\f(CWggiOpen(3)\fR

@@ -1,0 +1,28 @@
+.TH "filter-save" 7 "2003-08-11" "libgii-1.0.x" GGI
+.SH NAME
+\fBfilter-save\fR : Event saver
+.SH SYNOPSIS
+.nb
+.nf
+filter-save: [<file>]
+
+filter-save: |[cmd]
+.fi
+
+.SH DESCRIPTION
+\fBfilter-save\fR writes all events to a file. This can be useful to
+repeat the same event flow later.
+.SH OPTIONS
+.TP
+\fIfile\fR
+Name of the destination file; the default is the standard output.
+
+.TP
+\fIcmd\fR
+If the specified name starts with a \f(CW|\fR, the following
+string is executed as a command and the filter output is
+piped into the new process' stdin.
+
+.PP
+.SH SEE ALSO
+\f(CWinput-file(7)\fR

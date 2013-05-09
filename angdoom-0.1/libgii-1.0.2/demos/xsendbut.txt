@@ -1,0 +1,31 @@
+converts LibGII mhub data to X button events.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 1 xsendbut
+
+
+Synopsis
+--------
+
+::
+
+  xsendbut
+
+
+Description
+-----------
+
+`xsendbut` reads `mhub` data from stdin and triggers button press
+events on the X target it is running on.
+
+
+Options
+-------
+
+None
+
+
+See Also
+--------
+
+:man:`mhub(1)`, :man:`libgii(7)`

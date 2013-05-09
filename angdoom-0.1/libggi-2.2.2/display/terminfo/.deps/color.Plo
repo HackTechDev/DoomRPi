@@ -1,0 +1,182 @@
+color.lo: color.c /usr/include/stdio.h /usr/include/features.h \
+ /usr/include/arm-linux-gnueabihf/bits/predefs.h \
+ /usr/include/arm-linux-gnueabihf/sys/cdefs.h \
+ /usr/include/arm-linux-gnueabihf/bits/wordsize.h \
+ /usr/include/arm-linux-gnueabihf/gnu/stubs.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h \
+ /usr/include/arm-linux-gnueabihf/bits/types.h \
+ /usr/include/arm-linux-gnueabihf/bits/typesizes.h /usr/include/libio.h \
+ /usr/include/_G_config.h /usr/include/wchar.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdarg.h \
+ /usr/include/arm-linux-gnueabihf/bits/stdio_lim.h \
+ /usr/include/arm-linux-gnueabihf/bits/sys_errlist.h \
+ /usr/include/arm-linux-gnueabihf/bits/stdio.h /usr/include/stdlib.h \
+ /usr/include/arm-linux-gnueabihf/bits/waitflags.h \
+ /usr/include/arm-linux-gnueabihf/bits/waitstatus.h /usr/include/endian.h \
+ /usr/include/arm-linux-gnueabihf/bits/endian.h \
+ /usr/include/arm-linux-gnueabihf/bits/byteswap.h \
+ /usr/include/arm-linux-gnueabihf/sys/types.h /usr/include/time.h \
+ /usr/include/arm-linux-gnueabihf/sys/select.h \
+ /usr/include/arm-linux-gnueabihf/bits/select.h \
+ /usr/include/arm-linux-gnueabihf/bits/sigset.h \
+ /usr/include/arm-linux-gnueabihf/bits/time.h \
+ /usr/include/arm-linux-gnueabihf/sys/sysmacros.h \
+ /usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h \
+ /usr/include/alloca.h /usr/include/string.h /usr/include/xlocale.h \
+ /usr/include/arm-linux-gnueabihf/bits/string.h \
+ /usr/include/arm-linux-gnueabihf/bits/string2.h TIvisual.h \
+ ../../config.h ../../include/ggi/internal/ggi-dl.h \
+ ../../include/ggi/types.h /usr/local/include/ggi/system.h \
+ /usr/include/inttypes.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdint.h \
+ /usr/include/stdint.h /usr/include/arm-linux-gnueabihf/bits/wchar.h \
+ /usr/include/arm-linux-gnueabihf/sys/time.h \
+ /usr/local/include/ggi/internal/gii-dl.h \
+ /usr/local/include/ggi/internal/gii.h /usr/local/include/ggi/events.h \
+ /usr/local/include/ggi/keyboard.h /usr/local/include/ggi/errors.h \
+ /usr/local/include/ggi/gii.h /usr/local/include/ggi/gii-defs.h \
+ /usr/local/include/ggi/gg-queue.h ../../include/ggi/internal/internal.h \
+ /usr/local/include/ggi/gg.h /usr/local/include/ggi/gg-defs.h \
+ ../../include/ggi/ggi-defs.h ../../include/ggi/internal/plat.h \
+ ../../include/ggi/internal/structs.h ../../include/ggi/ggi_ext.h \
+ ../../include/ggi/ggi.h ../../include/ggi/internal/dltypes.h \
+ ../../include/ggi/internal/unit.h /usr/include/ncurses.h \
+ /usr/include/ncurses_dll.h \
+ /usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdbool.h \
+ /usr/include/unctrl.h /usr/include/curses.h
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/arm-linux-gnueabihf/bits/predefs.h:
+
+/usr/include/arm-linux-gnueabihf/sys/cdefs.h:
+
+/usr/include/arm-linux-gnueabihf/bits/wordsize.h:
+
+/usr/include/arm-linux-gnueabihf/gnu/stubs.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stddef.h:
+
+/usr/include/arm-linux-gnueabihf/bits/types.h:
+
+/usr/include/arm-linux-gnueabihf/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdarg.h:
+
+/usr/include/arm-linux-gnueabihf/bits/stdio_lim.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sys_errlist.h:
+
+/usr/include/arm-linux-gnueabihf/bits/stdio.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/arm-linux-gnueabihf/bits/waitflags.h:
+
+/usr/include/arm-linux-gnueabihf/bits/waitstatus.h:
+
+/usr/include/endian.h:
+
+/usr/include/arm-linux-gnueabihf/bits/endian.h:
+
+/usr/include/arm-linux-gnueabihf/bits/byteswap.h:
+
+/usr/include/arm-linux-gnueabihf/sys/types.h:
+
+/usr/include/time.h:
+
+/usr/include/arm-linux-gnueabihf/sys/select.h:
+
+/usr/include/arm-linux-gnueabihf/bits/select.h:
+
+/usr/include/arm-linux-gnueabihf/bits/sigset.h:
+
+/usr/include/arm-linux-gnueabihf/bits/time.h:
+
+/usr/include/arm-linux-gnueabihf/sys/sysmacros.h:
+
+/usr/include/arm-linux-gnueabihf/bits/pthreadtypes.h:
+
+/usr/include/alloca.h:
+
+/usr/include/string.h:
+
+/usr/include/xlocale.h:
+
+/usr/include/arm-linux-gnueabihf/bits/string.h:
+
+/usr/include/arm-linux-gnueabihf/bits/string2.h:
+
+TIvisual.h:
+
+../../config.h:
+
+../../include/ggi/internal/ggi-dl.h:
+
+../../include/ggi/types.h:
+
+/usr/local/include/ggi/system.h:
+
+/usr/include/inttypes.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdint.h:
+
+/usr/include/stdint.h:
+
+/usr/include/arm-linux-gnueabihf/bits/wchar.h:
+
+/usr/include/arm-linux-gnueabihf/sys/time.h:
+
+/usr/local/include/ggi/internal/gii-dl.h:
+
+/usr/local/include/ggi/internal/gii.h:
+
+/usr/local/include/ggi/events.h:
+
+/usr/local/include/ggi/keyboard.h:
+
+/usr/local/include/ggi/errors.h:
+
+/usr/local/include/ggi/gii.h:
+
+/usr/local/include/ggi/gii-defs.h:
+
+/usr/local/include/ggi/gg-queue.h:
+
+../../include/ggi/internal/internal.h:
+
+/usr/local/include/ggi/gg.h:
+
+/usr/local/include/ggi/gg-defs.h:
+
+../../include/ggi/ggi-defs.h:
+
+../../include/ggi/internal/plat.h:
+
+../../include/ggi/internal/structs.h:
+
+../../include/ggi/ggi_ext.h:
+
+../../include/ggi/ggi.h:
+
+../../include/ggi/internal/dltypes.h:
+
+../../include/ggi/internal/unit.h:
+
+/usr/include/ncurses.h:
+
+/usr/include/ncurses_dll.h:
+
+/usr/lib/gcc/arm-linux-gnueabihf/4.6/include/stdbool.h:
+
+/usr/include/unctrl.h:
+
+/usr/include/curses.h:

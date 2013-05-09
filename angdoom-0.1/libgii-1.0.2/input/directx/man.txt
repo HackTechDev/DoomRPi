@@ -1,0 +1,66 @@
+Win32 DirectX input
+~~~~~~~~~~~~~~~~~~~
+
+.. manpage:: 7 input-directx
+
+ 
+Sysnopsis
+---------
+
+::
+
+  input-directx
+
+
+Description
+-----------
+
+Used for Win32 DirectX port of libGGI.  This target cannot be used
+without the DirectX display target, which loads this automatically.
+
+DirectX 7 is required.
+
+
+Features
+--------
+
+- Generates evPtr* events, but not evPtrRelative by default. Use::
+
+    ggiAddEventMask(vis, emPtrRelative);
+
+  to get them.
+
+- Generates evKey* events. Key repeat messages are generated at
+  the keyboard rate and keyboard delay specified in the keyboard
+  control panel by emulating what Windows does.
+
+  Dead keys work almost as expected (see the Bugs section below). 
+
+- Game controllers with absolute axes. The DirectX Point-Of-View (POV)
+  control type is mapped to an axis (indicating the current direction
+  of the POV control) and a button indicating if the POV control is
+  currently in that direction or if it is centered with no direction
+  at all. The long name of the POV axis is ``POV x (btn y)`` where
+  ``btn y`` indicates what button is connected to ``POV x``.
+
+
+Bugs
+----
+
+- When using relative pointer motion ``evPtrRelative``, suming up the
+  values from the correct (albeit unknown) starting point is not
+  equivalent to using absolute pointer motion ``evPtrAbsolute``. Use
+  absolute pointer motion (the default) if you want to keep in sync
+  with the on screen cursor.
+
+- When pressing a dead key, the next key should sometimes not emit
+  an emulated key press for the dead key. E.g. a dead tilde (~) followed
+  by a cursor key should not emit an emulated tilde. It should try to
+  combine the dead tilde with the key following the cursor key (e.g. n,
+  to make a ntilde), in order to match what Windows does.
+
+- The system keyboard device always reports 256 keys, which is obviously
+  not always correct.
+
+- It is not possible to not open game controllers, which wastes system
+  resources should the application not be interested into them.

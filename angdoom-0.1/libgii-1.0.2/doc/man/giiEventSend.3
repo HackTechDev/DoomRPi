@@ -1,0 +1,28 @@
+.TH "giiEventSend" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgiiEventSend\fR : Inject an event into the input
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/gii.h>
+
+int giiEventSend(gii_input_t inp, gii_event *ev);
+.fi
+
+.SH DESCRIPTION
+\fBgiiEventSend\fR injects an event into the queue. Such events can be
+identified by \f(CW(event->any.target == GII_EV_TARGET_QUEUE)\fR.  There
+are three main uses for this function:
+.IP 1 4
+\fISimulating\fR input for independent subprograms.
+.IP 2 4
+Sending events to externally attached programs via specialized
+\fIinputs\fR, that are actually rather \fIoutputs\fR.
+.IP 3 4
+Sending command events to inputs, like querying the axis
+of a valuator device.
+.PP
+.SH RETURN VALUE
+\fBgiiEventSend\fR returns \fB0\fR on success, or an \f(CWgii-error(3)\fR code otherwise.
+.SH SEE ALSO
+\f(CWgiiEventPoll(3)\fR

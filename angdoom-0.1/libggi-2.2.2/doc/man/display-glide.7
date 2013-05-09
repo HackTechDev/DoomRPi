@@ -1,0 +1,40 @@
+.TH "display-glide" 7 "2003-04-02" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-glide\fR : Display using Glide library
+.SH SYNOPSIS
+.nb
+.nf
+display-glide:<card>
+.fi
+
+.SH DESCRIPTION
+Uses the Glide library to display fullscreen on a 3DFX graphics card.
+.SH OPTIONS
+The 3DFX \fIcard\fR to use can be optionally specified as a cardinal
+number minus one.  (e.g. \fB0\fR means the first card, \fB1\fR the second,
+.SH ENVIRONMENT VARIABLES
+.TP
+\fBGGI_GLIDE_MAXFREQ\fR
+specifies the maximum update frequency your monitor can handle (in
+Hz). Default is 70Hz.
+
+.TP
+\fBGGI_GLIDE_MAXHFREQ\fR
+specifies the maximum horizontal frequency your monitor can handle
+(in kHz). Default is 48kHz.
+
+.TP
+\fBGGI_GLIDE_HALTONSWITCH\fR
+if this is set applications will be halted on console
+switchaway. The default is to continue running.
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer never available.
+.IP \(bu 4
+Accelerated, one of the fastest targets when it comes to
+drawing-primitives.
+.IP \(bu 4
+Multiple frames.
+.PP

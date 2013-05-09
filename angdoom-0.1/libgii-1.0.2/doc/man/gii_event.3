@@ -1,0 +1,154 @@
+.TH "gii_event" 3 "2006-12-30" "libgii-1.0.x" GGI
+.SH NAME
+\fBgii_event\fR, \fBgii_any_event\fR, \fBgii_event_type\fR, \fBgii_event_mask\fR : LibGII event structures
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/events.h>
+
+typedef union gii_event {
+
+    uint8_t                 size;
+
+    gii_any_event           any;
+    gii_cmd_event           cmd;
+    gii_expose_event        expose;
+    gii_val_event           val;
+    gii_key_event           key;
+    gii_pmove_event         pmove;
+    gii_pbutton_event       pbutton;
+} gii_event;
+
+#define COMMON_DATA  \e
+uint8_t   size;           /* size of event in bytes       */\e
+uint8_t   type;           /* type of this event           */\e
+int16_t   error;          /* error (for replies)          */\e
+uint32_t  origin;         /* origin device (etc)          */\e
+uint32_t  target;         /* target device (etc)          */\e
+struct  timeval time     /* timestamp                    */
+
+typedef struct {
+
+    COMMON_DATA;
+
+} gii_any_event;
+.fi
+
+.SH DESCRIPTION
+Events are of type \fBgii_event\fR. It is an union of all of the
+structures for each specific type of event.
+.SH STRUCTURE MEMBERS
+All of the event structures contains housekeeping information at the
+beginning, as defined by \fBCOMMON_DATA\fR.
+
+Thus, by analyzing the contents of \fBany.type\fR, you can determine what
+the given event is, and select the appropriate member of the
+\fBgii_event\fR union to access to get at the event
+
+The common fields found in any event structure are:
+.TP
+size
+Specifies the size of the given event (in bytes).
+
+.TP
+type
+An enumeration of the possible types of LibGII events (see next section).
+
+.TP
+error
+Mainly there to round things up to a 32-bit boundary, but could
+be used to signal an error in a send-reply sequence.
+
+.TP
+origin
+A device handle: it distinguishes one input device from another.
+Other than that there's no real meaning to the number.
+
+.TP
+target
+Also a device handle, but for distinguishes input devices when
+sending events \fBto\fR an input device via \f(CWgiiEventSend(3)\fR.
+
+.TP
+time
+Indicates when the event in question has been generated. See
+\f(CWgettimeofday(2)\fR for more info on the \fBtimeval\fR structure.
+
+.PP
+.SH EVENT TYPES
+The different types of events are defined as an enumeration of type
+\fBgii_event_type\fR. The possible values are:
+.IP \(bu 4
+\fBevNothing\fR          : event is not valid.
+.IP \(bu 4
+\fBevCommand\fR          : report command or do action.
+.IP \(bu 4
+\fBevInformation\fR      : notification of new information.
+.IP \(bu 4
+\fBevExposure\fR         : exposure event.
+.IP \(bu 4
+\fBevKeyPress\fR         : a key has been pressed.
+.IP \(bu 4
+\fBevKeyRelease\fR       : a key has been released.
+.IP \(bu 4
+\fBevKeyRepeat\fR        : automatically repeated keypress.
+.IP \(bu 4
+\fBevPtrRelative\fR      : pointer movement reported in relative coordinates.
+.IP \(bu 4
+\fBevPtrAbsolute\fR      : pointer movement reported in absolute coordinates.
+.IP \(bu 4
+\fBevPtrButtonPress\fR   : a pointer button has been pressed.
+.IP \(bu 4
+\fBevPtrButtonRelease\fR : a pointer button has been released.
+.IP \(bu 4
+\fBevValRelative\fR      : valuator change reported as a relative value.
+.IP \(bu 4
+\fBevValAbsolute\fR      : valuator change reported as an absolute value.
+.PP
+.SH EVENT MASKS
+\fBgii_event_mask\fR is passed to various event handling functions to
+indicate which types of events the program is interested in. The list
+below sums the available event masks:
+.IP \(bu 4
+\fBemCommand\fR        : \fBevCommand\fR
+.IP \(bu 4
+\fBemInformation\fR    : \fBevInformation\fR
+.IP \(bu 4
+\fBemExpose\fR         : \fBevExpose\fR
+.IP \(bu 4
+\fBemKeyPress\fR       : \fBevKeyPress\fR
+.IP \(bu 4
+\fBemKeyRelease\fR     : \fBevKeyRelease\fR
+.IP \(bu 4
+\fBemKeyRepeat\fR      : \fBevKeyRepeat\fR
+.IP \(bu 4
+\fBemKey\fR            : Any of \fBevKeyPress\fR, \fBevKeyRelease\fR or \fBevKeyRepeat\fR
+.IP \(bu 4
+\fBemPtrRelative\fR    : \fBevPtrRelative\fR
+.IP \(bu 4
+\fBemPtrAbsolute\fR    : \fBevPtrAbsolute\fR
+.IP \(bu 4
+\fBemPtrButtonPress\fR : \fBevPtrButtonPress\fR
+.IP \(bu 4
+\fBemButtonRelease\fR  : \fBevButtonRelease\fR
+.IP \(bu 4
+\fBemPtrMove\fR        : Any of \fBevPtrRelative\fR or \fBevPtrAbsolute\fR
+.IP \(bu 4
+\fBemPtrButton\fR      : Any of \fBevPtrButtonPress\fR or \fBevPtrButtonRelease\fR
+.IP \(bu 4
+\fBemPointer\fR        : All pointer events
+.IP \(bu 4
+\fBemValRelative\fR    : \fBevValRelative\fR
+.IP \(bu 4
+\fBemValAbsolute\fR    : \fBevValAbsolute\fR
+.IP \(bu 4
+\fBemValuator\fR       : Any of \fBevValRelative\fR or \fBevValAbsolute\fR
+.IP \(bu 4
+\fBemAll\fR            : Any event type
+.IP \(bu 4
+\fBemNothing\fR        : Matches no event type
+.PP
+.SH SEE ALSO
+\f(CWgii_key_event(3)\fR, \f(CWgii_pmove_event(3)\fR,
+\f(CWgii_pbutton_event(3)\fR, \f(CWgii_cmd_event(3)\fR,
+\f(CWgii_val_event(3)\fR, \f(CWgii_expose_event(3)\fR

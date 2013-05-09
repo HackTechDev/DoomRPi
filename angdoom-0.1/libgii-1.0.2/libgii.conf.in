@@ -1,0 +1,66 @@
+# Mapping file for suggest-strings to libraries
+.root: @ggi_sysconfdir_to_libdir@
+
+#
+# Target name 			location
+# -----------			--------
+input-null			input/null.@DLLEXT@:GIIdl_null
+input-file			input/file.@DLLEXT@:GIIdl_file
+input-stdin			input/stdin.@DLLEXT@:GIIdl_stdin
+input-x				input/x.@DLLEXT@:GIIdl_x
+input-xwin			input/x.@DLLEXT@:GIIdl_xwin
+input-mouse			input/mouse.@DLLEXT@:GIIdl_mouse
+input-linux-mouse		input/linux_mouse.@DLLEXT@:GIIdl_linux_mouse
+input-linux-kbd			input/linux_kbd.@DLLEXT@:GIIdl_linux_kbd
+input-linux-joy			input/linux_joy.@DLLEXT@:GIIdl_linux_joy
+input-linux-evdev		input/linux_evdev.@DLLEXT@:GIIdl_linux_evdev
+input-vgl			input/vgl.@DLLEXT@:GIIdl_vgl
+input-spaceorb			input/spaceorb.@DLLEXT@:GIIdl_spaceorb
+input-tcp			input/tcp.@DLLEXT@:GIIdl_tcp
+input-directx			input/dxinput.@DLLEXT@:GIIdl_directx
+input-pcjoy			input/pcjoy.@DLLEXT@:GIIdl_pcjoy
+input-ipaq-touchscreen		input/ipaq.@DLLEXT@:GIIdl_ipaq
+input-zaurus-touchscreen	input/zaurus.@DLLEXT@:GIIdl_zaurus
+input-kii			input/kii.@DLLEXT@:GIIdl_kii
+input-cocoa			input/cocoa.@DLLEXT@:GIIdl_cocoa
+input-quartz			input/quartz.@DLLEXT@:GIIdl_quartz
+input-xf86dga			input/x.@DLLEXT@:GIIdl_xf86dga
+
+# Aliases
+# -------
+alias	null		input-null
+alias	file		input-file
+alias	stdin		input-stdin
+alias	x		input-x
+alias	xwin		input-xwin
+alias	mouse		input-mouse
+alias	linux-mouse	input-linux-mouse
+alias	linux-kbd	input-linux-kbd
+alias	linux-joy	input-linux-joy
+alias	linux-evdev	input-linux-evdev
+alias	vgl		input-vgl
+alias	spaceorb	input-spaceorb
+alias	tcp		input-tcp
+alias	directx		input-directx
+alias	pcjoy		input-pcjoy
+alias	ipaq-ts		input-ipaq-touchscreen
+alias	zaurus-ts	input-zaurus-touchscreen
+alias	kii		input-kii
+alias	cocoa		input-cocoa
+alias	quartz		input-quartz
+alias	xf86dga		input-xf86dga
+
+#
+# Filter libs
+# -----------
+filter-mouse			filter/mouse.@DLLEXT@:GIIdl_filter_mouse
+filter-keytrans			filter/keytrans.@DLLEXT@:GIIdl_filter_keytrans
+alias	filter-key	filter-keytrans
+filter-save			filter/save.@DLLEXT@:GIIdl_filter_save
+filter-tcp			filter/tcp.@DLLEXT@:GIIdl_filter_tcp
+
+#
+# Builtins targets
+# ----------------
+filter-*			@libgii
+input-*				@libgii

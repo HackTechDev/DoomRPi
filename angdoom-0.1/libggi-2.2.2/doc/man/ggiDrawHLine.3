@@ -1,0 +1,30 @@
+.TH "ggiDrawHLine" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggiDrawHLine\fR, \fBggiPutHLine\fR, \fBggiGetHLine\fR : Draw, put, and get a horizontal line from a visual
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/ggi.h>
+
+int ggiDrawHLine(ggi_visual_t vis, int x, int y, int w);
+
+int ggiPutHLine(ggi_visual_t vis, int x, int y, int w, const void *buf);
+
+int ggiGetHLine(ggi_visual_t vis, int x, int y, int w, void *buf);
+.fi
+
+.SH DESCRIPTION
+Draw, put, or get a horizontal line from (\fIx\fR, \fIy\fR), extending
+\fIw\fR pixels in the positive x direction (normally right).  The
+height is one pixel.
+
+The \fIbuf\fR parameter in Get/Put functions points to a buffer from
+which the pixels will be read, or to which they will be written (it
+must be correctly allocated), respectively. See
+\f(CWggiPackColors(3)\fR and \f(CWggiUnmapPixel(3)\fR functions for
+details on how to deal with pixels.
+.SH RETURN VALUE
+All three functions return \fB0\fR to indicate success.
+.SH SEE ALSO
+\f(CWggiDrawBox(3)\fR, \f(CWggiDrawLine(3)\fR, \f(CWggiDrawVLine(3)\fR,
+\f(CWggiMapColor(3)\fR, \f(CWggi_pixelformat(3)\fR

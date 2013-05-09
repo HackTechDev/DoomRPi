@@ -1,0 +1,39 @@
+.TH "ggidev-assign_3" 3 "2006-12-30" "libggi-2.2.x" GGI
+.SH NAME
+\fBggidev-assign_3\fR, \fBggidev-assign_int_3\fR, \fBggidev-assign_unsigned_3\fR : Initialize a triple-int
+.SH SYNOPSIS
+.nb
+.nf
+#include <ggi/internal/triple-int.h>
+
+unsigned *assign_3(unsigned l[3], unsigned r[3]);
+
+unsigned *assign_int_3(unsigned l[3], int r);
+
+unsigned *assign_unsigned_3(unsigned l[3], unsigned r);
+.fi
+
+.SH DESCRIPTION
+\fBassign_3\fR assigns the value of one existing \fBtriple-int\fR \fBr\fR to another
+\fBtriple-int\fR \fBl\fR.
+
+\fBassign_int_3\fR and \fBassign_unsigned_3\fR assigns the argument \fBr\fR to
+the least significant position of the \fBtriple-int\fR \fBl\fR. \fBassign_int_3\fR
+extends the sign, while \fBassign_unsigned_3\fR does not.
+.SH RETURN VALUE
+\fBassign_3\fR, \fBassign_int_3\fR and \fBassign_unsigned_3\fR all return a pointer
+to the freshly assigned \fBtriple-int\fR \fBx\fR.
+.SH EXAMPLES
+Assign some values to \fBtriple-ints\fR:
+
+.nb
+.nf
+unsigned x[3], y[3], z[3];
+
+assign_int_3(x, -42);
+assign_unsigned_3(y, 17);
+assign_3(z, x);
+.fi
+
+.SH SEE ALSO
+\f(CWggidev-triple-int(7)\fR

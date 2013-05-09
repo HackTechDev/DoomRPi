@@ -1,0 +1,29 @@
+.TH "display-multi" 7 "2004-10-17" "libggi-2.2.x" GGI
+.SH NAME
+\fBdisplay-multi\fR : Duplicate visual operations onto multiple visuals
+.SH SYNOPSIS
+.nb
+.nf
+display-multi <:targetspec> ...
+.fi
+
+.SH DESCRIPTION
+Duplicates all drawing operations onto multiple \fIchild\fR targets, thus
+producing identical output on multiple visuals.
+.SH OPTIONS
+The argument to \fBdisplay-multi\fR is a colon- (\f(CW:\fR) separated list of
+target specs to draw on.  Because target specs can (and often do)
+contain colons, they need to be enclosed in parentheses.
+.TP
+\fItarget-spec\fR
+Specifies the target which to draw on (the \fIparent\fR target).  This
+defaults to automatic selection (just like using
+\f(CWggiOpen(NULL)\fR when \fBGGI_DISPLAY\fR is not set).
+
+.PP
+.SH FEATURES
+.IP \(bu 4
+DirectBuffer never supported.
+.IP \(bu 4
+Unaccelerated.
+.PP
