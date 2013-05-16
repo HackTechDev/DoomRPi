@@ -1,0 +1,94 @@
+#----------------------------------------------------------------
+#  Visplane Explorer
+#----------------------------------------------------------------
+#
+# GNU Makefile for WIN32, using CROSS-COMPILER on Linux
+#
+
+PROGRAM=VisplaneExplorer.exe
+
+CXX=i586-mingw32msvc-g++
+
+OBJ_DIR=obj_win32
+FLTK_DIR=fltk_win32
+
+OPTIMISE=-O2
+
+# operating system choices: UNIX WIN32
+OS=WIN32
+
+
+#--- Internal stuff from here -----------------------------------
+
+FLTK_FLAGS=-I$(FLTK_DIR)
+FLTK_LIBS=$(FLTK_DIR)/mingw/lib/libfltk_images.a \
+	  $(FLTK_DIR)/mingw/lib/libfltk.a
+
+CXXFLAGS=$(OPTIMISE) -Wall -Wno-strict-aliasing -D$(OS) \
+         -Ivpo_lib $(FLTK_FLAGS)
+LDFLAGS=
+LIBS=-lm $(FLTK_LIBS) \
+     -mwindows -lcomdlg32 -lole32 -luuid -lgdi32 \
+     -lcomctl32 -lwsock32 -lsupc++
+
+
+#----- GUI Objects ----------------------------------------------
+
+OBJS=	$(OBJ_DIR)/main.o       \
+	$(OBJ_DIR)/m_tiles.o    \
+	$(OBJ_DIR)/m_util.o     \
+	$(OBJ_DIR)/ui_about.o   \
+	$(OBJ_DIR)/ui_canvas.o  \
+	$(OBJ_DIR)/ui_infobar.o \
+	$(OBJ_DIR)/ui_menubar.o \
+	$(OBJ_DIR)/ui_open.o    \
+	$(OBJ_DIR)/ui_window.o  \
+	$(OBJ_DIR)/visexp_res.o
+
+$(OBJ_DIR)/%.o: src/%.cc
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+
+#----- LIBVPO Objects -------------------------------------------
+
+LIBVPO_OBJS= \
+	$(OBJ_DIR)/libvpo/vpo_main.o   \
+	$(OBJ_DIR)/libvpo/vpo_stuff.o  \
+	\
+	$(OBJ_DIR)/libvpo/m_bbox.o    \
+	$(OBJ_DIR)/libvpo/m_fixed.o   \
+	$(OBJ_DIR)/libvpo/p_setup.o   \
+	$(OBJ_DIR)/libvpo/w_file.o    \
+	$(OBJ_DIR)/libvpo/w_wad.o     \
+	\
+	$(OBJ_DIR)/libvpo/r_bsp.o     \
+	$(OBJ_DIR)/libvpo/r_main.o    \
+	$(OBJ_DIR)/libvpo/r_plane.o   \
+	$(OBJ_DIR)/libvpo/r_segs.o    \
+	$(OBJ_DIR)/libvpo/tables.o
+
+$(OBJ_DIR)/libvpo/%.o: vpo_lib/%.cc
+	$(CXX) $(CXXFLAGS) -o $@ -c $< 
+
+
+#----- Targets ----------------------------------------------------
+
+all: $(PROGRAM)
+
+clean:
+	rm -f $(PROGRAM) $(OBJ_DIR)/*.o ERRS
+	rm -f $(OBJ_DIR)/libvpo/*.o
+
+$(PROGRAM): $(OBJS) $(LIBVPO_OBJS)
+	$(CXX) $^ -o $@ $(LDFLAGS) $(LIBS)
+
+stripped: $(PROGRAM)
+	i586-mingw32msvc-strip --strip-unneeded $(PROGRAM)
+
+$(OBJ_DIR)/visexp_res.o: src/visexp.rc
+	i586-mingw32msvc-windres $^ -o $@
+
+.PHONY: all clean stripped
+
+#--- editor settings ------------
+# vi:ts=8:sw=8:noexpandtab

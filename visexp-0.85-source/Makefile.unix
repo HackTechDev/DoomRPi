@@ -1,0 +1,108 @@
+#----------------------------------------------------------------
+#  Visplane Explorer
+#----------------------------------------------------------------
+#
+# GNU Makefile for Unix/Linux version
+#
+# NOTE: FLTK is statically linked in this version
+#
+
+PROGRAM=visplane-explorer
+
+# prefix choices: /usr  /usr/local  /opt
+INSTALL_PREFIX=/usr/local
+
+CXX=g++
+
+OBJ_DIR=obj_linux
+
+OPTIMISE=-O2
+
+# operating system choices: UNIX WIN32
+OS=UNIX
+
+
+#--- Internal stuff from here -----------------------------------
+
+CXXFLAGS=$(OPTIMISE) -Wall -D$(OS) -Ivpo_lib \
+         -D_THREAD_SAFE -D_REENTRANT
+
+LDFLAGS=-L/usr/X11R6/lib
+
+LIBS=	-lfltk_images -lfltk \
+	-lfltk_png -lfltk_jpeg \
+	-lX11 -lXext -lXft -lfontconfig -lXinerama \
+	-lz -lm
+
+
+#----- GUI Objects ----------------------------------------------
+
+OBJS=	$(OBJ_DIR)/main.o       \
+	$(OBJ_DIR)/m_tiles.o    \
+	$(OBJ_DIR)/m_util.o     \
+	$(OBJ_DIR)/ui_about.o   \
+	$(OBJ_DIR)/ui_canvas.o  \
+	$(OBJ_DIR)/ui_infobar.o \
+	$(OBJ_DIR)/ui_menubar.o \
+	$(OBJ_DIR)/ui_open.o    \
+	$(OBJ_DIR)/ui_window.o
+
+$(OBJ_DIR)/%.o: src/%.cc
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+
+#----- LibVPO Objects -------------------------------------------
+
+LIBVPO_OBJS= \
+	$(OBJ_DIR)/libvpo/vpo_main.o   \
+	$(OBJ_DIR)/libvpo/vpo_stuff.o  \
+	\
+	$(OBJ_DIR)/libvpo/m_bbox.o    \
+	$(OBJ_DIR)/libvpo/m_fixed.o   \
+	$(OBJ_DIR)/libvpo/p_setup.o   \
+	$(OBJ_DIR)/libvpo/w_file.o    \
+	$(OBJ_DIR)/libvpo/w_wad.o     \
+	\
+	$(OBJ_DIR)/libvpo/r_bsp.o     \
+	$(OBJ_DIR)/libvpo/r_main.o    \
+	$(OBJ_DIR)/libvpo/r_plane.o   \
+	$(OBJ_DIR)/libvpo/r_segs.o    \
+	$(OBJ_DIR)/libvpo/tables.o
+
+$(OBJ_DIR)/libvpo/%.o: vpo_lib/%.cc
+	$(CXX) $(CXXFLAGS) -o $@ -c $< 
+
+
+#----- Targets ----------------------------------------------------
+
+all: $(PROGRAM)
+
+$(PROGRAM): $(OBJS) $(LIBVPO_OBJS)
+	$(CXX) -Wl,--warn-common $^ -o $@ $(LDFLAGS) $(LIBS)
+
+clean:
+	rm -f $(PROGRAM) $(OBJ_DIR)/*.o ERRS
+	rm -f $(OBJ_DIR)/libvpo/*.o
+
+halfclean:
+	rm -f $(PROGRAM) $(OBJ_DIR)/*.o ERRS
+
+stripped: $(PROGRAM)
+	strip --strip-unneeded $(PROGRAM)
+
+install: stripped
+	install -o root -m 755 $(PROGRAM) $(INSTALL_PREFIX)/bin/
+	#
+	xdg-desktop-menu  install --novendor misc/visplane-explorer.desktop
+	xdg-icon-resource install --novendor --size 32 misc/visplane-explorer.xpm
+
+uninstall:
+	rm -v $(INSTALL_PREFIX)/bin/$(PROGRAM)
+	#
+	xdg-desktop-menu  uninstall --novendor misc/visplane-explorer.desktop
+	xdg-icon-resource uninstall --novendor --size 32 visplane-explorer
+
+.PHONY: all clean halfclean stripped install uninstall
+
+#--- editor settings ------------
+# vi:ts=8:sw=8:noexpandtab

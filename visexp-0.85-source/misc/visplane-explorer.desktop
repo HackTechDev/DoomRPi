@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Visplane Explorer
+GenericName=DOOM Utility
+Comment=Visualize VPO errors in DOOM maps
+Exec=visplane-explorer
+Icon=visplane-explorer
+Terminal=false
+Type=Application
+Categories=Game;X-DoomUtility;
+StartupNotify=false

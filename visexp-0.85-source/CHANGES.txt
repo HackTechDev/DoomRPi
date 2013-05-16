@@ -1,0 +1,17 @@
+
+CHANGES since 0.80
+==================
+
++  replaced side panel with menu bar
++  better way to pick file/map: an 'Open Map' dialog
++  keep some off-screen tiles, nicer scrolling and zooming
++  added 'Cheat Sheet' window to the Help menu
++  two status bars: completion and tile memory
+
+-  show an error if nodes are not present
+-  show an error if the map uses Hexen format
+
+-  ability to use the old "heat" colors
+-  either MMB or RMB can scroll the map
+-  small optimisation (compute the map's bounding box)
+

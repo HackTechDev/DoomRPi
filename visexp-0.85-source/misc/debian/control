@@ -1,0 +1,13 @@
+Package: visplane-explorer
+Version: 0.85-1
+Section: misc
+Priority: optional
+Maintainer: Andrew Apted <ajapted@users.sf.net>
+Architecture: i386
+Depends: libc6, libstdc++6, libfontconfig1 (>= 2.4.0), libx11-6, libxext6, libxft2 (>> 2.1.1), libxinerama1, libxpm4, zlib1g (>= 1:1.1.4)
+Description: Tool to visualize VPO errors in DOOM maps
+ Visplane Explorer is a tool to visualize possible VPO errors in
+ classic DOOM maps.  This is useful when mapping for vanilla DOOM,
+ because such errors will abruptly quit the game (and upset the
+ person playing).
+Homepage: http://vis-explorer.sourceforge.net/

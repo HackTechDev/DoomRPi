@@ -1,0 +1,54 @@
+
+COMPILING
+=========
+
+Dependencies:
+
+1. GNU C++ compiler and associated tools
+   packages: g++ binutils
+
+2. GNU make
+   package: make
+
+3. FLTK 1.3 
+   website: http://www.fltk.org/
+   package: libfltk1.3-dev
+
+   You may also need: libxft-dev
+                      libxinerama-dev
+                      libjpeg-dev
+                      zlib1g-dev
+
+4. XDG Utils
+   (only needed for Linux, to install the desktop and icon files)
+   package: xdg-utils
+
+
+Assuming all those dependencies are met, then the following shell
+command will build the visplane-explorer binary.
+(The '>' is just the prompt)
+
+   > make -f Makefile.unix
+
+
+Some systems may need additional CFLAGS and/or LDFLAGS in order
+to find the required libraries (especially FLTK).  For example,
+the following is reported to work for Gentoo Linux:
+
+   CFLAGS  += -I/usr/include/fltk-1
+   LDFLAGS += -L/usr/lib64/fltk-1/
+
+
+INSTALLATION
+============
+
+First make sure the binary was compiled successfully.
+
+Then become root (via the 'sudo' or 'su' command) and enter the
+following shell command:
+
+   > make -f Makefile.unix install
+
+That will install the visplane-explorer binary and the desktop
+and icon files.
+

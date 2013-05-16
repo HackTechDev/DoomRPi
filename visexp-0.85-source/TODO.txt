@@ -1,0 +1,56 @@
+
+Visplane Explorer TODO
+======================
+
++  Hexen support
+   -  check for BEHAVIOR lump
+   -  visplane limit raised to 160
+   -  check Quasar's spot in Bright Crucible (MAP06) :-
+
+      "Standing near the left hand side of the map backing into the
+      southern corner from a medial position relative to the
+      indentation in the wall near the left-side entrance to the
+      location of D'Sparil's Heart, and looking out into the swamp"
+
++  File / Save Image
+
++  new 'Combined' mode : show MAX(vis, draw, solid) and which one
+
++  get sector height as if from a player (32x32 bbox)
+   - test all lines which intersect bbox
+   - generate a blockmap for faster testing
+
+
++  mode to show seg splits
+
++  validate a loaded map (e.g. vertex number out of range)
+
++  ability to draw a box (with LMB) and only those tiles get processed
+
++  command to open all closed doors (etc)
+   - look for tagged closed sectors and D1/DR door lines
+
+
+-  allow zooming in more
+
+-  determine when a tile is completely in void -- no need to create it
+   (perhaps create a bitmap of all 64x64 areas which are void)
+
+-  support -file and -warp options, allow -warp to be a number
+
+-  View / Go to Location
+
+
+-  automatically switch to visplane mode when map is loaded
+
+-  prevent ESCAPE key from quitting
+
+-  sys_debug.cc/h with SYS_ASSERT() macro
+
+-  handle fatal errors / uncaught exceptions better
+
+
+IDEA:  have a Memory menu : four or five settings
+
+WISH:  multi-threaded processing
+
